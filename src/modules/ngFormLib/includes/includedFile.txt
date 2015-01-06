@@ -1,0 +1,2 @@
+// This comment is required (well, it just makes it easier to include into a JS file)
+data = 'This is some included text - hello';
