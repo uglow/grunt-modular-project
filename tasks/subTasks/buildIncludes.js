@@ -30,7 +30,9 @@ module.exports = function(grunt) {
       options: {
         prefix: '//@@',  // This works for HTML and JS replacements
         suffix: '',
-        globals: {}
+        globals: {
+          ROOT_DIR: config.includeDocRoot
+        }
       }
     }
   });

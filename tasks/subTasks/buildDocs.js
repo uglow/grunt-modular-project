@@ -1,7 +1,7 @@
 module.exports = function(grunt) {
   'use strict';
 
-  var config = grunt.config.get('modularProject.optimise');
+  var config = grunt.config.get('modularProject.buildDocs');
 
   // This config must exist before the multi-task is registered :(
   grunt.extendConfig({
@@ -48,7 +48,7 @@ module.exports = function(grunt) {
       },
       dist: {
         files: [
-          {expand: true, cwd: '<%= modularProject.optimise.src.cssDir %>', src: '<%= modularProject.optimise.src.cssFiles %>', dest: '<%= modularProject.optimise.dest.cssDir %>'}
+          {expand: true, cwd: config.src.cssDir, src: config.src.cssFiles, dest: config.dest.cssDir}
         ]
       }
     },
@@ -56,7 +56,7 @@ module.exports = function(grunt) {
     imagemin: {
       dist: {
         files: [
-          {expand: true, cwd: '<%= modularProject.optimise.src.imagesDir %>', src: '{,*/}*.{png,jpg,jpeg,gif}', dest: '<%= modularProject.optimise.dest.imagesDir %>'}
+          {expand: true, cwd: config.src.imagesDir, src: '{,*/}*.{png,jpg,jpeg,gif}', dest: config.dest.imagesDir}
         ]
       }
     },
@@ -64,7 +64,7 @@ module.exports = function(grunt) {
     svgmin: {
       dist: {
         files: [
-          {expand: true, cwd: '<%= modularProject.optimise.src.imagesDir %>', src: '{,*/}*.svg', dest: '<%= modularProject.optimise.dest.imagesDir %>'}
+          {expand: true, cwd: config.src.imagesDir, src: '{,*/}*.svg', dest: config.dest.imagesDir}
         ]
       }
     },
@@ -105,7 +105,7 @@ module.exports = function(grunt) {
       html: config.dest.htmlFiles,
       css: config.dest.cssFiles,
       options: {
-        assetsDirs: [config.dest.dir, config.dest.dir + 'assets/']
+        assetsDirs: [config.dest.dir, config.dest.assetDir]
       }
     }
   });

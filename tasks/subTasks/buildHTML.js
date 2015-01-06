@@ -1,12 +1,15 @@
 module.exports = function(grunt) {
   'use strict';
 
+  var config = grunt.config.get('modularProject.buildHTML');
+
   function linkTemplateFn(fileName) {
     return '<link rel="stylesheet" href="' + fileName + '">\n';
   }
 
   function scriptTemplateFn(fileName) {
-    return '<script src="vendor/' + fileName + '"></script>\n';
+    var vendorPath = config.vendorDir;
+    return '<script src="' + vendorPath + fileName + '"></script>\n';
   }
 
   function generateTags(files, templateFn) {
@@ -16,8 +19,6 @@ module.exports = function(grunt) {
     });
     return result;
   }
-
-  var config = grunt.config.get('modularProject.buildHTML');
 
   grunt.extendConfig({
     copy: {
@@ -33,7 +34,7 @@ module.exports = function(grunt) {
     watch: {
       html: {
         files: config.html.watch,
-        tasks: ['mpConfigTrace', 'copy:html', 'targethtml:unoptimised']
+        tasks: ['copy:html', 'targethtml:unoptimised']
       },
       moduleAssets: {
         files: config.moduleAssets.watch,
@@ -53,11 +54,11 @@ module.exports = function(grunt) {
   grunt.config.set('targethtml.optimised.options.curlyTags.cssFiles', generateTags(config.compiledCSSFiles, linkTemplateFn));
 
 
-  grunt.registerTask('mpConfigTrace', function() {
-    grunt.log.writeln('CONFIG:' + JSON.stringify(grunt.config('copy.html'), null, '\t'));
-  });
+//  grunt.registerTask('mpConfigTrace', function() {
+//    grunt.log.writeln('CONFIG:' + JSON.stringify(grunt.config('copy.html'), null, '\t'));
+//  });
 
   grunt.registerTask('mpBuildHTML', 'PRIVATE - do not use', function() {
-    grunt.task.run(['mpConfigTrace', 'copy:html', 'copy:moduleAssets', 'targethtml:unoptimised']);
+    grunt.task.run(['copy:html', 'copy:moduleAssets', 'targethtml:unoptimised']);
   });
 };

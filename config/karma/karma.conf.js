@@ -10,7 +10,7 @@ module.exports = function(config) {
     // enable / disable watching file and executing tests whenever any file changes
     autoWatch: false,
 
-    // base path, that will be used to resolve files and exclude
+    // base path, that will be used to resolve files and exclude others. It is relative to THIS file
     basePath: '../../',
 
     // testing framework to use (jasmine/mocha/qunit/...)
@@ -46,37 +46,37 @@ module.exports = function(config) {
       'karma-ng-html2js-preprocessor'
     ],
 
-    coverageReporter: {
-      reporters: [
-        { type: 'html' },
-        { type: 'lcov' },
-        { type: 'text' },         // Needed for grunt-istanbul-coverage task
-        { type: 'json' }          // Needed for grunt-istanbul-coverage task
-      ],
-      dir : 'reports/coverage/'
-    },
+//    coverageReporter: {
+//      reporters: [
+//        { type: 'html' },
+//        { type: 'lcov' },
+//        { type: 'text' },         // Needed for grunt-istanbul-coverage task
+//        { type: 'json' }          // Needed for grunt-istanbul-coverage task
+//      ],
+//      dir : 'reports/coverage/'
+//    },
 
-    ngHtml2JsPreprocessor: {
-      // Define a custom module name function (stripping the 'src/modules/' from the file path)
-      // which gives you something like:
-      //   angular.module('form/template/FormCheckboxTemplate.html', []).run(function($templateCache) {
-      //     $templateCache.put('form/template/FormCheckboxTemplate.html',
-      //         '<!-- form.controls.checkbox.template -->\n' +
-      //         '<div>\n' +
-      //         '  <div class="checkbox">\n' +
-      //         '    <input type="checkbox" field-error-controller>\n' +
-      //         '    <label><span ng-transclude></span></label>\n' +
-      //         '  </div>\n' +
-      //         '</div>');
-      //   });
-      cacheIdFromPath: function(filepath) {
-        return filepath.substr('src/modules/'.length);
-      }//,
+//    ngHtml2JsPreprocessor: {
+//      // Define a custom module name function (stripping the 'src/modules/' from the file path)
+//      // which gives you something like:
+//      //   angular.module('form/template/FormCheckboxTemplate.html', []).run(function($templateCache) {
+//      //     $templateCache.put('form/template/FormCheckboxTemplate.html',
+//      //         '<!-- form.controls.checkbox.template -->\n' +
+//      //         '<div>\n' +
+//      //         '  <div class="checkbox">\n' +
+//      //         '    <input type="checkbox" field-error-controller>\n' +
+//      //         '    <label><span ng-transclude></span></label>\n' +
+//      //         '  </div>\n' +
+//      //         '</div>');
+//      //   });
+//      cacheIdFromPath: function(filepath) {
+//        return filepath.substr('testsrc/modules/'.length);
+//      }//,
 
       // setting this option will create only a single module that contains templates
       // from all the files, so you can load them all with module('foo')
       //moduleName: 'foo'
-    },
+//    },
 
     // Continuous Integration mode
     // if true, it capture browsers, run tests and exit

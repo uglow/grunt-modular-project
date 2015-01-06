@@ -1,7 +1,7 @@
 module.exports = function(grunt) {
   'use strict';
 
-  var config = grunt.config.get('modularProject.library');
+  var config = grunt.config.get('modularProject.buildLibrary');
 
   grunt.extendConfig({
     clean: {

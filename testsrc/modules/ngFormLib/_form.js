@@ -12,7 +12,7 @@
   ]);
 
   var data = '';
-  ////@@include('src/modules/ngFormLib/includes/includedFile.txt')
+  ////@@include('//@@ROOT_DIRngFormLib/includes/includedFile.txt')
   window.alert(data);
 
 })(window.angular);

@@ -21,7 +21,33 @@ module.exports = function(grunt) {
       options: {
         'files': config.testFiles,
         'exclude': config.excludeFiles,
-        'preprocessors': config.preprocessors
+        'preprocessors': config.preprocessors,
+        'coverageReporter': {
+          reporters: [
+            { type: 'html' },
+            { type: 'lcov' },
+            { type: 'text' },         // Needed for grunt-istanbul-coverage task
+            { type: 'json' }          // Needed for grunt-istanbul-coverage task
+          ],
+          dir: config.reportDir + 'coverage/'
+        },
+        'ngHtml2JsPreprocessor': {
+          // Define a custom module name function (stripping 'src/modules/' from the file path)
+          // which gives you something like:
+          //   angular.module('form/template/FormCheckboxTemplate.html', []).run(function($templateCache) {
+          //     $templateCache.put('form/template/FormCheckboxTemplate.html',
+          //         '<!-- form.controls.checkbox.template -->\n' +
+          //         '<div>\n' +
+          //         '  <div class="checkbox">\n' +
+          //         '    <input type="checkbox" field-error-controller>\n' +
+          //         '    <label><span ng-transclude></span></label>\n' +
+          //         '  </div>\n' +
+          //         '</div>');
+          //   });
+          cacheIdFromPath: function (filepath) {
+            return filepath.substr(config.modulesDir.length);
+          }
+        }
       },
       unit: {
         configFile: config.baseConfig,
@@ -48,6 +74,8 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('test', ['unitTest']);
+
+  grunt.registerTask('test:browser', ['karma:browser']);
 
   grunt.registerTask('unitTest', 'Run unit tests', function() {
     grunt.task.run(['mpVerify:all', 'karma:ci', 'coverage']);
