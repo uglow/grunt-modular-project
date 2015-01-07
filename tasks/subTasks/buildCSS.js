@@ -9,7 +9,7 @@ module.exports = function(grunt) {
       options: {
         browsers: ['> 2%', 'last 2 versions', 'Firefox ESR', 'Opera 12.1']
       },
-      dist: config.autoPrefix
+      prefix: config.autoPrefix
     },
     copy: {
       externalCSS: config.copy

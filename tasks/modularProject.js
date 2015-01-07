@@ -32,7 +32,7 @@ module.exports = function(grunt) {
       testLibraryFiles: [],
       output: {
         devDir: 'dev/',
-        prodDir: 'dev/',
+        prodDir: 'dist/',
         docsDir: 'docs/',
 
         assetsSubDir: 'assets/',
@@ -43,7 +43,7 @@ module.exports = function(grunt) {
       },
       tasks: {
         build: ['mpBuildInit', 'mpBuildIncludes', 'mpBuildJS', 'mpBuildCSS', 'mpBuildHTML', 'mpVerify:all'],
-        optimise: ['mpBuildLibrary', 'mpBuildDocs', 'beep:twobits']
+        optimise: ['mpBuildSite', 'beep:twobits']
       }
     },
 
@@ -301,89 +301,59 @@ module.exports = function(grunt) {
       compiledCSSFiles: '<%= modularProject.options.compiledCSSFiles %>'
     },
 
-    // Move this into Gruntfile.js - call buildLibrary
-    buildLibrary: {
-      // Common vars
-      libFile: 'dist/ng-form-lib.js',
-      minLibFile: 'dist/ng-form-lib.min.js',
 
-      // Task config
-      clean: ['dist/'],
-
-      copy: {
-        files: [
-          {
-            expand: true, cwd: '<%= modularProject.build.dev.jsDir %>', src: ['**/*.js', '!**/docs.js'], dest: 'dist/src'
-          }
-        ]
-      },
-
-      concat: {
-        files: [
-          {
-            src: ['dist/src/**/*.js'],
-            dest: '<%= modularProject.buildLibrary.libFile %>'
-          }
-        ]
-      },
-
-      uglify: {
-        files: [
-          {
-            src: '<%= modularProject.buildLibrary.libFile %>', dest: '<%= modularProject.buildLibrary.minLibFile %>'
-          }
-        ]
-      }
-    },
-
-
-    // THIS TASK IS TOO CUSTOMISED AT THE MOMENT - maybe call it "optimiseDocs" and move into Gruntfile.js
-    buildDocs: {
-      copy: {
-        files: [
-          {expand: true, cwd: '<%= modularProject.build.dev.dir %>', src: '<%= modularProject.buildDocs.src.optimisedAssetFiles %>', dest: '<%= modularProject.buildDocs.dest.dir %>'},
-          {expand: true, flatten: true, src: '<%= modularProject.buildLibrary.libFile %>', dest: '<%= modularProject.buildDocs.dest.jsDir %>'},
-          {expand: true, cwd: '<%= modularProject.build.dev.assetsDir %>', src: '*/{config,language}/**/*', dest: '<%= modularProject.buildDocs.dest.assetDir %>'},
-          {expand: true, cwd: '<%= modularProject.build.dev.dir %>', src: '<%= modularProject.options.output.vendorSubDir %>**/*', dest: '<%= modularProject.buildDocs.dest.dir %>'}
-        ]
-      },
-
+    buildSite: {
       src: {
         dir: '<%= modularProject.build.dev.dir %>',
         cssDir: '<%= modularProject.build.dev.cssDir %>',
         cssFiles: '*.css',
-        htmlFiles: ['views/**/*.html'],
+        htmlFiles: ['<%= modularProject.options.output.viewsSubDir %>/**/*.html'],
         imagesDir: '<%= modularProject.build.dev.assetsDir %>images/',
         jsFilesToConcat: [
-          '<%= modularProject.build.dev.jsDir %>**/docs.js'
+          '<%= modularProject.build.dev.jsDir %>**/*.js'
         ],
         optimisedAssetFiles: [
-          'assets/font/**/*',
-          'assets/language/**/*'
+          '<%= modularProject.options.output.assetsSubDir %>font/**/*',
+          '<%= modularProject.options.output.assetsSubDir %>language/**/*'
         ],
         rootHtmlFiles: '*.html',
         rootHtmlFilesDir: '<%= modularProject.src.dir %>'
       },
+
       dest: {
-        dir: '<%= modularProject.build.doc.dir %>',
-        cssDir: '<%= modularProject.buildDocs.dest.dir %><%= modularProject.options.output.cssSubDir %>',
-        cssFiles: ['<%= modularProject.buildDocs.dest.cssDir %>*.css'],
+        dir: '<%= modularProject.build.prod.dir %>',
+        cssDir: '<%= modularProject.buildSite.dest.dir %><%= modularProject.options.output.cssSubDir %>',
+        cssFiles: ['<%= modularProject.buildSite.dest.cssDir %>*.css'],
         filesToRev: [
-          '<%= modularProject.buildDocs.dest.dir %><%= modularProject.options.output.assetsSubDir %>font/*',
-          '<%= modularProject.buildDocs.dest.dir %><%= modularProject.options.output.assetsSubDir %>images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-          '<%= modularProject.buildDocs.dest.dir %><%= modularProject.options.output.cssSubDir %>*.css',
-          '<%= modularProject.buildDocs.dest.dir %><%= modularProject.options.output.jsSubDir %>*.js',
-          '<%= modularProject.buildDocs.dest.dir %><%= modularProject.options.output.vendorSubDir %>**/*.js'
+          '<%= modularProject.buildSite.dest.dir %><%= modularProject.options.output.assetsSubDir %>font/*',
+          '<%= modularProject.buildSite.dest.dir %><%= modularProject.options.output.assetsSubDir %>images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
+          '<%= modularProject.buildSite.dest.dir %><%= modularProject.options.output.cssSubDir %>*.css',
+          '<%= modularProject.buildSite.dest.dir %><%= modularProject.options.output.jsSubDir %>*.js',
+          '<%= modularProject.buildSite.dest.dir %><%= modularProject.options.output.vendorSubDir %>**/*.js'
         ],
         htmlFiles: [
-          '<%= modularProject.buildDocs.dest.dir %>*.html',
-          '<%= modularProject.buildDocs.dest.dir %><%= modularProject.options.output.viewsSubDir %>**/*.html'],
-        assetDir: '<%= modularProject.buildDocs.dest.dir %><%= modularProject.options.output.assetsSubDir %>',
-        imagesDir: '<%= modularProject.buildDocs.dest.dir %><%= modularProject.options.output.assetsSubDir %>images/',
-        jsDir: '<%= modularProject.buildDocs.dest.dir %><%= modularProject.options.output.jsSubDir %>',
-        jsMinFile: 'ng-form-lib-docs.js',
-        rootFilesDir: '<%= modularProject.buildDocs.dest.dir %>',
+          '<%= modularProject.buildSite.dest.dir %>*.html',
+          '<%= modularProject.buildSite.dest.dir %><%= modularProject.options.output.viewsSubDir %>**/*.html'],
+        assetDir: '<%= modularProject.buildSite.dest.dir %><%= modularProject.options.output.assetsSubDir %>',
+        imagesDir: '<%= modularProject.buildSite.dest.dir %><%= modularProject.options.output.assetsSubDir %>images/',
+        jsDir: '<%= modularProject.buildSite.dest.dir %><%= modularProject.options.output.jsSubDir %>',
+        jsMinFile: 'app.js',
+        rootFilesDir: '<%= modularProject.buildSite.dest.dir %>',
         rootHtmlFiles: '*.html'
+      },
+
+      vendorJSFiles: '<%= modularProject.options.vendor.compilableFiles %>',
+      vendorDir: '<%= modularProject.options.output.vendorSubDir %>',
+      externalJSFiles: '<%= modularProject.options.vendor.externalFiles %>',
+      compiledCSSFiles: '<%= modularProject.options.compiledCSSFiles %>',
+
+      copy: {
+        files: [
+          {expand: true, cwd: '<%= modularProject.build.dev.dir %>', src: '<%= modularProject.buildSite.src.optimisedAssetFiles %>', dest: '<%= modularProject.buildSite.dest.dir %>'},
+          {expand: true, flatten: true, src: '<%= modularProject.buildLibrary.libFile %>', dest: '<%= modularProject.buildSite.dest.jsDir %>'},
+          {expand: true, cwd: '<%= modularProject.build.dev.assetsDir %>', src: '*/{config,language}/**/*', dest: '<%= modularProject.buildSite.dest.assetDir %>'},
+          {expand: true, cwd: '<%= modularProject.build.dev.dir %>', src: '<%= modularProject.options.output.vendorSubDir %>**/*', dest: '<%= modularProject.buildSite.dest.dir %>'}
+        ]
       }
     },
 
@@ -471,15 +441,16 @@ module.exports = function(grunt) {
 
     // Update the unitTest config with a dynamic key
     var preProcessorCoverageKey = '' + grunt.config('modularProject.src.modulesDir') + '**/!(*.spec).js';
-    grunt.log.writeln('Preprocessor key: ' + preProcessorCoverageKey);
+    //grunt.log.writeln('Preprocessor key: ' + preProcessorCoverageKey);
 
     grunt.config.set('modularProject.unitTest.preprocessors.' + grunt.config.escape(preProcessorCoverageKey), ['coverage']);
 
-    grunt.log.writeln('Preprocessor: ' + JSON.stringify(grunt.config('modularProject.unitTest.preprocessors', null, '\t')));
+    //grunt.log.writeln('Preprocessor: ' + JSON.stringify(grunt.config('modularProject.unitTest.preprocessors', null, '\t')));
 
 
     grunt.loadTasks('tasks/subTasks');
   })();
+
 
 
   grunt.registerTask('mpBuild', 'PRIVATE - do not use', function() {

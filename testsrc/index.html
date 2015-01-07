@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
 
-    <!--(if target unoptimised || optimised)>
+    <!--(if target unoptimised || docs || site)>
     {{cssFiles}}
     <!(endif)-->
 
@@ -47,11 +47,12 @@
   <script src="//cdnjs.cloudflare.com/ajax/libs/json3/3.3.2/json3.min.js"></script>
   <![endif]-->
 
-
-  <!--(if target unoptimised)>
+  <!--(if target unoptimised || site || docs)>
   {{vendorScripts}}
   {{externalScripts}}
+  <!(endif)-->
 
+  <!--(if target unoptimised)>
   <script src="js/docs.js"></script>
   <script src="js/common.js"></script>
   <script src="js/ngFormLib.js"></script>
@@ -82,12 +83,9 @@
   <script src="js/ngFormLib/controls/formSelect/docs.js"></script>
   <script src="js/ngFormLib/controls/formSubmit/docs.js"></script>
   <script src="js/ngFormLib/controls/requiredMarker/docs.js"></script>
-
   <!(endif)-->
 
-  <!--(if target optimised)>
-  {{vendorScripts}}
-  {{externalScripts}}
+  <!--(if target docs || site)>
   <script src="js/ng-form-lib-docs.js"></script>
   <script src="js/ng-form-lib.js"></script>
   <!(endif)-->

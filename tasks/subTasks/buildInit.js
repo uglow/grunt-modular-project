@@ -27,4 +27,5 @@ module.exports = function(grunt) {
   grunt.registerTask('mpBuildInit', 'Cleans the modular project folders', function () {
     grunt.task.run('clean:mpDev');
   });
+
 }

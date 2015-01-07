@@ -1,31 +1,34 @@
 module.exports = function(grunt) {
   'use strict';
 
+  var util = require('../lib/utils.js');
   var config = grunt.config.get('modularProject.buildDocs');
+
+  grunt.task.renameTask('usemin', 'useminDocs');  // Rename this task so that it isn't over-ridden by other usemin instances
 
   // This config must exist before the multi-task is registered :(
   grunt.extendConfig({
     mpBuildDocs: {
-      pre: ['clean:dist'],
-      images: ['concurrent:distImages'],
-      copyAlreadyOptimised: ['copy:dist'],
-      copyHTMLInPreparationForOptimisation: ['copy:htmlPreOptimised'],
-      optimiseJS: ['concat:optimize'],
-      useOptimisedHTMLFragments: ['targethtml:optimised'],
-      fileRevAssets: ['filerev', 'usemin']/*,
-       postHTMLProcessing: ['htmlmin:dist']*/
+      pre: ['clean:docs'],
+      images: ['concurrent:docsImages'],
+      copyAlreadyOptimised: ['copy:docs'],
+      copyHTMLInPreparationForOptimisation: ['copy:docsHtmlPreOptimised'],
+      optimiseJS: ['concat:docsOptimize'],
+      useOptimisedHTMLFragments: ['targethtml:docs'],
+      fileRevAssets: ['filerev:docs', 'useminDocs']/*,
+      postHTMLProcessing: ['htmlmin:docs']*/
     },
 
     clean: {
-      dist: config.dest.dir
+      docs: config.dest.dir
     },
 
     concurrent: {
-      distImages: ['imagemin:dist', 'svgmin:dist', 'cssmin:dist']
+      docsImages: ['imagemin:docs', 'svgmin:docs', 'cssmin:docs']
     },
 
     concat: {
-      optimize: {
+      docsOptimize: {
         files: [
           {src: config.src.jsFilesToConcat, dest: config.dest.jsDir + config.dest.jsMinFile}
         ]
@@ -33,8 +36,8 @@ module.exports = function(grunt) {
     },
 
     copy: {
-      dist: config.copy,
-      htmlPreOptimised: {
+      docs: config.copy,
+      docsHtmlPreOptimised: {
         files: [
           {expand: true, cwd: config.src.dir, src: config.src.htmlFiles, dest: config.dest.dir},
           {expand: true, cwd: config.src.rootHtmlFilesDir, src: config.src.rootHtmlFiles, dest: config.dest.dir}
@@ -46,7 +49,7 @@ module.exports = function(grunt) {
       options: {
         report: 'min'
       },
-      dist: {
+      docs: {
         files: [
           {expand: true, cwd: config.src.cssDir, src: config.src.cssFiles, dest: config.dest.cssDir}
         ]
@@ -54,7 +57,7 @@ module.exports = function(grunt) {
     },
 
     imagemin: {
-      dist: {
+      docs: {
         files: [
           {expand: true, cwd: config.src.imagesDir, src: '{,*/}*.{png,jpg,jpeg,gif}', dest: config.dest.imagesDir}
         ]
@@ -62,7 +65,7 @@ module.exports = function(grunt) {
     },
 
     svgmin: {
-      dist: {
+      docs: {
         files: [
           {expand: true, cwd: config.src.imagesDir, src: '{,*/}*.svg', dest: config.dest.imagesDir}
         ]
@@ -70,13 +73,13 @@ module.exports = function(grunt) {
     },
 
     filerev: {
-      dist: {
+      docs: {
         src: config.dest.filesToRev
       }
     },
 
     targethtml: {
-      optimised: {
+      docs: {
         files: [
           {src: config.dest.rootFilesDir + config.src.rootHtmlFiles, dest: config.dest.rootFilesDir}
         ]
@@ -84,7 +87,7 @@ module.exports = function(grunt) {
     },
 
     htmlmin: {
-      dist: {
+      docs: {
         options: {
           collapseWhitespace: true,
           conservativeCollapse: true,
@@ -101,7 +104,7 @@ module.exports = function(grunt) {
       }
     },
 
-    usemin: {
+    useminDocs: {
       html: config.dest.htmlFiles,
       css: config.dest.cssFiles,
       options: {
@@ -109,6 +112,12 @@ module.exports = function(grunt) {
       }
     }
   });
+
+
+  grunt.config.set('targethtml.docs.options.curlyTags.vendorScripts', util.generateHTMLScriptTags(config.vendorJSFiles, config.vendorDir));
+  grunt.config.set('targethtml.docs.options.curlyTags.externalScripts', util.generateHTMLScriptTags(config.externalJSFiles, config.vendorDir));
+  grunt.config.set('targethtml.docs.options.curlyTags.cssFiles', util.generateHTMLLinkTags(config.compiledCSSFiles));
+
 
   grunt.registerMultiTask('mpBuildDocs', 'Optimise the documentation for production', function () {
     grunt.log.writeln(this.target + ': ' + this.data);
