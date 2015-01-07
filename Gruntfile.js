@@ -10,8 +10,8 @@
 
 module.exports = function(grunt) {
 
-//  // Load grunt tasks automatically
-//  require('load-grunt-tasks')(grunt);
+  // Load grunt tasks automatically
+  require('load-grunt-tasks')(grunt);
 
   // Project configuration.
   grunt.initConfig({
@@ -170,6 +170,8 @@ module.exports = function(grunt) {
      * reportsDir
      */
   });
+
+
 
   // Actually load this plugin's task(s).
   grunt.loadTasks('tasks');

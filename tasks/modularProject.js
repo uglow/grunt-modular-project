@@ -447,7 +447,9 @@ module.exports = function(grunt) {
     var path = require('path');
 
     // Load the grunt tasks that this package uses
-    require('load-grunt-tasks')(grunt, {config: path.resolve(__dirname + '/../package.json')});
+    //grunt.file.setBase(path.resolve(__dirname + '/../'));
+//    require('load-grunt-tasks')(grunt, {config: path.resolve(__dirname + '/../package.json')});
+    //grunt.file.setBase(process.cwd());
 
     grunt.config.set('modularProject', cfg);
 //    grunt.log.writeln('1 GruntFiles: ' + grunt.config('modularProject.config.gruntFiles'));
