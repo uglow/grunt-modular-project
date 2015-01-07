@@ -3,6 +3,8 @@ module.exports = function(grunt) {
 
   var config = grunt.config('modularProject.buildCSS');
 
+//  grunt.log.ok('BUILD_CSS: ' + config);
+
   grunt.extendConfig({
     // Add vendor prefixed styles
     autoprefixer: {

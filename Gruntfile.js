@@ -10,8 +10,8 @@
 
 module.exports = function(grunt) {
 
-  // Load grunt tasks automatically
-  require('load-grunt-tasks')(grunt);
+//  // Load grunt tasks automatically
+//  require('load-grunt-tasks')(grunt);
 
   // Project configuration.
   grunt.initConfig({
@@ -89,9 +89,7 @@ module.exports = function(grunt) {
           }]
         },
 
-        uglify: {
-          files: [{src: '<%= modularProjectConfig.buildLibrary.libFile %>', dest: '<%= modularProjectConfig.buildLibrary.minLibFile %>'}]
-        }
+        uglifyFiles: [{src: '<%= modularProjectConfig.buildLibrary.libFile %>', dest: '<%= modularProjectConfig.buildLibrary.minLibFile %>'}]
       },
 
       // This is a custom config used by the mpBuildDocs task

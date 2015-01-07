@@ -1,8 +1,11 @@
-node_modules
 npm-debug.log
 tmp
 .tmp
+bower_components
 dev
 dist
 reports
 lib
+testsrc
+Gruntfile.js
+

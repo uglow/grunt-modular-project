@@ -46,12 +46,12 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('preReleaseCheck', 'Return non-zero code if there are uncommitted changes', function() {
+  grunt.registerTask('mpPreReleaseCheck', 'Return non-zero code if there are uncommitted changes', function() {
     grunt.task.run('build');
     grunt.task.run('exec:checkIfAnyUncommittedChanges');
   });
 
-  grunt.registerTask('preChangelog', 'Reads the existing value of the project to use as the "from" tag when reading commit messages', function () {
+  grunt.registerTask('mpPreChangelog', 'Reads the existing value of the project to use as the "from" tag when reading commit messages', function () {
     // Read current version value
     var oldVer = grunt.file.readJSON('package.json').version;
     grunt.config.set('changelog.options.from', 'v' + oldVer);
@@ -62,8 +62,11 @@ module.exports = function(grunt) {
   // Note: Do NOT call release until you have committed all your changes already.
   grunt.registerTask('release', 'Releases a new version (update version, changelog, commit)', function (versionChange) {
     var target = versionChange || 'patch';
-    grunt.task.run('preReleaseCheck', 'preChangelog', 'bump-only' + ':' + target, 'changelog', 'bump-commit');
+
+    var tasks = ['mpPreReleaseCheck', 'mpPreChangelog', 'bump-only' + ':' + target, 'changelog', 'bump-commit']
+      .concat(grunt.config('modularProject.options.tasks.release'));
+
+    grunt.log.writeln('release: ' + tasks);
+    grunt.task.run(tasks);
   });
-
-
 };

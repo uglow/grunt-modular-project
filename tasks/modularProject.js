@@ -42,7 +42,8 @@ module.exports = function(grunt) {
       },
       tasks: {
         build: ['mpBuildInit', 'mpBuildIncludes', 'mpBuildJS', 'mpBuildCSS', 'mpBuildHTML', 'mpVerify:all'],
-        optimise: ['mpBuildSite', 'beep:twobits']
+        optimise: ['mpBuildSite', 'beep:twobits'], // Appends to the existing task
+        release: [] // Appends to the existing task
       },
       git: {
         commitHookFileRelativePath: '',
@@ -51,6 +52,10 @@ module.exports = function(grunt) {
       node: {
         localNodeJSEXEPath: '',
         globalNodeJSXEPath: ''
+      },
+      release: {
+        filesToBump: ['package.json', 'bower.json'],
+        filesToCommit: ['package.json', 'bower.json', 'CHANGELOG.md']
       }
     },
 
@@ -250,6 +255,12 @@ module.exports = function(grunt) {
       }
     },
 
+    // Placeholder/Stub config, for the respective tasks (otherwise they complain about missing config)
+    buildDocs: {
+      src: {},
+      dest: {}
+    },
+    buildLibrary: {},
 
     buildHTML: {
       html: {
@@ -350,7 +361,7 @@ module.exports = function(grunt) {
       copy: {
         files: [
           {expand: true, cwd: '<%= modularProject.build.dev.dir %>', src: '<%= modularProject.buildSite.src.optimisedAssetFiles %>', dest: '<%= modularProject.buildSite.dest.dir %>'},
-          {expand: true, flatten: true, src: '<%= modularProject.buildLibrary.libFile %>', dest: '<%= modularProject.buildSite.dest.jsDir %>'},
+//          {expand: true, flatten: true, src: '<%= modularProject.buildLibrary.libFile %>', dest: '<%= modularProject.buildSite.dest.jsDir %>'},
           {expand: true, cwd: '<%= modularProject.build.dev.assetsDir %>', src: '*/{config,language}/**/*', dest: '<%= modularProject.buildSite.dest.assetDir %>'},
           {expand: true, cwd: '<%= modularProject.build.dev.dir %>', src: '<%= modularProject.options.output.vendorSubDir %>**/*', dest: '<%= modularProject.buildSite.dest.dir %>'}
         ]
@@ -403,8 +414,8 @@ module.exports = function(grunt) {
     },
 
     release: {
-      filesToBump: ['package.json', 'bower.json'],
-      filesToCommit: ['package.json', 'bower.json', 'CHANGELOG.md']
+      filesToBump: '<%= modularProject.options.release.filesToBump %>',
+      filesToCommit: '<%= modularProject.options.release.filesToCommit %>'
     },
 
     verify: {
@@ -427,6 +438,11 @@ module.exports = function(grunt) {
 
   // Initialise the configuration
   (function init() {
+    var path = require('path');
+
+    // Load the grunt tasks that this package uses
+    require('load-grunt-tasks')(grunt, {config: path.resolve(__dirname + '/../package.json')});
+
     grunt.config.set('modularProject', cfg);
 //    grunt.log.writeln('1 GruntFiles: ' + grunt.config('modularProject.config.gruntFiles'));
 //    grunt.log.writeln('1 Assets: ' + grunt.config('modularProject.src.assets.dirName'));
@@ -448,7 +464,24 @@ module.exports = function(grunt) {
     //grunt.log.writeln('Preprocessor: ' + JSON.stringify(grunt.config('modularProject.unitTest.preprocessors', null, '\t')));
 
 
-    grunt.loadTasks('tasks/subTasks');
+    grunt.loadTasks(path.resolve(__dirname + '/subTasks'));
+
+//    require(path.resolve(__dirname + '/subTasks/buildCSS'))(grunt);
+//    require(path.resolve(__dirname + '/subTasks/buildDocs'))(grunt);
+//    require(path.resolve(__dirname + '/subTasks/buildHTML'))(grunt);
+//    require(path.resolve(__dirname + '/subTasks/buildIncludes'))(grunt);
+//    require(path.resolve(__dirname + '/subTasks/buildInit'))(grunt);
+//    require(path.resolve(__dirname + '/subTasks/buildJS'))(grunt);
+//    require(path.resolve(__dirname + '/subTasks/buildLibrary'))(grunt);
+//    require(path.resolve(__dirname + '/subTasks/buildSite'))(grunt);
+//    require(path.resolve(__dirname + '/subTasks/changelog'))(grunt);
+//    require(path.resolve(__dirname + '/subTasks/install'))(grunt);
+//    require(path.resolve(__dirname + '/subTasks/release'))(grunt);
+//    require(path.resolve(__dirname + '/subTasks/releaseDocs'))(grunt);
+//    require(path.resolve(__dirname + '/subTasks/serve'))(grunt);
+//    require(path.resolve(__dirname + '/subTasks/unitTest'))(grunt);
+//    require(path.resolve(__dirname + '/subTasks/verify'))(grunt);
+//    require(path.resolve(__dirname + '/subTasks/watch'))(grunt);
   })();
 
 

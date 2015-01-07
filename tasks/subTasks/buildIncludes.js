@@ -1,7 +1,7 @@
 module.exports = function(grunt) {
   'use strict';
 
-  var config = grunt.config.get('modularProject.buildIncludes');
+  var config = grunt.config('modularProject.buildIncludes');
 
   /**
    // "includes" refers to files that are separated from code (JS/HTML/CSS) at design time,

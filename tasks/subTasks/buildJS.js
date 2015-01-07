@@ -2,7 +2,9 @@ module.exports = function(grunt) {
   'use strict';
 
 
-  var config = grunt.config.get('modularProject.buildJS');
+  var config = grunt.config('modularProject.buildJS');
+
+//  grunt.log.ok('BUILD_JS: ' + config);
 
   /**
    * Build JS is complex! The basic premise is:

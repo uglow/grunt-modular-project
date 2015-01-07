@@ -1,7 +1,9 @@
 module.exports = function(grunt) {
   'use strict';
 
-  var config = grunt.config.get('modularProject.buildLibrary');
+  var config = grunt.config('modularProject.buildLibrary');
+
+//  grunt.log.ok('BUILD_LIBRARY: ' + config);
 
   grunt.extendConfig({
     clean: {
@@ -30,7 +32,7 @@ module.exports = function(grunt) {
           },
           mangle: true
         },
-        files: config.uglify.files
+        files: config.uglifyFiles
       }
     }
   });
