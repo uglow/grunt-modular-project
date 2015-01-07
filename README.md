@@ -1,13 +1,24 @@
-# [grunt-modular-project](https://github.com/uglow/grunt-modular-project-tasks)
+# [grunt-modular-project](https://github.com/uglow/grunt-modular-project)
 This is a library of GruntJS tasks for building JS/HTML/CSS modules into a website.
 It has AngularJS/single-page-apps primarily in-mind.
 The project transforms a source code folder (`src` by default) into
 a web-application that can run in development or production mode.
 
-## <a name="download"></a> Download
+## Getting Started
+This plugin requires Grunt `~0.4.5`
+
+If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
+
+```shell
+npm install grunt-modular-project --save-dev
 ```
-bower install grunt-modular-project-tasks --save
+
+Once the plugin has been installed, it may be enabled inside your Gruntfile with this line of JavaScript:
+
+```js
+grunt.loadNpmTasks('grunt-modular-project');
 ```
+
 
 ###Key features###
 - Source code is structured into modules
@@ -29,34 +40,14 @@ bower install grunt-modular-project-tasks --save
 - Ability to define your own task-wiring from the provided tasks (not locked-in to the default approach)
 
 
-##RoadMap##
-- Finalise source-tree (input) structure (seems close)
-- Reduce amount of configuration required, somehow...
-- Move 'index.html' somewhere else, maybe?
-
-
-## <a name="dependencies"></a> Dependencies
-- Git
-- [Node](http://nodejs.org)
-- Grunt: `npm install -g grunt-cli`
-
-
-## <a name="install"></a> Installation
-```
-git clone url-to-repo.git
-npm install
-bower install
-grunt install
-```
-
-## <a name="dev"></a> Development Tasks
+## <a name="dev"></a> Tasks
 
 From the command line, you can run the following commands:
 
-- `grunt dev`: Continuous development (builds debuggable version into /dev folder, starts server, watches files for changes and reloads)
-- `grunt build`: Builds the site into /dist, ready for distribution
-- `grunt build:serve`: Builds the site into /dist, and then serves it up
-- `grunt test`: Runs unit tests in PhantomJS
+- `grunt dev`: Continuous development (builds debuggable version into `/dev` folder, starts server, watches files for changes and reloads)
+- `grunt build`: Builds the site into `/dist`, ready for distribution
+- `grunt build:serve`: Builds the site into `/dist`, and then serves it up
+- `grunt test`: Runs Jasmine unit tests `**/unitTest/*.spec.js` in PhantomJS via Karma
 - `grunt test:browser`: Runs unit tests in Chrome (useful for debugging)
 
 # Notes
@@ -64,40 +55,25 @@ From the command line, you can run the following commands:
 - If node has permission errors ensure that it has ownership of the global directory.
 
 
-## Getting Started
-This plugin requires Grunt `~0.4.5`
 
-If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
-
-```shell
-npm install grunt-modular-project --save-dev
-```
-
-Once the plugin has been installed, it may be enabled inside your Gruntfile with this line of JavaScript:
-
-```js
-grunt.loadNpmTasks('grunt-modular-project');
-```
 
 ## The "modular_project" task
 
 ### Overview
-In your project's Gruntfile, add a section named `modular_project` to the data object passed into `grunt.initConfig()`.
+In your project's Gruntfile, add a section named `moduleProjectConfig` to the data object passed into `grunt.initConfig()`.
 
 ```js
 grunt.initConfig({
-  modular_project: {
+  moduleProjectConfig: {
     options: {
       // Task-specific options go here.
-    },
-    your_target: {
-      // Target-specific file lists and/or options go here.
-    },
+    }
+    // Extra config
   },
 });
 ```
 
-### Options
+### Options - Coming Soon
 
 #### options.separator
 Type: `String`
@@ -111,7 +87,7 @@ Default value: `'.'`
 
 A string value that is used to do something else with whatever else.
 
-### Usage Examples
+### Usage Examples - Coming Soon
 
 #### Default Options
 In this example, the default options are used to do something with whatever. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result would be `Testing, 1 2 3.`
@@ -127,30 +103,9 @@ grunt.initConfig({
 });
 ```
 
-#### Custom Options
-In this example, custom options are used to do something else with whatever else. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result in this case would be `Testing: 1 2 3 !!!`
-
-```js
-grunt.initConfig({
-  modular_project: {
-    options: {
-      separator: ': ',
-      punctuation: ' !!!',
-    },
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
-});
-```
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
-
-## Release History
-_(Nothing yet)_
-
-
 
 ## Git Commit Guidelines
 

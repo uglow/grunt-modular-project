@@ -2,7 +2,7 @@
   "name": "grunt-modular-project",
   "description": "The best Grunt plugin ever.",
   "version": "0.0.1",
-  "homepage": "https://github.com/brettuglow/modular-project",
+  "homepage": "https://github.com/uglow/grunt-modular-project",
   "author": {
     "name": "Brett Uglow",
     "email": "buglow@odecee.com.au",
@@ -10,22 +10,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/brettuglow/modular-project.git"
+    "url": "git://github.com/uglow/grunt-modular-project.git"
   },
   "bugs": {
-    "url": "https://github.com/brettuglow/modular-project/issues"
+    "url": "https://github.com/uglow/grunt-modular-project/issues"
   },
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/brettuglow/modular-project/blob/master/LICENSE-MIT"
+      "url": "https://github.com/uglow/grunt-modular-project/blob/master/LICENSE-MIT"
     }
   ],
   "engines": {
     "node": ">= 0.8.0"
-  },
-  "scripts": {
-    "test": "grunt test"
   },
   "dependencies": {
     "colors": "^0.6.2",
