@@ -1,6 +1,5 @@
-npm-debug.log
-tmp
 .tmp
+.idea
 bower_components
 dev
 dist
@@ -8,4 +7,5 @@ reports
 lib
 testsrc
 Gruntfile.js
+npm-debug.log
 

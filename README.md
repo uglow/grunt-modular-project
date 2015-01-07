@@ -19,7 +19,6 @@ Once the plugin has been installed, it may be enabled inside your Gruntfile with
 grunt.loadNpmTasks('grunt-modular-project');
 ```
 
-
 ###Key features###
 - Source code is structured into modules
 - No need for "global" folders - create a module called `global` instead
@@ -40,7 +39,7 @@ grunt.loadNpmTasks('grunt-modular-project');
 - Ability to define your own task-wiring from the provided tasks (not locked-in to the default approach)
 
 
-## <a name="dev"></a> Tasks
+### <a name="dev"></a> Tasks
 
 From the command line, you can run the following commands:
 
@@ -50,14 +49,8 @@ From the command line, you can run the following commands:
 - `grunt test`: Runs Jasmine unit tests `**/unitTest/*.spec.js` in PhantomJS via Karma
 - `grunt test:browser`: Runs unit tests in Chrome (useful for debugging)
 
-# Notes
-- If Grunt throws errors for missing dependencies try installing them manually through npm install *filename*
-- If node has permission errors ensure that it has ownership of the global directory.
 
-
-
-
-## The "modular_project" task
+## The "grunt-modular-project" task
 
 ### Overview
 In your project's Gruntfile, add a section named `moduleProjectConfig` to the data object passed into `grunt.initConfig()`.
