@@ -31,14 +31,10 @@ module.exports = function(grunt) {
   }
 
 
-
   function installCommitHook() {
-    var fileName = grunt.config.get('modularProject.git.commitHookFileRelativePath') || path.relative('.git/hooks', __dirname + '../../../git/validate-commit-msg.js');
+    mkdirp('.git/hooks');
 
-    mkdirp('.git/hooks', function(err) {
-      grunt.log.error('Could not make .git/hooks directory')
-    });
-
+    var fileName = grunt.config.get('modularProject.options.git.commitHookFileRelativePath') || path.relative('.git/hooks', __dirname + '../../../config/git/validate-commit-msg.js');
     grunt.log.debug('Relative commit hook path: ' + fileName);
 
     try {
@@ -51,7 +47,7 @@ module.exports = function(grunt) {
   }
 
   function installCommitTemplate() {
-    var pathToCommitMsgTemplate = grunt.config('modularProject.git.commitTemplate') || path.relative('./', __dirname + '../../../git/git-commit-template.txt');
+    var pathToCommitMsgTemplate = grunt.config('modularProject.options.git.commitTemplate') || path.relative('./', __dirname + '../../../../config/git/git-commit-template.txt');
     grunt.log.debug('Commit message template path: ' + pathToCommitMsgTemplate);
     grunt.config.set('exec.gittemplate.command', 'git config commit.template ' + pathToCommitMsgTemplate);
     grunt.task.run(['exec:gittemplate']);
@@ -61,8 +57,8 @@ module.exports = function(grunt) {
 
   function putNodeOnPathForSourceTree() {
     // Link node to the /usr/bin folder, so that Sourcetree can see error messages when the commit-hook rejects a commit
-    var src = grunt.config('modularProject.config.node.localNodeJSEXEPath') || '/usr/local/bin/node';
-    var dest = grunt.config('modularProject.config.node.globalNodeJSXEPath') || '/usr/bin/node';
+    var src = grunt.config('modularProject.options.node.localNodeJSEXEPath') || '/usr/local/bin/node';
+    var dest = grunt.config('modularProject.options.node.globalNodeJSXEPath') || '/usr/bin/node';
     symLink(src, dest, 'file');
   }
 

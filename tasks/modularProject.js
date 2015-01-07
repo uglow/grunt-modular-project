@@ -43,6 +43,14 @@ module.exports = function(grunt) {
       tasks: {
         build: ['mpBuildInit', 'mpBuildIncludes', 'mpBuildJS', 'mpBuildCSS', 'mpBuildHTML', 'mpVerify:all'],
         optimise: ['mpBuildSite', 'beep:twobits']
+      },
+      git: {
+        commitHookFileRelativePath: '',
+        commitTemplate: ''
+      },
+      node: {
+        localNodeJSEXEPath: '',
+        globalNodeJSXEPath: ''
       }
     },
 
@@ -54,10 +62,6 @@ module.exports = function(grunt) {
     config: {
       dir: 'config/',
       gruntFiles: ['Gruntfile.js']
-    },
-    git: {
-      commitHookFileRelativePath: '',
-      commitTemplate: ''
     },
     src: {
       dir: '<%= modularProject.options.srcDir %>',
