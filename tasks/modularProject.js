@@ -33,7 +33,6 @@ module.exports = function(grunt) {
       output: {
         devDir: 'dev/',
         prodDir: 'dist/',
-        docsDir: 'docs/',
 
         assetsSubDir: 'assets/',
         cssSubDir: 'css/',
@@ -114,9 +113,6 @@ module.exports = function(grunt) {
       },
       prod: {
         dir: '<%= modularProject.options.output.prodDir %>'
-      },
-      doc: {
-        dir: '<%= modularProject.options.output.docsDir %>'
       },
       temp: {
         dir: '.tmp/'
@@ -364,7 +360,7 @@ module.exports = function(grunt) {
         hostname: 'localhost'
       },
       prod: {
-        baseDir: ['<%= modularProject.build.doc.dir %>'],
+        baseDir: ['<%= modularProject.build.prod.dir %>'],
         port: 8000,
         hostname: 'localhost'
       }

@@ -55,8 +55,7 @@ module.exports = function(grunt) {
         ],
         output: {
           devDir: 'dev/',
-          prodDir: 'dev/',
-          docsDir: 'docs/',
+          prodDir: 'dist/',
 
           assetsSubDir: 'assets/',
           cssSubDir: 'css/',
@@ -65,26 +64,27 @@ module.exports = function(grunt) {
           viewsSubDir: 'views/'
         },
         tasks: {
-        //  optimise: ['mpBuildLibrary', 'mpBuildDocs', 'beep:twobits']
+          optimise: ['mpBuildLibrary', 'mpBuildDocs', 'beep:twobits']
         }
       },
 
       // Custom config for building a JS library - used by the mpBuildLibrary task
       buildLibrary: {
         // Common vars
-        libFile: '<%= modularProject.build.prod.dir %>ng-form-lib.js',
-        minLibFile: '<%= modularProject.build.prod.dir %>ng-form-lib.min.js',
+        libDir: 'lib/',
+        libFile: '<%= modularProjectConfig.buildLibrary.libDir %>ng-form-lib.js',
+        minLibFile: '<%= modularProjectConfig.buildLibrary.libDir %>ng-form-lib.min.js',
 
         // Task config
-        clean: ['<%= modularProject.build.prod.dir %>'],
+        clean: ['<%= modularProjectConfig.buildLibrary.libDir %>'],
 
         copy: {
-          files: [{expand: true, cwd: '<%= modularProject.build.dev.jsDir %>', src: ['**/*.js', '!**/docs.js'], dest: '<%= modularProject.build.prod.dir %>src'}]
+          files: [{expand: true, cwd: '<%= modularProject.build.dev.jsDir %>', src: ['**/*.js', '!**/docs.js'], dest: '<%= modularProjectConfig.buildLibrary.libDir %>src'}]
         },
 
         concat: {
           files: [{
-            src: ['<%= modularProject.build.prod.dir %>src/**/*.js'],
+            src: ['<%= modularProjectConfig.buildLibrary.libDir %>src/**/*.js'],
             dest: '<%= modularProjectConfig.buildLibrary.libFile %>'
           }]
         },
@@ -114,7 +114,7 @@ module.exports = function(grunt) {
         },
 
         dest: {
-          dir: '<%= modularProject.build.doc.dir %>',
+          dir: '<%= modularProject.build.prod.dir %>',
           cssDir: '<%= modularProjectConfig.buildDocs.dest.dir %><%= modularProject.options.output.cssSubDir %>',
           cssFiles: ['<%= modularProjectConfig.buildDocs.dest.cssDir %>*.css'],
           filesToRev: [

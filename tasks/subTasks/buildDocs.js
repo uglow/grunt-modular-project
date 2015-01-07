@@ -15,8 +15,8 @@ module.exports = function(grunt) {
       copyHTMLInPreparationForOptimisation: ['copy:docsHtmlPreOptimised'],
       optimiseJS: ['concat:docsOptimize'],
       useOptimisedHTMLFragments: ['targethtml:docs'],
-      fileRevAssets: ['filerev:docs', 'useminDocs']/*,
-      postHTMLProcessing: ['htmlmin:docs']*/
+      fileRevAssets: ['filerev:docs', 'useminDocs']
+      // Don't minify the HTML, as it affects the formatting (can't get <!-- htmlmin:ignore --> to work)
     },
 
     clean: {

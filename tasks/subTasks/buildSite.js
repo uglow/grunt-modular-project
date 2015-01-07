@@ -2,10 +2,12 @@ module.exports = function(grunt) {
   'use strict';
 
   var util = require('../lib/utils.js');
-  var config = grunt.config.get('modularProject.buildSite');
+  var config = grunt.config('modularProject.buildSite');
 
   grunt.task.loadNpmTasks('grunt-usemin');
   grunt.task.renameTask('usemin', 'useminSite');  // Rename this task so that it isn't over-ridden by other usemin instances
+
+//  grunt.log.ok('BuildSiteConfig: ' + JSON.stringify(grunt.config('modularProject.build'), null, '  '));
 
   // This config must exist before the multi-task is registered :(
   grunt.extendConfig({
