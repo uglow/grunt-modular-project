@@ -10,10 +10,6 @@
 
 module.exports = function(grunt) {
 
-//  // Load the plugin FIRST (this will become grunt.loadNpmTasks('grunt-modular-project')
-//  grunt.loadTasks('tasks');
-
-  // Override the default project configuration
   grunt.initConfig({
     // Configuration to be run (and then tested).
     modularProject: {
@@ -172,7 +168,8 @@ module.exports = function(grunt) {
   });
 
 
-//
+  require('load-grunt-tasks')(grunt);
+
   // Actually load this plugin's task(s).
   grunt.loadTasks('tasks');
 

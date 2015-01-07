@@ -10,8 +10,7 @@
 
 module.exports = function(grunt) {
 
-  // Please see the Grunt documentation for more information regarding task
-  // creation: http://gruntjs.com/creating-tasks
+  grunt.loadNpmTasks('grunt-extend-config');
 
   var cfg = {
     // New config
@@ -448,7 +447,7 @@ module.exports = function(grunt) {
 
     // Make sure you load the NPM tasks BEFORE processing the rest of the tasks
     // The NPM packages required for this module MUST be in the parent-project's package.json file
-    require('load-grunt-tasks')(grunt);
+//    require('load-grunt-tasks')(grunt);
 
 //    grunt.log.writeln('0 Tasks-build: ' + JSON.stringify(grunt.config('modularProject.options.tasks', null, '\t')));
 
