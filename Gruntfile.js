@@ -106,9 +106,7 @@ module.exports = function(grunt) {
           optimisedAssetFiles: [
             'assets/font/**/*',
             'assets/language/**/*'
-          ],
-          rootHtmlFiles: '*.html',
-          rootHtmlFilesDir: '<%= modularProject.src.dir %>'
+          ]
         },
 
         dest: {
@@ -129,13 +127,11 @@ module.exports = function(grunt) {
           assetDir: '<%= modularProjectConfig.buildDocs.dest.dir %><%= modularProject.options.output.assetsSubDir %>',
           imagesDir: '<%= modularProjectConfig.buildDocs.dest.dir %><%= modularProject.options.output.assetsSubDir %>images/',
           jsDir: '<%= modularProjectConfig.buildDocs.dest.dir %><%= modularProject.options.output.jsSubDir %>',
-          jsMinFile: 'ng-form-lib-docs.js',
-          rootFilesDir: '<%= modularProjectConfig.buildDocs.dest.dir %>',
-          rootHtmlFiles: '*.html'
+          jsMinFile: 'ng-form-lib-docs.js'
         },
 
-        vendorJSFiles: '<%= modularProjectConfig.options.vendor.compilableFiles %>',
         vendorDir: '<%= modularProjectConfig.options.output.vendorSubDir %>',
+        vendorJSFiles: '<%= modularProjectConfig.options.vendor.compilableFiles %>',
         externalJSFiles: '<%= modularProjectConfig.options.vendor.externalFiles %>',
         compiledCSSFiles: '<%= modularProjectConfig.options.compiledCSSFiles %>',
 
@@ -144,9 +140,20 @@ module.exports = function(grunt) {
             {expand: true, cwd: '<%= modularProject.build.dev.dir %>', src: '<%= modularProjectConfig.buildDocs.src.optimisedAssetFiles %>', dest: '<%= modularProjectConfig.buildDocs.dest.dir %>'},
             {expand: true, flatten: true, src: '<%= modularProjectConfig.buildLibrary.libFile %>', dest: '<%= modularProjectConfig.buildDocs.dest.jsDir %>'},
             {expand: true, cwd: '<%= modularProject.build.dev.assetsDir %>', src: '*/{config,language}/**/*', dest: '<%= modularProjectConfig.buildDocs.dest.assetDir %>'},
-            {expand: true, cwd: '<%= modularProject.build.dev.dir %>', src: '<%= modularProject.options.output.vendorSubDir %>**/*', dest: '<%= modularProjectConfig.buildDocs.dest.dir %>'}
+            {expand: true, cwd: '<%= modularProject.build.dev.dir %>', src: '<%= modularProject.options.output.vendorSubDir %>**/*', dest: '<%= modularProjectConfig.buildDocs.dest.dir %>'},
+            {expand: true, cwd: '<%= modularProjectConfig.buildDocs.src.dir %>', src: '<%= modularProjectConfig.buildDocs.src.htmlFiles %>', dest: '<%= modularProjectConfig.buildDocs.dest.dir %>'},
+            {expand: true, cwd: '<%= modularProjectConfig.options.srcDir %>', src: '*.html', dest: '<%= modularProjectConfig.buildDocs.dest.dir %>'}
           ]
-        }
+        },
+
+        targethtml: {
+          files: [{src: '<%= modularProjectConfig.buildDocs.dest.dir %>*.html', dest: '<%= modularProjectConfig.buildDocs.dest.dir %>'}]
+        },
+
+        htmlminFiles: [
+          {expand: true, cwd: '<%= modularProjectConfig.buildDocs.dest.dir %>', src: '<%= modularProjectConfig.buildDocs.src.htmlFiles %>', dest: '<%= modularProjectConfig.buildDocs.dest.dir %>'},
+          {expand: true, cwd: '<%= modularProjectConfig.buildDocs.dest.dir %>', src: '*.html', dest: '<%= modularProjectConfig.buildDocs.dest.dir %>'}
+        ]
       }
     }
 

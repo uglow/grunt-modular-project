@@ -14,8 +14,7 @@ module.exports = function(grunt) {
     mpBuildDocs: {
       pre: ['clean:docs'],
       images: ['concurrent:docsImages'],
-      copyAlreadyOptimised: ['copy:docs'],
-      copyHTMLInPreparationForOptimisation: ['copy:docsHtmlPreOptimised'],
+      copyAlreadyOptimisedAndHTMLInPreparationForOptimisation: ['copy:docs'],
       optimiseJS: ['concat:docsOptimize'],
       useOptimisedHTMLFragments: ['targethtml:docs'],
       fileRevAssets: ['filerev:docs', 'useminDocs']
@@ -40,12 +39,6 @@ module.exports = function(grunt) {
 
     copy: {
       docs: config.copy,
-      docsHtmlPreOptimised: {
-        files: [
-          {expand: true, cwd: config.src.dir, src: config.src.htmlFiles, dest: config.dest.dir},
-          {expand: true, cwd: config.src.rootHtmlFilesDir, src: config.src.rootHtmlFiles, dest: config.dest.dir}
-        ]
-      }
     },
 
     cssmin: {
@@ -82,11 +75,7 @@ module.exports = function(grunt) {
     },
 
     targethtml: {
-      docs: {
-        files: [
-          {src: config.dest.rootFilesDir + config.src.rootHtmlFiles, dest: config.dest.rootFilesDir}
-        ]
-      }
+      docs: config.targethtml
     },
 
     htmlmin: {
@@ -100,10 +89,7 @@ module.exports = function(grunt) {
           removeCommentsFromCDATA: true,
           removeOptionalTags: true
         },
-        files: [
-          {expand: true, cwd: config.dest.dir, src: config.src.htmlFiles, dest: config.dest.dir},
-          {expand: true, cwd: config.dest.rootFilesDir, src: config.dest.rootHtmlFiles, dest: config.dest.rootFilesDir}
-        ]
+        files: config.htmlminFiles
       }
     },
 
