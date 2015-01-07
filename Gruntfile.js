@@ -65,6 +65,10 @@ module.exports = function(grunt) {
         },
         tasks: {
           optimise: ['mpBuildLibrary', 'mpBuildDocs', 'beep:twobits']
+        },
+        release: {
+          filesToBump: ['package.json'],
+          filesToCommit: ['package.json', 'CHANGELOG.md']
         }
       },
 
