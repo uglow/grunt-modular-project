@@ -1,3 +1,12 @@
+<a name="0.1.3"></a>
+### 0.1.3 (2015-01-08)
+
+
+#### Bug Fixes
+
+* **dependencies:** Remove sequencing-dependency on when tasks are loaded. ([91cb8229](http://github.com/uglow/grunt-modular-project/commit/91cb8229f4df82f49c7ff3a98f62aa58c1c876b2))
+
+
 <a name="0.1.2"></a>
 ### 0.1.2 (2015-01-07)
 
