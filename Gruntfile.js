@@ -10,12 +10,16 @@
 
 module.exports = function(grunt) {
 
+  // Time how long tasks take. Can help when optimizing build times
+  require('time-grunt')(grunt);
+
+
   grunt.initConfig({
     // Configuration to be run (and then tested).
     modularProject: {
       input: {
         srcDir: 'testsrc/',
-        modulesSubDir: 'modules/',
+        modulesDir: 'testsrc/modules/',
         moduleAssets: 'assets',
         moduleIncludes: 'includes',
         modulePartials: 'partials',

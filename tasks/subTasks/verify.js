@@ -16,30 +16,16 @@ module.exports = function(grunt) {
         config: config.jscs.baseConfig,
         reporter: 'text'
       },
-      all: {
-        files: {
-          src: config.allFiles
-        }
-      },
-      src: {
-        files: {
-          src: config.srcFiles
-        }
-      },
-      test: {
-        files: {
-          src: config.testFiles
-        }
-      },
+      all: config.allFiles,
+      src: config.srcFiles,
+      test: config.testFiles,
       ci: {
         options: {
           config: config.jscs.CIConfig,
           reporter: 'junit',
           reporterOutput: config.reportDir + 'jscs.xml'
         },
-        files: {
-          src: config.allFiles
-        }
+        files: config.allFiles.files
       }
     },
     jshint: {
@@ -47,17 +33,13 @@ module.exports = function(grunt) {
         jshintrc: config.jshint.baseConfig,
         reporter: require('jshint-stylish')
       },
-      all: {
-        src: config.allFiles
-      },
-      src: {
-        src: config.srcFiles
-      },
+      all: config.allFiles,
+      src: config.srcFiles,
       test: {
         options: {
           jshintrc: config.jshint.testConfig
         },
-        src: config.testFiles
+        files: config.testFiles.files
       },
       ci: {
         options: {
@@ -65,7 +47,7 @@ module.exports = function(grunt) {
           reporter: require('jshint-junit-reporter'),
           reporterOutput: config.reportDir + 'jshint.xml'
         },
-        src: config.srcFiles
+        files: config.srcFiles.files
       }
     }
   });
