@@ -1,3 +1,12 @@
+<a name="0.1.5"></a>
+### 0.1.5 (2015-01-08)
+
+
+#### Bug Fixes
+
+* **packaging:** Change npmignore so that legitimate /lib folder is included, but root /lib is no ([97f9a676](http://github.com/uglow/grunt-modular-project/commit/97f9a6763eb410ca666ce2795e50255a8a419308))
+
+
 <a name="0.1.4"></a>
 ### 0.1.4 (2015-01-08)
 
