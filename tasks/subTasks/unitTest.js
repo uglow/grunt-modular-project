@@ -73,11 +73,8 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('test', ['unitTest']);
 
-  grunt.registerTask('test:browser', ['karma:browser']);
-
-  grunt.registerTask('unitTest', 'Run unit tests', function() {
-    grunt.task.run(['mpVerify:all', 'karma:ci', 'coverage']);
+  grunt.registerTask('mpUnitTest', 'Run unit tests', function() {
+    grunt.task.run(config.tasks);
   });
 };

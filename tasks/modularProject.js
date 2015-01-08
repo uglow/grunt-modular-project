@@ -20,7 +20,6 @@ module.exports = function(grunt) {
       gruntFiles: ['Gruntfile.js']
     },
 
-    // build, release, test, serve, verify, install
     input: {
       srcDir: 'src/',
       modulesDir: 'src/modules/',
@@ -203,7 +202,10 @@ module.exports = function(grunt) {
 
       watch: {
         allJSSrc: {
-          files: ['<%= modularProject.input.modulesDir %>**/*.js', '<%= modularProject.config.gruntFiles %>', '<%= modularProject.unitTest.specFiles %>']
+          files: [
+            '<%= modularProject.input.modulesDir %>**/*.js',
+            '<%= modularProject.config.gruntFiles %>',
+            '<%= modularProject.input.modulesDir %><%= modularProject.unitTest.specs %>']
         },
         jsHtmlTemplates: {
           files: ['<%= modularProject.input.modulesDir %><%= modularProject.input.templateHTMLFiles %>']
@@ -222,6 +224,7 @@ module.exports = function(grunt) {
         '*/language/**/*',
         '*/config/**/*'
       ],
+      jsMinFile: 'ng-form-lib-docs.js',
 
       // Private config
       src: {
@@ -253,7 +256,6 @@ module.exports = function(grunt) {
         assetDir: '<%= modularProject.buildDocs.dest.dir %><%= modularProject.output.assetsSubDir %>',
         imagesDir: '<%= modularProject.buildDocs.dest.dir %><%= modularProject.output.assetsSubDir %>images/',
         jsDir: '<%= modularProject.buildDocs.dest.dir %><%= modularProject.output.jsSubDir %>',
-        jsMinFile: 'ng-form-lib-docs.js'
       },
 
       vendorJSDir: '<%= modularProject.buildHTML.vendorJSDir %>',
@@ -371,6 +373,7 @@ module.exports = function(grunt) {
         '*/language/**/*',
         '*/config/**/*'
       ],
+      jsMinFile: 'app.js',
 
       // Private config
       src: {
@@ -401,7 +404,6 @@ module.exports = function(grunt) {
         assetDir: '<%= modularProject.buildSite.dest.dir %><%= modularProject.output.assetsSubDir %>',
         imagesDir: '<%= modularProject.buildSite.dest.dir %><%= modularProject.output.assetsSubDir %>images/',
         jsDir: '<%= modularProject.buildSite.dest.dir %><%= modularProject.output.jsSubDir %>',
-        jsMinFile: 'app.js'
       },
 
       vendorJSFiles: '<%= modularProject.buildHTML.compilableVendorJSFiles %>',
@@ -428,15 +430,14 @@ module.exports = function(grunt) {
       ]
     },
 
+    optimise: {
+      tasks: ['mpBuildSite', 'beep:twobits']
+    },
 
     release: {
       filesToBump: ['package.json', 'bower.json'],
       filesToCommit: ['package.json', 'bower.json', 'CHANGELOG.md'],
       tasks: []
-    },
-
-    optimise: {
-      tasks: ['mpBuildSite', 'beep:twobits']
     },
 
     serve: {
@@ -452,16 +453,23 @@ module.exports = function(grunt) {
       }
     },
 
+    test: {
+      tasks: {
+        unitTest: ['mpUnitTest'],
+        unitTestBrowser: ['karma:browser']
+      }
+    },
+
     unitTest: {
       // Public config
+      tasks: ['mpVerify:all', 'karma:ci', 'coverage'],
       reportDir: '<%= modularProject.output.reportDir %>',
       baseConfig: '<%= modularProject.config.dir %>karma/karma.conf.js',
       browserConfig: '<%= modularProject.config.dir %>karma/karma.conf.js',
       CIConfig: '<%= modularProject.config.dir %>karma/karma.conf.js',
       testLibraryFiles: [],
       specs: '**/<%= modularProject.input.moduleUnitTest %>/*.spec.js',
-      specFiles: ['<%= modularProject.input.modulesDir %><%= modularProject.unitTest.specs %>'],
-      sourceFiles: ['<%= modularProject.input.modulesDir %>**/_*.js', '<%= modularProject.input.modulesDir %>**/*.js'],
+      sourceFiles: ['<%= modularProject.input.modulesDir %>**/_*.js', '<%= modularProject.input.modulesDir %>**/*.js'], // The sequence is important
 
       // Private config
       modulesDir: '<%= modularProject.input.modulesDir %>',
@@ -475,7 +483,7 @@ module.exports = function(grunt) {
         '<%= modularProject.input.modulesDir %>**/<%= modularProject.input.moduleTemplates %>/*.html',
 
         // Test specs
-        '<%= modularProject.unitTest.specFiles %>'
+        '<%= modularProject.input.modulesDir %><%= modularProject.unitTest.specs %>'
       ],
       excludeFiles: [
         '<%= modularProject.input.modulesDir %>docs/**/*.js',   // No need to test the docs module
@@ -491,6 +499,20 @@ module.exports = function(grunt) {
     },
 
     verify: {
+      // Public config
+      reportDir: '<%= modularProject.output.reportDir %>',
+      jshint: {
+        baseConfig: '<%= modularProject.config.dir %>jshint/.jshintrc',
+        testConfig: '<%= modularProject.config.dir %>jshint/.jshintrc',
+        CIConfig: '<%= modularProject.config.dir %>jshint/.jshintrc'
+      },
+      jscs: {
+        baseConfig: '<%= modularProject.config.dir %>jscs/.jscsrc',
+        testConfig: '<%= modularProject.config.dir %>jscs/.jscsrc',
+        CIConfig: '<%= modularProject.config.dir %>jscs/.jscsrc'
+      },
+
+      // Private config
       allFiles: {
         files: [
           {src: ['<%= modularProject.config.gruntFiles %>']},
@@ -507,17 +529,6 @@ module.exports = function(grunt) {
         files: [
           {expand: true, cwd: '<%= modularProject.input.modulesDir %>', src: ['<%= modularProject.unitTest.specs %>']}
         ]
-      },
-      reportDir: '<%= modularProject.output.reportDir %>',
-      jshint: {
-        baseConfig: '<%= modularProject.config.dir %>jshint/.jshintrc',
-        testConfig: '<%= modularProject.config.dir %>jshint/.jshintrc',
-        CIConfig: '<%= modularProject.config.dir %>jshint/.jshintrc'
-      },
-      jscs: {
-        baseConfig: '<%= modularProject.config.dir %>jscs/.jscsrc',
-        testConfig: '<%= modularProject.config.dir %>jscs/.jscsrc',
-        CIConfig: '<%= modularProject.config.dir %>jscs/.jscsrc'
       }
     }
   };
@@ -570,6 +581,7 @@ module.exports = function(grunt) {
   grunt.registerTask('mpBuildWatch', 'PRIVATE - do not use. Create an UN-optimised build & watch it.', ['mpBuildUnoptimised', 'mpServe:dev', 'watch']);
 
 
+  // TOTP-LEVEL TASKS
   // There are only 2 kinds of builds - development and production (optimized).
   // Unit tests run against development source code (unminified, but concatenated)
 
@@ -577,10 +589,25 @@ module.exports = function(grunt) {
 
   grunt.registerTask('build', 'Create a release build', function(target) {
     if (target === 'serve') {
-      return grunt.task.run(['mpBuildOptimised', 'mpServe:prod']);
+      grunt.task.run(['mpBuildOptimised', 'mpServe:prod']);
     } else {
-      return grunt.task.run(['mpBuildOptimised']);
+      grunt.task.run(['mpBuildOptimised']);
     }
+  });
+
+  // TEST
+  grunt.registerTask('test', 'Run unit tests', function(target) {
+    if (target === 'browser') {
+      grunt.task.run(grunt.config('modularProject.test.tasks.unitTestBrowser'));
+    } else {
+      grunt.task.run(grunt.config('modularProject.test.tasks.unitTest'));
+    }
+  });
+
+
+  // VERIFY
+  grunt.registerTask('verify', 'Verify code syntax, style and formatting', function(target) {
+    grunt.task.run('mpVerify' + ((target) ? ':' + target : ''));
   });
 
   grunt.registerTask('default', ['dev']);

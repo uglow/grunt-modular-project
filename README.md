@@ -19,6 +19,8 @@ Once the plugin has been installed, it may be enabled inside your Gruntfile with
 grunt.loadNpmTasks('grunt-modular-project');
 ```
 
+## The "grunt-modular-project" task
+
 ###Key features###
 - Source code is structured into modules
 - No need for "global" folders - create a module called `global` instead
@@ -41,61 +43,267 @@ grunt.loadNpmTasks('grunt-modular-project');
 
 ### <a name="dev"></a> Tasks
 
-From the command line, you can run the following commands:
-
+From the command line, the following commands are available:
+- `grunt install`: Installs commit message hooks for git to support [conventional changelog](https://github.com/ajoslin/conventional-changelog/blob/master/CONVENTIONS.md) 
 - `grunt dev`: Continuous development (builds debuggable version into `/dev` folder, starts server, watches files for changes and reloads)
 - `grunt build`: Builds the site into `/dist`, ready for distribution
-- `grunt build:serve`: Builds the site into `/dist`, and then serves it up
+- `grunt build:serve`: Builds the site into `/dist`, and then serves it up via a connect webserver
 - `grunt test`: Runs Jasmine unit tests `**/unitTest/*.spec.js` in PhantomJS via Karma
 - `grunt test:browser`: Runs unit tests in Chrome (useful for debugging)
+- `grunt verify:all/src/test`: Checks all/src/test JS code for linting/syntax/style errors
+- `grunt release`: Builds the project, checks that all source code is committed and if so, bumps version numbers in `package.json` and `bower.json` (by default), then commits those changes + updated `CHANGELOG.md` with a version tag.
+- `grunt release:minor`: As above, but bumps minor version
+- `grunt release:major`: As above, but bumps major version
 
-
-## The "grunt-modular-project" task
 
 ### Overview
-In your project's Gruntfile, add a section named `moduleProjectConfig` to the data object passed into `grunt.initConfig()`.
+In your project's Gruntfile, add a section named `moduleProject` to the data object passed into `grunt.initConfig()`.
 
 ```js
 grunt.initConfig({
-  moduleProjectConfig: {
-    options: {
-      // Task-specific options go here.
-    }
-    // Extra config
+  moduleProject: {
   },
 });
 ```
 
-### Options - Coming Soon
-
-#### options.separator
-Type: `String`
-Default value: `',  '`
-
-A string value that is used to do something with whatever.
-
-#### options.punctuation
-Type: `String`
-Default value: `'.'`
-
-A string value that is used to do something else with whatever else.
-
-### Usage Examples - Coming Soon
-
 #### Default Options
-In this example, the default options are used to do something with whatever. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result would be `Testing, 1 2 3.`
+These are the configurable default options for this task:
 
 ```js
 grunt.initConfig({
   modular_project: {
-    options: {},
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
+    input: {
+      srcDir: 'src/',
+      modulesDir: 'src/modules/',
+      moduleAssets: 'assets',
+      moduleIncludes: 'includes',
+      modulePartials: 'partials',
+      moduleStyles: 'styles',
+      moduleTemplates: 'template',
+      moduleUnitTest: 'unitTest',
+      assetFiles: ['**/<%= modularProject.input.moduleAssets %>/**/*'],
+      htmlFiles: ['**/*.html'],
+      jsFiles: ['**/_*.js', '**/*.js'],
+      templateHTMLFiles: ['**/<%= modularProject.input.moduleTemplates %>/*.html']
     },
+    output: {
+      devDir: 'dev/',
+      prodDir: 'dist/',
+      reportDir: 'reports/',
+      assetsSubDir: 'assets/',
+      cssSubDir: 'css/',
+      jsSubDir: 'js/',
+      vendorJSSubDir: 'vendor/',
+      viewsSubDir: 'views/'
+    },
+    build: {
+      tasks: ['mpBuildInit', 'mpBuildIncludes', 'mpBuildJS', 'mpBuildCSS', 'mpBuildHTML', 'mpVerify:all'],
+    },
+    buildCSS: {
+      rootSourceFiles: [],
+      externalCSSFiles: [],
+    },
+    buildHTML: {
+      compiledCSSFiles: [],
+      compilableVendorJSFiles: [],
+      nonCompilableVendorJSFiles: [],
+    },
+    buildSite: {
+      preOptimisedAssetFiles: [
+        '*/font/**/*',
+        '*/language/**/*',
+        '*/config/**/*'
+      ],
+      jsMinFile: 'app.js'
+    },
+    optimise: {
+      tasks: ['mpBuildSite', 'beep:twobits']
+    },
+    release: {
+      filesToBump: ['package.json', 'bower.json'],
+      filesToCommit: ['package.json', 'bower.json', 'CHANGELOG.md'],
+      tasks: []
+    },
+    serve: {
+      dev: {
+        port: 8000,
+        hostname: 'localhost'
+      },
+      prod: {
+        port: 8000,
+        hostname: 'localhost'
+      }
+    },
+    test: {
+      tasks: {
+        unitTest: ['mpUnitTest'],
+        unitTestBrowser: ['karma:browser']
+      }
+    },
+    verify: {
+      reportDir: '<%= modularProject.output.reportDir %>',
+      jshint: {
+        baseConfig: '<%= modularProject.config.dir %>jshint/.jshintrc',
+        testConfig: '<%= modularProject.config.dir %>jshint/.jshintrc',
+        CIConfig: '<%= modularProject.config.dir %>jshint/.jshintrc'
+      },
+      jscs: {
+        baseConfig: '<%= modularProject.config.dir %>jscs/.jscsrc',
+        testConfig: '<%= modularProject.config.dir %>jscs/.jscsrc',
+        CIConfig: '<%= modularProject.config.dir %>jscs/.jscsrc'
+      }
+    }
   },
 });
 ```
 
+The above defaults support the following **input** folder structure:
+
+- config
+  - jscs
+    - .jscsrc
+  - jshint
+    - .jshint
+- src
+  - index.html
+  - modules
+    - **myModule1**
+      - _main.js
+      - other.js
+      - someHtml.html
+      - assets
+        - font
+        - images
+      - include
+      - partials
+        - *.html
+      - style
+        - *.styl
+      - unitTest
+        - *.spec.js
+      - template
+        - componentTemplate.html
+    - **myModule2**
+      - **withSubModule**
+        - assets
+        - unitTest
+        - ...
+      - includes
+      - ... 
+
+And they produce the following **output** folder when using `grunt dev`:
+- dev
+  - index.html
+  - assets
+    - myModule1
+      - font
+      - images
+  - css
+    - *rootFiles and external CSS files*
+  - js
+    - myModule1.js (contains _main.js THEN all other JS files in the src/modules/module1 folder)
+    - myModule2.js
+    - withSubModule
+      - withSubModule.js
+  - vendor
+    - *any files specified by `buildHTML.compilableVendorJSFiles` and `buildHTML.nonCompilableVendorJSFiles`*
+  - views
+    - myModule1
+      - *.html
+    - myModule2
+      - *.html
+      - withSubModule
+        - *.html
+  
+
+And they produce the following **output** folder when using `grunt build`:
+- dist
+  - *as above except all files are revved & minified & concatenate where applicable, plus:*
+  - js
+    - app.js
+
+
+### Options
+
+#### input.srcDir
+Type: `String`
+Default value: `'src/'`
+
+A relative path from the root directory to the source code root directory.
+
+#### input.modulesDir
+Type: `String`
+Default value: `'src/modules/'`
+
+A relative path from the root directory to the modules directory. It is expected that underneath this directory
+are subdirectories representing one-or-more modules, and that these directories can also contain sub-modules.
+
+*More to come...*
+
+
+### Usage Examples
+
+```js
+grunt.initConfig({
+  // Configuration to be run (and then tested).
+  modularProject: {
+    input: {
+      // Use the defaults
+    },
+    output: {
+      // Use the defaults
+    },
+    buildCSS: {
+      rootSourceFiles:  ['**/styles/docs.styl', '**/styles/sampleFormStyle.styl'],
+      externalCSSFiles: [
+        '<%= modularProject.bowerDir %>angular-motion/dist/angular-motion.css',
+        '<%= modularProject.bowerDir %>highlightjs/styles/github.css'
+      ]
+    },
+    buildHTML: {
+      compiledCSSFiles: [
+        'css/angular-motion.css',
+        'css/github.css',
+        'css/docs.css',
+        'css/sampleFormStyle.css'
+      ],
+      compilableVendorJSFiles: [
+        // Order is important - Angular should come first
+        '<%= modularProject.bowerDir %>angular/angular.js',
+        '<%= modularProject.bowerDir %>angular-animate/angular-animate.js',
+        '<%= modularProject.bowerDir %>angular-translate/angular-translate.js',
+        '<%= modularProject.bowerDir %>angular-translate-loader-static-files/angular-translate-loader-static-files.js',
+        '<%= modularProject.bowerDir %>angular-scroll/angular-scroll.js',
+        '<%= modularProject.bowerDir %>angular-strap/dist/angular-strap.js',
+        '<%= modularProject.bowerDir %>angular-strap/dist/angular-strap.tpl.js'
+      ],
+      nonCompilableVendorJSFiles: [
+        '<%= modularProject.bowerDir %>highlightjs/highlight.pack.js'
+      ]
+    },
+    // Custom config for building a JS library - used by the mpBuildLibrary task
+    buildLibrary: {
+      libFileNamePrefix: 'ng-form-lib',
+      libSrcFiles: ['**/*.js', '!**/docs.js']
+    },
+    release: {
+      // Modify both the docsConfig.json SRC and the temporary documentation version (in /docs), but only commit the SRC version.
+      filesToBump: ['package.json', 'bower.json', 'src/modules/docs/assets/config/docsConfig.json', 'docs/assets/docs/config/docsConfig.json'],
+      filesToCommit: ['package.json', 'bower.json', 'CHANGELOG.md', 'src/modules/docs/assets/config/docsConfig.json'],
+      tasks: ['releaseDocs']
+    },
+    optimise: {
+      tasks: ['mpBuildLibrary', 'mpBuildDocs', 'beep:twobits']
+    },
+    unitTest: {
+      testLibraryFiles: [
+        '<%= modularProject.buildHTML.compilableVendorJSFiles %>',
+        '<%= modularProject.bowerDir %>angular-mocks/angular-mocks.js'
+      ]
+    }
+  }
+});
+```
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).

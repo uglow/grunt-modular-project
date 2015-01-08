@@ -33,7 +33,7 @@ module.exports = function(grunt) {
     concat: {
       optimize: {
         files: [
-          {src: config.src.jsFilesToConcat, dest: config.dest.jsDir + config.dest.jsMinFile}
+          {src: config.src.jsFilesToConcat, dest: config.dest.jsDir + config.jsMinFile}
         ]
       }
     },
