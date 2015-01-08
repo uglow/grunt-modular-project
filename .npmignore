@@ -1,11 +1,12 @@
-.tmp
-.idea
-bower_components
-dev
-dist
-reports
-lib
-testsrc
+/.tmp
+/.idea
+/bower_components
+/dev
+/dist
+/reports
+/lib
+/testsrc
 Gruntfile.js
 npm-debug.log
+*.tar.gz
 
