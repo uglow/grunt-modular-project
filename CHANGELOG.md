@@ -1,3 +1,12 @@
+<a name="0.1.4"></a>
+### 0.1.4 (2015-01-08)
+
+
+#### Bug Fixes
+
+* **paths:** Use path.resolve to fetch library file. ([43aa970e](http://github.com/uglow/grunt-modular-project/commit/43aa970e5dd79c4ad83b8d6d390e3418c679a8d4))
+
+
 <a name="0.1.3"></a>
 ### 0.1.3 (2015-01-08)
 
