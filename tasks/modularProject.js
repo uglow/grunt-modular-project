@@ -13,37 +13,36 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-extend-config');
 
   var cfg = {
-    // New config
-    options: {      // Call this "build"
-      srcDir: 'testsrc/',
+    // Should never change
+    bowerDir: 'bower_components/',
+    config: {
+      dir: 'config/',
+      gruntFiles: ['Gruntfile.js']
+    },
+
+    // build, release, test, serve, verify, install
+    input: {
+      srcDir: 'src/',
       modulesSubDir: 'modules/',
       moduleAssets: 'assets',
       moduleIncludes: 'includes',
+      modulePartials: 'partials',
       moduleStyles: 'styles',
-      moduleUnitTest: 'unitTest',
-      cssRootFiles: [],
-      externalCSSFiles: [],
-      compiledCSSFiles: [],
-      vendor: {
-        compilableFiles: [],
-        externalFiles: []
-      },
-      testLibraryFiles: [],
-      output: {
-        devDir: 'dev/',
-        prodDir: 'dist/',
+      moduleTemplates: 'template',
+      moduleUnitTest: 'unitTest'
+    },
+    output: {
+      devDir: 'dev/',
+      prodDir: 'dist/',
+      reportDir: 'reports/',
+      assetsSubDir: 'assets/',
+      cssSubDir: 'css/',
+      jsSubDir: 'js/',
+      vendorJSSubDir: 'vendor/',
+      viewsSubDir: 'views/'
+    },
 
-        assetsSubDir: 'assets/',
-        cssSubDir: 'css/',
-        jsSubDir: 'js/',
-        vendorSubDir: 'vendor/',
-        viewsSubDir: 'views/'
-      },
-      tasks: {
-        build: ['mpBuildInit', 'mpBuildIncludes', 'mpBuildJS', 'mpBuildCSS', 'mpBuildHTML', 'mpVerify:all'],
-        optimise: ['mpBuildSite', 'beep:twobits'], // Appends to the existing task
-        release: [] // Appends to the existing task
-      },
+    install: {
       git: {
         commitHookFileRelativePath: '',
         commitTemplate: ''
@@ -51,41 +50,27 @@ module.exports = function(grunt) {
       node: {
         localNodeJSEXEPath: '',
         globalNodeJSXEPath: ''
-      },
-      release: {
-        filesToBump: ['package.json', 'bower.json'],
-        filesToCommit: ['package.json', 'bower.json', 'CHANGELOG.md']
       }
     },
 
 
-
-
-    // Old config....
-    bowerDir: 'bower_components/',
-    config: {
-      dir: 'config/',
-      gruntFiles: ['Gruntfile.js']
-    },
     src: {
-      dir: '<%= modularProject.options.srcDir %>',
-      modulesDir: '<%= modularProject.src.dir %><%= modularProject.options.modulesSubDir %>',
+      dir: '<%= modularProject.input.srcDir %>',
+      modulesDir: '<%= modularProject.src.dir %><%= modularProject.input.modulesSubDir %>',
 
       assets: {
-        dirName: '<%= modularProject.options.moduleAssets %>',
-        files: ['**/<%= modularProject.src.assets.dirName %>/**/*']
+        files: ['**/<%= modularProject.input.moduleAssets %>/**/*']
       },
       css: {
         dir: '<%= modularProject.src.modulesDir %>',
-        stylusDirs: '<%= modularProject.src.modulesDir %>**/<%= modularProject.options.moduleStyles %>',   // No trailing '/' - not following pattern
-        rootSourceFiles: '<%= modularProject.options.cssRootFiles %>'
+        stylusDirs: '<%= modularProject.src.modulesDir %>**/<%= modularProject.input.moduleStyles %>'  // No trailing '/' - not following pattern
       },
       includes: {
-        dir: '<%= modularProject.src.modulesDir %>**/<%= modularProject.options.moduleIncludes %>/',
+        dir: '<%= modularProject.src.modulesDir %>**/<%= modularProject.input.moduleIncludes %>/',
         files: '*'
       },
       js: {
-        files: ['<%= modularProject.src.modulesDir %>**/_*.js', '<%= modularProject.src.modulesDir %>**/*.js', '!<%= modularProject.test.specs %>']
+        files: ['<%= modularProject.src.modulesDir %>**/_*.js', '<%= modularProject.src.modulesDir %>**/*.js', '!<%= modularProject.unitTest.specFiles %>']
       },
       html: {
         dir: '<%= modularProject.src.modulesDir %>',
@@ -94,33 +79,23 @@ module.exports = function(grunt) {
 
       templateHTML: {
         dir: '<%= modularProject.src.modulesDir %>',
-        files: '**/template/*.html'
+        files: '**/<%= modularProject.input.moduleTemplates %>/*.html'
       }
     },
-    test: {
-      specs: '<%= modularProject.src.modulesDir %>**/<%= modularProject.options.moduleUnitTest %>/*.spec.js'
-    },
-    report: {
-      dir: 'reports/'
-    },
-
-
-
-
-
 
     build: {
+      tasks: ['mpBuildInit', 'mpBuildIncludes', 'mpBuildJS', 'mpBuildCSS', 'mpBuildHTML', 'mpVerify:all'],
       dev: {
-        dir: '<%= modularProject.options.output.devDir %>',
-        assetsDir: '<%= modularProject.build.dev.dir %><%= modularProject.options.output.assetsSubDir %>',
-        cssDir: '<%= modularProject.build.dev.dir %><%= modularProject.options.output.cssSubDir %>',
-        jsDir: '<%= modularProject.build.dev.dir %><%= modularProject.options.output.jsSubDir %>',
-        vendorDir: '<%= modularProject.build.dev.dir %><%= modularProject.options.output.vendorSubDir %>',
-        viewsDir: '<%= modularProject.build.dev.dir %><%= modularProject.options.output.viewsSubDir %>',
+        dir: '<%= modularProject.output.devDir %>',
+        assetsDir: '<%= modularProject.build.dev.dir %><%= modularProject.output.assetsSubDir %>',
+        cssDir: '<%= modularProject.build.dev.dir %><%= modularProject.output.cssSubDir %>',
+        jsDir: '<%= modularProject.build.dev.dir %><%= modularProject.output.jsSubDir %>',
+        vendorJSDir: '<%= modularProject.build.dev.dir %><%= modularProject.output.vendorJSSubDir %>',
+        viewsDir: '<%= modularProject.build.dev.dir %><%= modularProject.output.viewsSubDir %>',
         livereloadFiles: ['<%= modularProject.build.dev.dir %>**/*']
       },
       prod: {
-        dir: '<%= modularProject.options.output.prodDir %>'
+        dir: '<%= modularProject.output.prodDir %>'
       },
       temp: {
         dir: '.tmp/'
@@ -143,10 +118,14 @@ module.exports = function(grunt) {
 
     // Specific modules
     buildCSS: {
+      // Public config
+      rootSourceFiles: [],
+      externalCSSFiles: [],
+
       compile: {
         sourceDirs: '<%= modularProject.src.css.stylusDirs %>',  // Stylus-specific property
         files: [
-          {expand: true, flatten: true, cwd: '<%= modularProject.src.modulesDir %>', src: '<%= modularProject.src.css.rootSourceFiles %>', dest: '<%= modularProject.build.dev.cssDir %>', ext: '.css'}
+          {expand: true, flatten: true, cwd: '<%= modularProject.src.modulesDir %>', src: '<%= modularProject.buildCSS.rootSourceFiles %>', dest: '<%= modularProject.build.dev.cssDir %>', ext: '.css'}
         ]
       },
 
@@ -155,7 +134,7 @@ module.exports = function(grunt) {
           {
             expand: true,
             flatten: true,
-            src: '<%= modularProject.options.externalCSSFiles %>',
+            src: '<%= modularProject.buildCSS.externalCSSFiles %>',
             dest: '<%= modularProject.build.dev.cssDir %>'
           }
         ]
@@ -168,18 +147,18 @@ module.exports = function(grunt) {
       },
 
       watch: {
-        files: ['<%= modularProject.src.modulesDir %>**/<%= modularProject.options.moduleStyles %>/*.styl']
+        files: ['<%= modularProject.src.modulesDir %>**/<%= modularProject.input.moduleStyles %>/*.styl']
       }
     },
 
     buildJS: {
       // Common variables
       tempJSDir: '<%= modularProject.build.temp.dir %>js/',
-      tempTemplateDir: '<%= modularProject.build.temp.dir %>templates/',
-      vendorJSFiles: ['<%= modularProject.options.vendor.compilableFiles %>', '<%= modularProject.options.vendor.externalFiles %>'],
+      tempTemplateDir: '<%= modularProject.build.temp.dir %><%= modularProject.input.moduleTemplates %>/',
+      vendorJSFiles: ['<%= modularProject.buildHTML.compilableVendorJSFiles %>', '<%= modularProject.buildHTML.nonCompilableVendorJSFiles %>'],
 
       // Tasks
-      clean: ['<%= modularProject.buildJS.tempTemplateDir %>', '<%= modularProject.buildJS.tempJSDir %>', '<%= modularProject.build.dev.vendorDir %>', '<%= modularProject.build.dev.jsDir %>'],
+      clean: ['<%= modularProject.buildJS.tempTemplateDir %>', '<%= modularProject.buildJS.tempJSDir %>', '<%= modularProject.build.dev.vendorJSDir %>', '<%= modularProject.build.dev.jsDir %>'],
 
       copy: {
         htmlTemplatesToTemp: {
@@ -189,12 +168,12 @@ module.exports = function(grunt) {
         },
         jsToTemp: {
           files: [
-            {expand: true, flatten: false, cwd: '<%= modularProject.src.modulesDir %>', src: ['**/_*.js', '**/*.js', '!**/<%= modularProject.options.moduleUnitTest %>/*.spec.js'], dest: '<%= modularProject.buildJS.tempJSDir %>'}
+            {expand: true, flatten: false, cwd: '<%= modularProject.src.modulesDir %>', src: ['**/_*.js', '**/*.js', '!<%= modularProject.unitTest.specs %>'], dest: '<%= modularProject.buildJS.tempJSDir %>'}
           ]
         },
         vendorJS: {
           files: [
-            {expand: true, flatten: false, src: '<%= modularProject.buildJS.vendorJSFiles %>', dest: '<%= modularProject.build.dev.vendorDir %>'}
+            {expand: true, flatten: false, src: '<%= modularProject.buildJS.vendorJSFiles %>', dest: '<%= modularProject.build.dev.vendorJSDir %>'}
           ]
         }
       },
@@ -206,7 +185,7 @@ module.exports = function(grunt) {
             {
               expand: true,
               cwd: '<%= modularProject.buildJS.tempJSDir %>',
-              src: ['**/_*.js', '**/*.js', '!**/<%= modularProject.options.moduleUnitTest %>/*.spec.js'], // Concat files starting with '_' first
+              src: ['**/_*.js', '**/*.js', '!<%= modularProject.unitTest.specs %>'], // Concat files starting with '_' first, ignore test specs
               dest: '<%= modularProject.build.dev.jsDir %>',
               rename: function (dest, src) {
                 // Use the source directory(s) to create the destination file name
@@ -227,7 +206,7 @@ module.exports = function(grunt) {
         files: [
           {
             cwd: '<%= modularProject.buildJS.tempTemplateDir %>',  // Using this shortens the URL-key of the template name in the $templateCache
-            moduleName: /^(.*)\/template/,    // Use the captured group as the module name
+            moduleName: '^(.*)\/<%= modularProject.input.moduleTemplates %>',    // Use the captured group as the module name
             src: '<%= modularProject.src.templateHTML.files %>',   // The HTML template files
             dest: '<%= modularProject.buildJS.tempJSDir %>'        // Base destination directory
           }
@@ -243,7 +222,7 @@ module.exports = function(grunt) {
 
       watch: {
         allJSSrc: {
-          files: ['<%= modularProject.src.modulesDir %>**/*.js', '<%= modularProject.config.gruntFiles %>', '<%= modularProject.test.specs %>']
+          files: ['<%= modularProject.src.modulesDir %>**/*.js', '<%= modularProject.config.gruntFiles %>', '<%= modularProject.unitTest.specFiles %>']
         },
         jsHtmlTemplates: {
           files: ['<%= modularProject.src.templateHTML.dir %><%= modularProject.src.templateHTML.files %>']
@@ -254,26 +233,118 @@ module.exports = function(grunt) {
       }
     },
 
-    // Placeholder/Stub config, for the respective tasks (otherwise they complain about missing config)
+
     buildDocs: {
-      src: {},
-      dest: {}
+      src: {
+        dir: '<%= modularProject.build.dev.dir %>',
+        cssDir: '<%= modularProject.build.dev.cssDir %>',
+        cssFiles: '*.css',
+        htmlFiles: ['<%= modularProject.output.viewsSubDir %>/**/*.html'],
+        imagesDir: '<%= modularProject.build.dev.assetsDir %>images/',
+        jsFilesToConcat: [
+          '<%= modularProject.build.dev.jsDir %>**/docs.js'
+        ],
+        optimisedAssetFiles: [
+          'assets/font/**/*',
+          'assets/language/**/*'
+        ]
+      },
+
+      dest: {
+        dir: '<%= modularProject.build.prod.dir %>',
+        cssDir: '<%= modularProject.buildDocs.dest.dir %><%= modularProject.output.cssSubDir %>',
+        cssFiles: ['<%= modularProject.buildDocs.dest.cssDir %>*.css'],
+        filesToRev: [
+          '<%= modularProject.buildDocs.dest.dir %><%= modularProject.output.assetsSubDir %>font/*',
+          '<%= modularProject.buildDocs.dest.dir %><%= modularProject.output.assetsSubDir %>images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
+          '<%= modularProject.buildDocs.dest.dir %><%= modularProject.output.cssSubDir %>*.css',
+          '<%= modularProject.buildDocs.dest.dir %><%= modularProject.output.jsSubDir %>*.js',
+          '<%= modularProject.buildDocs.dest.dir %><%= modularProject.output.vendorJSSubDir %>**/*.js'
+        ],
+        htmlFiles: [
+          '<%= modularProject.buildDocs.dest.dir %>*.html',
+          '<%= modularProject.buildDocs.dest.dir %><%= modularProject.output.viewsSubDir %>**/*.html'
+        ],
+        assetDir: '<%= modularProject.buildDocs.dest.dir %><%= modularProject.output.assetsSubDir %>',
+        imagesDir: '<%= modularProject.buildDocs.dest.dir %><%= modularProject.output.assetsSubDir %>images/',
+        jsDir: '<%= modularProject.buildDocs.dest.dir %><%= modularProject.output.jsSubDir %>',
+        jsMinFile: 'ng-form-lib-docs.js'
+      },
+
+      vendorJSDir: '<%= modularProject.buildHTML.vendorJSDir %>',
+      vendorJSFiles: '<%= modularProject.buildHTML.compilableVendorJSFiles %>',
+      externalJSFiles: '<%= modularProject.buildHTML.nonCompilableVendorJSFiles %>',
+      compiledCSSFiles: '<%= modularProject.buildHTML.compiledCSSFiles %>',
+
+      copy: {
+        files: [
+          {expand: true, cwd: '<%= modularProject.build.dev.dir %>', src: '<%= modularProject.buildDocs.src.optimisedAssetFiles %>', dest: '<%= modularProject.buildDocs.dest.dir %>'},
+          {expand: true, flatten: true, src: '<%= modularProject.buildLibrary.libFile %>', dest: '<%= modularProject.buildDocs.dest.jsDir %>'},
+          {expand: true, cwd: '<%= modularProject.build.dev.assetsDir %>', src: '*/{config,language}/**/*', dest: '<%= modularProject.buildDocs.dest.assetDir %>'},
+          {expand: true, cwd: '<%= modularProject.build.dev.dir %>', src: '<%= modularProject.output.vendorJSSubDir %>**/*', dest: '<%= modularProject.buildDocs.dest.dir %>'},
+          {expand: true, cwd: '<%= modularProject.buildDocs.src.dir %>', src: '<%= modularProject.buildDocs.src.htmlFiles %>', dest: '<%= modularProject.buildDocs.dest.dir %>'},
+          {expand: true, cwd: '<%= modularProject.input.srcDir %>', src: '*.html', dest: '<%= modularProject.buildDocs.dest.dir %>'}
+        ]
+      },
+
+      targethtml: {
+        files: [{src: '<%= modularProject.buildDocs.dest.dir %>*.html', dest: '<%= modularProject.buildDocs.dest.dir %>'}]
+      },
+
+      htmlminFiles: [
+        {expand: true, cwd: '<%= modularProject.buildDocs.dest.dir %>', src: '<%= modularProject.buildDocs.src.htmlFiles %>', dest: '<%= modularProject.buildDocs.dest.dir %>'},
+        {expand: true, cwd: '<%= modularProject.buildDocs.dest.dir %>', src: '*.html', dest: '<%= modularProject.buildDocs.dest.dir %>'}
+      ]
     },
-    buildLibrary: {},
+
+
+    buildLibrary: {
+      // Common vars
+      libDir: 'lib/',
+      libFileNamePrefix: 'libFile',
+      libSrcFiles: ['**/*.js'],
+
+      libFile: '<%= modularProject.buildLibrary.libDir %><%= modularProject.buildLibrary.libFileNamePrefix %>.js',
+      minLibFile: '<%= modularProject.buildLibrary.libDir %><%= modularProject.buildLibrary.libFileNamePrefix %>.min.js',
+
+      // Task config
+      clean: ['<%= modularProject.buildLibrary.libDir %>'],
+
+      copy: {
+        files: [{expand: true, cwd: '<%= modularProject.build.dev.jsDir %>', src: '<%= modularProject.buildLibrary.libSrcFiles %>', dest: '<%= modularProject.buildLibrary.libDir %>src'}]
+      },
+
+      concat: {
+        files: [{
+          src: ['<%= modularProject.buildLibrary.libDir %>src/**/*.js'],
+          dest: '<%= modularProject.buildLibrary.libFile %>'
+        }]
+      },
+
+      uglifyFiles: [{src: '<%= modularProject.buildLibrary.libFile %>', dest: '<%= modularProject.buildLibrary.minLibFile %>'}]
+    },
+
 
     buildHTML: {
+      // Public config
+      compiledCSSFiles: [],
+      compilableVendorJSFiles: [],
+      nonCompilableVendorJSFiles: [],
+      vendorJSDir: '<%= modularProject.output.vendorJSSubDir %>',
+
+      // Private config
       html: {
         copy: {
           files: [
             {expand: true, flatten: false, cwd: '<%= modularProject.src.html.dir %>', src: '<%= modularProject.src.html.files %>', dest: '<%= modularProject.build.dev.viewsDir %>'},
             {expand: true, flatten: true, cwd: '<%= modularProject.src.dir %>', src: '*.html', dest: '<%= modularProject.build.dev.dir %>'},
-            {expand: true, flatten: false, cwd: '<%= modularProject.src.dir %>', src: 'partials/*', dest: '<%= modularProject.build.dev.viewsDir %>'}
+            {expand: true, flatten: false, cwd: '<%= modularProject.src.dir %>', src: '<%= modularProject.input.modulePartials %>/*', dest: '<%= modularProject.build.dev.viewsDir %>'}
           ]
         },
         watch: [
           '<%= modularProject.src.html.dir %><%= modularProject.src.html.files %>',
           '<%= modularProject.src.dir %>*.html',
-          '<%= modularProject.src.dir %>partials/*'
+          '<%= modularProject.src.dir %><%= modularProject.input.modulePartials %>/*'
         ],
         filesWithTemplateTags: {
           files: [
@@ -294,7 +365,7 @@ module.exports = function(grunt) {
               rename: function (dest, src) {
                 grunt.log.writeln('Copy: ' + src + ', ' + dest);
                 // Remove the 'prefix/assets/ portion of the path
-                var assetsDirName = '/' + grunt.config('modularProject.src.assets.dirName') + '/';
+                var assetsDirName = '/' + grunt.config('modularProject.input.moduleAssets') + '/';
                 var moduleName = src.substr(0, src.indexOf(assetsDirName));
                 //grunt.log.ok('module name = ' + moduleName);
                 var newPath = src.substr(src.indexOf(assetsDirName) + 8);
@@ -304,11 +375,7 @@ module.exports = function(grunt) {
           ]
         },
         watch: ['<%= modularProject.src.modulesDir %>' + '<%= modularProject.src.assets.files %>']
-      },
-      vendorJSFiles: '<%= modularProject.options.vendor.compilableFiles %>',
-      vendorDir: '<%= modularProject.options.output.vendorSubDir %>',
-      externalJSFiles: '<%= modularProject.options.vendor.externalFiles %>',
-      compiledCSSFiles: '<%= modularProject.options.compiledCSSFiles %>'
+      }
     },
 
 
@@ -317,49 +384,49 @@ module.exports = function(grunt) {
         dir: '<%= modularProject.build.dev.dir %>',
         cssDir: '<%= modularProject.build.dev.cssDir %>',
         cssFiles: '*.css',
-        htmlFiles: ['<%= modularProject.options.output.viewsSubDir %>/**/*.html'],
+        htmlFiles: ['<%= modularProject.output.viewsSubDir %>/**/*.html'],
         imagesDir: '<%= modularProject.build.dev.assetsDir %>images/',
         jsFilesToConcat: [
           '<%= modularProject.build.dev.jsDir %>**/*.js'
         ],
         optimisedAssetFiles: [
-          '<%= modularProject.options.output.assetsSubDir %>font/**/*',
-          '<%= modularProject.options.output.assetsSubDir %>language/**/*'
+          '<%= modularProject.output.assetsSubDir %>font/**/*',
+          '<%= modularProject.output.assetsSubDir %>language/**/*'
         ]
       },
 
       dest: {
         dir: '<%= modularProject.build.prod.dir %>',
-        cssDir: '<%= modularProject.buildSite.dest.dir %><%= modularProject.options.output.cssSubDir %>',
+        cssDir: '<%= modularProject.buildSite.dest.dir %><%= modularProject.output.cssSubDir %>',
         cssFiles: ['<%= modularProject.buildSite.dest.cssDir %>*.css'],
         filesToRev: [
-          '<%= modularProject.buildSite.dest.dir %><%= modularProject.options.output.assetsSubDir %>font/*',
-          '<%= modularProject.buildSite.dest.dir %><%= modularProject.options.output.assetsSubDir %>images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-          '<%= modularProject.buildSite.dest.dir %><%= modularProject.options.output.cssSubDir %>*.css',
-          '<%= modularProject.buildSite.dest.dir %><%= modularProject.options.output.jsSubDir %>*.js',
-          '<%= modularProject.buildSite.dest.dir %><%= modularProject.options.output.vendorSubDir %>**/*.js'
+          '<%= modularProject.buildSite.dest.dir %><%= modularProject.output.assetsSubDir %>font/*',
+          '<%= modularProject.buildSite.dest.dir %><%= modularProject.output.assetsSubDir %>images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
+          '<%= modularProject.buildSite.dest.dir %><%= modularProject.output.cssSubDir %>*.css',
+          '<%= modularProject.buildSite.dest.dir %><%= modularProject.output.jsSubDir %>*.js',
+          '<%= modularProject.buildSite.dest.dir %><%= modularProject.output.vendorJSSubDir %>**/*.js'
         ],
         htmlFiles: [
           '<%= modularProject.buildSite.dest.dir %>*.html',
-          '<%= modularProject.buildSite.dest.dir %><%= modularProject.options.output.viewsSubDir %>**/*.html'],
-        assetDir: '<%= modularProject.buildSite.dest.dir %><%= modularProject.options.output.assetsSubDir %>',
-        imagesDir: '<%= modularProject.buildSite.dest.dir %><%= modularProject.options.output.assetsSubDir %>images/',
-        jsDir: '<%= modularProject.buildSite.dest.dir %><%= modularProject.options.output.jsSubDir %>',
+          '<%= modularProject.buildSite.dest.dir %><%= modularProject.output.viewsSubDir %>**/*.html'],
+        assetDir: '<%= modularProject.buildSite.dest.dir %><%= modularProject.output.assetsSubDir %>',
+        imagesDir: '<%= modularProject.buildSite.dest.dir %><%= modularProject.output.assetsSubDir %>images/',
+        jsDir: '<%= modularProject.buildSite.dest.dir %><%= modularProject.output.jsSubDir %>',
         jsMinFile: 'app.js'
       },
 
-      vendorJSFiles: '<%= modularProject.options.vendor.compilableFiles %>',
-      vendorDir: '<%= modularProject.options.output.vendorSubDir %>',
-      externalJSFiles: '<%= modularProject.options.vendor.externalFiles %>',
-      compiledCSSFiles: '<%= modularProject.options.compiledCSSFiles %>',
+      vendorJSFiles: '<%= modularProject.buildHTML.compilableVendorJSFiles %>',
+      vendorJSDir: '<%= modularProject.buildHTML.vendorJSDir %>',
+      externalJSFiles: '<%= modularProject.buildHTML.nonCompilableVendorJSFiles %>',
+      compiledCSSFiles: '<%= modularProject.buildHTML.compiledCSSFiles %>',
 
       copy: {
         files: [
           {expand: true, cwd: '<%= modularProject.build.dev.dir %>', src: '<%= modularProject.buildSite.src.optimisedAssetFiles %>', dest: '<%= modularProject.buildSite.dest.dir %>'},
           {expand: true, cwd: '<%= modularProject.build.dev.assetsDir %>', src: '*/{config,language}/**/*', dest: '<%= modularProject.buildSite.dest.assetDir %>'},
-          {expand: true, cwd: '<%= modularProject.build.dev.dir %>', src: '<%= modularProject.options.output.vendorSubDir %>**/*', dest: '<%= modularProject.buildSite.dest.dir %>'},
+          {expand: true, cwd: '<%= modularProject.build.dev.dir %>', src: '<%= modularProject.output.vendorJSSubDir %>**/*', dest: '<%= modularProject.buildSite.dest.dir %>'},
           {expand: true, cwd: '<%= modularProject.buildSite.src.dir %>', src: '<%= modularProject.buildSite.src.htmlFiles %>', dest: '<%= modularProject.buildSite.dest.dir %>'},
-          {expand: true, cwd: '<%= modularProject.options.srcDir %>', src: '*.html', dest: '<%= modularProject.buildSite.dest.dir %>'}
+          {expand: true, cwd: '<%= modularProject.input.srcDir %>', src: '*.html', dest: '<%= modularProject.buildSite.dest.dir %>'}
         ]
       },
 
@@ -371,6 +438,17 @@ module.exports = function(grunt) {
         {expand: true, cwd: '<%= modularProject.buildSite.dest.dir %>', src: '<%= modularProject.buildSite.src.htmlFiles %>', dest: '<%= modularProject.buildSite.dest.dir %>'},
         {expand: true, cwd: '<%= modularProject.buildSite.dest.dir %>', src: '*.html', dest: '<%= modularProject.buildSite.dest.dir %>'}
       ]
+    },
+
+
+    release: {
+      filesToBump: ['package.json', 'bower.json'],
+      filesToCommit: ['package.json', 'bower.json', 'CHANGELOG.md'],
+      tasks: []
+    },
+
+    optimise: {
+      tasks: ['mpBuildSite', 'beep:twobits']
     },
 
     serve: {
@@ -388,22 +466,27 @@ module.exports = function(grunt) {
 
     unitTest: {
       modulesDir: '<%= modularProject.src.modulesDir %>',
-      reportDir: '<%= modularProject.report.dir %>',
+      reportDir: '<%= modularProject.output.reportDir %>',
       baseConfig: '<%= modularProject.config.dir %>karma/karma.conf.js',
       browserConfig: '<%= modularProject.config.dir %>karma/karma.conf.js',
       CIConfig: '<%= modularProject.config.dir %>karma/karma.conf.js',
+      testLibraryFiles: [],
+
+      specs: '**/<%= modularProject.input.moduleUnitTest %>/*.spec.js',
+      specFiles: ['<%= modularProject.src.modulesDir %><%= modularProject.unitTest.specs %>'],
+
       testFiles: [
-        '<%= modularProject.options.testLibraryFiles %>',
+        '<%= modularProject.unitTest.testLibraryFiles %>',
 
         // Our source code
         '<%= modularProject.src.modulesDir %>**/_*.js',        // Need to load these next
         '<%= modularProject.src.modulesDir %>**/*.js',         // Then all other source files
 
         // HTML Templates (which are converted to JS files by ng-html2js
-        '<%= modularProject.src.modulesDir %>**/template/*.html',
+        '<%= modularProject.src.modulesDir %>**/<%= modularProject.input.moduleTemplates %>/*.html',
 
         // Test specs
-        '<%= modularProject.src.modulesDir %>**/<%= modularProject.options.moduleUnitTest %>/*.spec.js'
+        '<%= modularProject.unitTest.specFiles %>'
       ],
       excludeFiles: [
         '<%= modularProject.src.modulesDir %>docs/**/*.js',   // No need to test the docs module
@@ -418,16 +501,11 @@ module.exports = function(grunt) {
       }
     },
 
-    release: {
-      filesToBump: '<%= modularProject.options.release.filesToBump %>',
-      filesToCommit: '<%= modularProject.options.release.filesToCommit %>'
-    },
-
     verify: {
-      allFiles: ['<%= modularProject.src.modulesDir %>**/*.js', '<%= modularProject.config.gruntFiles %>', '<%= modularProject.test.specs %>'],
+      allFiles: ['<%= modularProject.src.modulesDir %>**/*.js', '<%= modularProject.config.gruntFiles %>', '<%= modularProject.unitTest.specFiles %>'],
       srcFiles: ['<%= modularProject.src.js.files %>', '<%= modularProject.config.gruntFiles %>'],
-      testFiles: ['<%= modularProject.test.specs %>'],
-      reportDir: '<%= modularProject.report.dir %>',
+      testFiles: ['<%= modularProject.unitTest.specFiles %>'],
+      reportDir: '<%= modularProject.output.reportDir %>',
       jshint: {
         baseConfig: '<%= modularProject.config.dir %>jshint/.jshintrc',
         testConfig: '<%= modularProject.config.dir %>jshint/.jshintrc',
@@ -445,26 +523,22 @@ module.exports = function(grunt) {
   (function init() {
     var path = require('path');
 
-    // Make sure you load the NPM tasks BEFORE processing the rest of the tasks
-    // The NPM packages required for this module MUST be in the parent-project's package.json file
-//    require('load-grunt-tasks')(grunt);
-
-//    grunt.log.writeln('0 Tasks-build: ' + JSON.stringify(grunt.config('modularProject.options.tasks', null, '\t')));
+//    grunt.log.writeln('0 Tasks-build: ' + JSON.stringify(grunt.config('modularProject.build.tasks', null, '\t')));
 
     // Get the existing module config, replace it with the above, then merge the original back
     var origConfig = grunt.config.getRaw('modularProject');
     grunt.config.set('modularProject', cfg);
-//    grunt.log.writeln('0.5 Tasks-build: ' + JSON.stringify(grunt.config('modularProject.options.tasks', null, '\t')));
+//    grunt.log.writeln('0.5 Tasks-build: ' + JSON.stringify(grunt.config('modularProject.build.tasks', null, '\t')));
     grunt.config.merge({ modularProject: origConfig });
 
 //    grunt.log.writeln('1 GruntFiles: ' + grunt.config('modularProject.config.gruntFiles'));
-//    grunt.log.writeln('1 Assets: ' + grunt.config('modularProject.src.assets.dirName'));
-//    grunt.log.writeln('1 Tasks-build: ' + JSON.stringify(grunt.config('modularProject.options.tasks', null, '\t')));
+//    grunt.log.writeln('1 Assets: ' + grunt.config('modularProject.input.moduleAssets'));
+//    grunt.log.writeln('1 Tasks-build: ' + JSON.stringify(grunt.config('modularProject.build.tasks', null, '\t')));
     //grunt.log.writeln('1 Options: ' + JSON.stringify(options, null, '\t'));
 
 
 //    grunt.log.writeln('2 GruntFiles: ' + grunt.config('modularProject.config.gruntFiles'));
-//    grunt.log.writeln('2 Assets: ' + grunt.config('modularProject.src.assets.dirName'));
+//    grunt.log.writeln('2 Assets: ' + grunt.config('modularProject.input.moduleAssets'));
 
     // Update the unitTest config with a dynamic key
     var preProcessorCoverageKey = '' + grunt.config('modularProject.src.modulesDir') + '**/!(*.spec).js';
@@ -481,15 +555,15 @@ module.exports = function(grunt) {
 
 
   grunt.registerTask('mpBuild', 'PRIVATE - do not use', function() {
-    grunt.log.writeln('mpBuild: ' + JSON.stringify(grunt.config('modularProject.options.tasks'), null, '  '));
-    grunt.log.writeln('mpBuild: ' + grunt.config('modularProject.options.tasks.build'));
-    grunt.task.run(grunt.config('modularProject.options.tasks.build'));
+    //grunt.log.writeln('mpBuild: ' + JSON.stringify(grunt.config('modularProject.buildJS'), null, '  '));
+    grunt.log.writeln('mpBuild: ' + grunt.config('modularProject.build.tasks'));
+    grunt.task.run(grunt.config('modularProject.build.tasks'));
   });
 
   grunt.registerTask('mpBuildUnoptimised', 'PRIVATE - do not use. Create an UN-optimised build', ['mpBuild']);
 
   grunt.registerTask('mpBuildOptimised', 'PRIVATE - do not use. Create an optimised build', function() {
-    var tasks = ['mpBuild'].concat(grunt.config('modularProject.options.tasks.optimise'));
+    var tasks = ['mpBuild'].concat(grunt.config('modularProject.optimise.tasks'));
     grunt.log.writeln('mpBuildOptimised: ' + tasks);
     grunt.task.run(tasks);
   });

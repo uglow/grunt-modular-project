@@ -1,6 +1,8 @@
 module.exports = function(grunt) {
   'use strict';
 
+  var config = grunt.config('modularProject.install');
+
   grunt.extendConfig({
     exec: {
       gittemplate: {
@@ -34,7 +36,7 @@ module.exports = function(grunt) {
   function installCommitHook() {
     mkdirp('.git/hooks');
 
-    var fileName = grunt.config.get('modularProject.options.git.commitHookFileRelativePath') || path.relative('.git/hooks', __dirname + '../../../config/git/validate-commit-msg.js');
+    var fileName = config.git.commitHookFileRelativePath || path.relative('.git/hooks', __dirname + '../../../config/git/validate-commit-msg.js');
     grunt.log.debug('Relative commit hook path: ' + fileName);
 
     try {
@@ -42,12 +44,12 @@ module.exports = function(grunt) {
     } catch (e) {
       // Ignore, it just means the symlink does not exist
     }
-
     symLink(fileName, '.git/hooks/commit-msg', 'file')
   }
 
+
   function installCommitTemplate() {
-    var pathToCommitMsgTemplate = grunt.config('modularProject.options.git.commitTemplate') || path.relative('./', __dirname + '../../../../config/git/git-commit-template.txt');
+    var pathToCommitMsgTemplate = config.git.commitTemplate || path.relative('./', __dirname + '../../../../config/git/git-commit-template.txt');
     grunt.log.debug('Commit message template path: ' + pathToCommitMsgTemplate);
     grunt.config.set('exec.gittemplate.command', 'git config commit.template ' + pathToCommitMsgTemplate);
     grunt.task.run(['exec:gittemplate']);
@@ -57,8 +59,8 @@ module.exports = function(grunt) {
 
   function putNodeOnPathForSourceTree() {
     // Link node to the /usr/bin folder, so that Sourcetree can see error messages when the commit-hook rejects a commit
-    var src = grunt.config('modularProject.options.node.localNodeJSEXEPath') || '/usr/local/bin/node';
-    var dest = grunt.config('modularProject.options.node.globalNodeJSXEPath') || '/usr/bin/node';
+    var src = config.node.localNodeJSEXEPath || '/usr/local/bin/node';
+    var dest = config.node.globalNodeJSXEPath || '/usr/bin/node';
     symLink(src, dest, 'file');
   }
 

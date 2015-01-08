@@ -13,6 +13,6 @@
 
   var data = '';
   ////@@include('//@@ROOT_DIRngFormLib/includes/includedFile.txt')
-  window.alert(data);
+  window.alert(data + 'xyx');
 
 })(window.angular);

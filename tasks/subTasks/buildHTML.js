@@ -28,8 +28,8 @@ module.exports = function(grunt) {
   });
 
   // This task takes a list of vendorJS files and turns it into a string containing <script> tags, stored in a config variable
-  grunt.config.set('targethtml.unoptimised.options.curlyTags.vendorScripts', util.generateHTMLScriptTags(config.vendorJSFiles, config.vendorDir));
-  grunt.config.set('targethtml.unoptimised.options.curlyTags.externalScripts', util.generateHTMLScriptTags(config.externalJSFiles, config.vendorDir));
+  grunt.config.set('targethtml.unoptimised.options.curlyTags.vendorScripts', util.generateHTMLScriptTags(config.compilableVendorJSFiles, config.vendorJSDir));
+  grunt.config.set('targethtml.unoptimised.options.curlyTags.externalScripts', util.generateHTMLScriptTags(config.nonCompilableVendorJSFiles, config.vendorJSDir));
 
   // This task takes a list of vendorJS files and turns it into a string containing <link> tags, stored in a config variable
   grunt.config.set('targethtml.unoptimised.options.curlyTags.cssFiles', util.generateHTMLLinkTags(config.compiledCSSFiles));

@@ -64,7 +64,7 @@ module.exports = function(grunt) {
     var target = versionChange || 'patch';
 
     var tasks = ['mpPreReleaseCheck', 'mpPreChangelog', 'bump-only' + ':' + target, 'changelog', 'bump-commit']
-      .concat(grunt.config('modularProject.options.tasks.release'));
+      .concat(config.tasks);
 
     grunt.log.writeln('release: ' + tasks);
     grunt.task.run(tasks);

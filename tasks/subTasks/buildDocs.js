@@ -103,8 +103,8 @@ module.exports = function(grunt) {
   });
 
 
-  grunt.config.set('targethtml.docs.options.curlyTags.vendorScripts', util.generateHTMLScriptTags(config.vendorJSFiles, config.vendorDir));
-  grunt.config.set('targethtml.docs.options.curlyTags.externalScripts', util.generateHTMLScriptTags(config.externalJSFiles, config.vendorDir));
+  grunt.config.set('targethtml.docs.options.curlyTags.vendorScripts', util.generateHTMLScriptTags(config.vendorJSFiles, config.vendorJSDir));
+  grunt.config.set('targethtml.docs.options.curlyTags.externalScripts', util.generateHTMLScriptTags(config.externalJSFiles, config.vendorJSDir));
   grunt.config.set('targethtml.docs.options.curlyTags.cssFiles', util.generateHTMLLinkTags(config.compiledCSSFiles));
 
 
