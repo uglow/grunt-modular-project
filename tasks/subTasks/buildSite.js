@@ -1,7 +1,8 @@
 module.exports = function(grunt) {
   'use strict';
 
-  var util = require('../lib/utils.js');
+  var path = require('path');
+  var util = require(path.resolve(__dirname + '/../lib/utils.js'));
   var config = grunt.config('modularProject.buildSite');
 
   grunt.task.loadNpmTasks('grunt-usemin');
