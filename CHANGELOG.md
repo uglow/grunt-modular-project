@@ -1,3 +1,12 @@
+<a name="0.3.1"></a>
+### 0.3.1 (2015-01-09)
+
+
+#### Features
+
+* **build:** Remove `releaseDocs` task and surface the allJSSrc watch task for customisation ([c8389734](http://github.com/uglow/grunt-modular-project/commit/c838973481bfd5ec3933431c0ad7ca4381f28075))
+
+
 <a name="0.3.0"></a>
 ## 0.3.0 (2015-01-09)
 
