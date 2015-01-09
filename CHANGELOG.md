@@ -1,3 +1,12 @@
+<a name="0.3.2"></a>
+### 0.3.2 (2015-01-09)
+
+
+#### Features
+
+* **build:** Added reference to Gruntfile.js and project using this plugin ([42424ebd](http://github.com/uglow/grunt-modular-project/commit/42424ebdda72dc0760ba2eae4c1ad4d901a69cd2))
+
+
 <a name="0.3.1"></a>
 ### 0.3.1 (2015-01-09)
 
