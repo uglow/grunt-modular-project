@@ -68,6 +68,22 @@ module.exports = function(grunt) {
         ]
       },
 
+      optimise: {
+        tasks: ['mpBuildLibrary', 'mpOptimise', 'beep:twobits'],
+
+        // Modify the optimise task so that it builds the docs.js files together, and copies the library JS file to the output
+        // Also need to disable whitespace escaping due to the use of <pre><code> blocks (can't get htmlmin to ignroe blocks at the moment)
+        jsMinFile: 'ng-form-lib-docs.js',
+        jsFilesToConcat: ['<%= modularProject.build.dev.jsDir %>**/docs.js'],
+        filesToCopy: [{expand: true, flatten: true, src: '<%= modularProject.buildLibrary.libFile %>', dest: '<%= modularProject.optimise.dest.jsDir %>'}],
+        htmlmin: {
+          options: {
+            collapseWhitespace: false
+          }
+        }
+      },
+
+
       // Custom config for building a JS library - used by the mpBuildLibrary task
       buildLibrary: {
         libFileNamePrefix: 'ng-form-lib',
@@ -78,10 +94,6 @@ module.exports = function(grunt) {
         filesToBump: ['package.json'],
         filesToCommit: ['package.json', 'CHANGELOG.md']
         //tasks: ['releaseDocs']
-      },
-
-      optimise: {
-        tasks: ['mpBuildLibrary', 'mpBuildDocs', 'beep:twobits']
       },
 
       unitTest: {

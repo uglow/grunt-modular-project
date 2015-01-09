@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
 
-    <!--(if target unoptimised || docs || site)>
+    <!--(if target unoptimised || optimised)>
     {{cssFiles}}
     <!(endif)-->
 
@@ -47,7 +47,7 @@
   <script src="//cdnjs.cloudflare.com/ajax/libs/json3/3.3.2/json3.min.js"></script>
   <![endif]-->
 
-  <!--(if target unoptimised || site || docs)>
+  <!--(if target unoptimised || optimised)>
   {{vendorScripts}}
   {{externalScripts}}
   <!(endif)-->
@@ -85,13 +85,10 @@
   <script src="js/ngFormLib/controls/requiredMarker/docs.js"></script>
   <!(endif)-->
 
-  <!--(if target docs)>
+
+  <!--(if target optimised)>
   <script src="js/ng-form-lib-docs.js"></script>
   <script src="js/ng-form-lib.js"></script>
-  <!(endif)-->
-
-  <!--(if target site)>
-  <script src="js/app.js"></script>
   <!(endif)-->
 
 

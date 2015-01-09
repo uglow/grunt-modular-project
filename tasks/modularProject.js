@@ -216,74 +216,6 @@ module.exports = function(grunt) {
       }
     },
 
-
-    buildDocs: {
-      // Public config
-      preOptimisedAssetFiles: [
-        '*/font/**/*',
-        '*/language/**/*',
-        '*/config/**/*'
-      ],
-      jsMinFile: 'ng-form-lib-docs.js',
-
-      // Private config
-      src: {
-        dir: '<%= modularProject.build.dev.dir %>',
-        cssDir: '<%= modularProject.build.dev.cssDir %>',
-        cssFiles: '*.css',
-        htmlFiles: ['<%= modularProject.output.viewsSubDir %>/**/*.html'],
-        imagesDir: '<%= modularProject.build.dev.assetsDir %>images/',
-        jsFilesToConcat: [
-          '<%= modularProject.build.dev.jsDir %>**/docs.js'
-        ]
-      },
-
-      dest: {
-        dir: '<%= modularProject.build.prod.dir %>',
-        cssDir: '<%= modularProject.buildDocs.dest.dir %><%= modularProject.output.cssSubDir %>',
-        cssFiles: ['<%= modularProject.buildDocs.dest.cssDir %>*.css'],
-        filesToRev: [
-          '<%= modularProject.buildDocs.dest.dir %><%= modularProject.output.assetsSubDir %>font/*',
-          '<%= modularProject.buildDocs.dest.dir %><%= modularProject.output.assetsSubDir %>images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-          '<%= modularProject.buildDocs.dest.dir %><%= modularProject.output.cssSubDir %>*.css',
-          '<%= modularProject.buildDocs.dest.dir %><%= modularProject.output.jsSubDir %>*.js',
-          '<%= modularProject.buildDocs.dest.dir %><%= modularProject.output.vendorJSSubDir %>**/*.js'
-        ],
-        htmlFiles: [
-          '<%= modularProject.buildDocs.dest.dir %>*.html',
-          '<%= modularProject.buildDocs.dest.dir %><%= modularProject.output.viewsSubDir %>**/*.html'
-        ],
-        assetDir: '<%= modularProject.buildDocs.dest.dir %><%= modularProject.output.assetsSubDir %>',
-        imagesDir: '<%= modularProject.buildDocs.dest.dir %><%= modularProject.output.assetsSubDir %>images/',
-        jsDir: '<%= modularProject.buildDocs.dest.dir %><%= modularProject.output.jsSubDir %>',
-      },
-
-      vendorJSDir: '<%= modularProject.buildHTML.vendorJSDir %>',
-      vendorJSFiles: '<%= modularProject.buildHTML.compilableVendorJSFiles %>',
-      externalJSFiles: '<%= modularProject.buildHTML.nonCompilableVendorJSFiles %>',
-      compiledCSSFiles: '<%= modularProject.buildHTML.compiledCSSFiles %>',
-
-      copy: {
-        files: [
-          {expand: true, cwd: '<%= modularProject.build.dev.assetsDir %>', src: ['<%= modularProject.buildDocs.preOptimisedAssetFiles %>'], dest: '<%= modularProject.buildDocs.dest.assetDir %>'},
-          {expand: true, flatten: true, src: '<%= modularProject.buildLibrary.libFile %>', dest: '<%= modularProject.buildDocs.dest.jsDir %>'},
-          {expand: true, cwd: '<%= modularProject.build.dev.dir %>', src: '<%= modularProject.output.vendorJSSubDir %>**/*', dest: '<%= modularProject.buildDocs.dest.dir %>'},
-          {expand: true, cwd: '<%= modularProject.buildDocs.src.dir %>', src: '<%= modularProject.buildDocs.src.htmlFiles %>', dest: '<%= modularProject.buildDocs.dest.dir %>'},
-          {expand: true, cwd: '<%= modularProject.input.srcDir %>', src: '*.html', dest: '<%= modularProject.buildDocs.dest.dir %>'}
-        ]
-      },
-
-      targethtml: {
-        files: [{src: '<%= modularProject.buildDocs.dest.dir %>*.html', dest: '<%= modularProject.buildDocs.dest.dir %>'}]
-      },
-
-      htmlminFiles: [
-        {expand: true, cwd: '<%= modularProject.buildDocs.dest.dir %>', src: '<%= modularProject.buildDocs.src.htmlFiles %>', dest: '<%= modularProject.buildDocs.dest.dir %>'},
-        {expand: true, cwd: '<%= modularProject.buildDocs.dest.dir %>', src: '*.html', dest: '<%= modularProject.buildDocs.dest.dir %>'}
-      ]
-    },
-
-
     buildLibrary: {
       // Public config
       libDir: 'lib/',
@@ -366,14 +298,19 @@ module.exports = function(grunt) {
     },
 
 
-    buildSite: {
+    optimise: {
       // Public config
+      tasks: ['mpOptimise', 'beep:twobits'],
       preOptimisedAssetFiles: [
         '*/font/**/*',
         '*/language/**/*',
         '*/config/**/*'
       ],
       jsMinFile: 'app.js',
+      jsFilesToConcat: [
+        '<%= modularProject.build.dev.jsDir %>**/*.js'
+      ],
+      filesToCopy: [],
 
       // Private config
       src: {
@@ -381,57 +318,63 @@ module.exports = function(grunt) {
         cssDir: '<%= modularProject.build.dev.cssDir %>',
         cssFiles: '*.css',
         htmlFiles: ['<%= modularProject.output.viewsSubDir %>/**/*.html'],
-        imagesDir: '<%= modularProject.build.dev.assetsDir %>images/',
-        jsFilesToConcat: [
-          '<%= modularProject.build.dev.jsDir %>**/*.js'
-        ]
+        imagesDir: '<%= modularProject.build.dev.assetsDir %>images/'
       },
 
       dest: {
         dir: '<%= modularProject.build.prod.dir %>',
-        cssDir: '<%= modularProject.buildSite.dest.dir %><%= modularProject.output.cssSubDir %>',
-        cssFiles: ['<%= modularProject.buildSite.dest.cssDir %>*.css'],
+        cssDir: '<%= modularProject.optimise.dest.dir %><%= modularProject.output.cssSubDir %>',
+        cssFiles: ['<%= modularProject.optimise.dest.cssDir %>*.css'],
         filesToRev: [
-          '<%= modularProject.buildSite.dest.dir %><%= modularProject.output.assetsSubDir %>font/*',
-          '<%= modularProject.buildSite.dest.dir %><%= modularProject.output.assetsSubDir %>images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-          '<%= modularProject.buildSite.dest.dir %><%= modularProject.output.cssSubDir %>*.css',
-          '<%= modularProject.buildSite.dest.dir %><%= modularProject.output.jsSubDir %>*.js',
-          '<%= modularProject.buildSite.dest.dir %><%= modularProject.output.vendorJSSubDir %>**/*.js'
+          '<%= modularProject.optimise.dest.dir %><%= modularProject.output.assetsSubDir %>font/*',
+          '<%= modularProject.optimise.dest.dir %><%= modularProject.output.assetsSubDir %>images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
+          '<%= modularProject.optimise.dest.dir %><%= modularProject.output.cssSubDir %>*.css',
+          '<%= modularProject.optimise.dest.dir %><%= modularProject.output.jsSubDir %>*.js',
+          '<%= modularProject.optimise.dest.dir %><%= modularProject.output.vendorJSSubDir %>**/*.js'
         ],
         htmlFiles: [
-          '<%= modularProject.buildSite.dest.dir %>*.html',
-          '<%= modularProject.buildSite.dest.dir %><%= modularProject.output.viewsSubDir %>**/*.html'],
-        assetDir: '<%= modularProject.buildSite.dest.dir %><%= modularProject.output.assetsSubDir %>',
-        imagesDir: '<%= modularProject.buildSite.dest.dir %><%= modularProject.output.assetsSubDir %>images/',
-        jsDir: '<%= modularProject.buildSite.dest.dir %><%= modularProject.output.jsSubDir %>',
+          '<%= modularProject.optimise.dest.dir %>*.html',
+          '<%= modularProject.optimise.dest.dir %><%= modularProject.output.viewsSubDir %>**/*.html'
+        ],
+        assetDir: '<%= modularProject.optimise.dest.dir %><%= modularProject.output.assetsSubDir %>',
+        imagesDir: '<%= modularProject.optimise.dest.dir %><%= modularProject.output.assetsSubDir %>images/',
+        jsDir: '<%= modularProject.optimise.dest.dir %><%= modularProject.output.jsSubDir %>'
       },
 
-      vendorJSFiles: '<%= modularProject.buildHTML.compilableVendorJSFiles %>',
       vendorJSDir: '<%= modularProject.buildHTML.vendorJSDir %>',
+      vendorJSFiles: '<%= modularProject.buildHTML.compilableVendorJSFiles %>',
       externalJSFiles: '<%= modularProject.buildHTML.nonCompilableVendorJSFiles %>',
       compiledCSSFiles: '<%= modularProject.buildHTML.compiledCSSFiles %>',
 
       copy: {
         files: [
-          {expand: true, cwd: '<%= modularProject.build.dev.assetsDir %>', src: ['<%= modularProject.buildSite.preOptimisedAssetFiles %>'], dest: '<%= modularProject.buildSite.dest.assetDir %>'},
-          {expand: true, cwd: '<%= modularProject.build.dev.dir %>', src: '<%= modularProject.output.vendorJSSubDir %>**/*', dest: '<%= modularProject.buildSite.dest.dir %>'},
-          {expand: true, cwd: '<%= modularProject.buildSite.src.dir %>', src: '<%= modularProject.buildSite.src.htmlFiles %>', dest: '<%= modularProject.buildSite.dest.dir %>'},
-          {expand: true, cwd: '<%= modularProject.input.srcDir %>', src: '*.html', dest: '<%= modularProject.buildSite.dest.dir %>'}
+          '<%= modularProject.optimise.filesToCopy %>',
+          {expand: true, cwd: '<%= modularProject.build.dev.assetsDir %>', src: ['<%= modularProject.optimise.preOptimisedAssetFiles %>'], dest: '<%= modularProject.optimise.dest.assetDir %>'},
+          {expand: true, cwd: '<%= modularProject.build.dev.dir %>', src: '<%= modularProject.output.vendorJSSubDir %>**/*', dest: '<%= modularProject.optimise.dest.dir %>'},
+          {expand: true, cwd: '<%= modularProject.optimise.src.dir %>', src: '<%= modularProject.optimise.src.htmlFiles %>', dest: '<%= modularProject.optimise.dest.dir %>'},
+          {expand: true, cwd: '<%= modularProject.input.srcDir %>', src: '*.html', dest: '<%= modularProject.optimise.dest.dir %>'}
         ]
       },
 
       targethtml: {
-        files: [{src: '<%= modularProject.buildSite.dest.dir %>*.html', dest: '<%= modularProject.buildSite.dest.dir %>'}]
+        files: [{src: '<%= modularProject.optimise.dest.dir %>*.html', dest: '<%= modularProject.optimise.dest.dir %>'}]
       },
 
-      htmlminFiles: [
-        {expand: true, cwd: '<%= modularProject.buildSite.dest.dir %>', src: '<%= modularProject.buildSite.src.htmlFiles %>', dest: '<%= modularProject.buildSite.dest.dir %>'},
-        {expand: true, cwd: '<%= modularProject.buildSite.dest.dir %>', src: '*.html', dest: '<%= modularProject.buildSite.dest.dir %>'}
-      ]
-    },
-
-    optimise: {
-      tasks: ['mpBuildSite', 'beep:twobits']
+      htmlmin: {
+        options: {
+          collapseWhitespace: true,
+          conservativeCollapse: true,
+          collapseBooleanAttributes: false,   // Setting this to true will reduce the required="true" attribute to required, which breaks the app.
+          removeAttributeQuotes: true,
+          removeComments: true,
+          removeCommentsFromCDATA: true,
+          removeOptionalTags: true
+        },
+        files: [
+          {expand: true, cwd: '<%= modularProject.optimise.dest.dir %>', src: '<%= modularProject.optimise.src.htmlFiles %>', dest: '<%= modularProject.optimise.dest.dir %>'},
+          {expand: true, cwd: '<%= modularProject.optimise.dest.dir %>', src: '*.html', dest: '<%= modularProject.optimise.dest.dir %>'}
+        ]
+      }
     },
 
     release: {

@@ -108,7 +108,8 @@ grunt.initConfig({
       compilableVendorJSFiles: [],
       nonCompilableVendorJSFiles: [],
     },
-    buildSite: {
+    optimise: {
+      tasks: ['mpOptimise', 'beep:twobits'],
       preOptimisedAssetFiles: [
         '*/font/**/*',
         '*/language/**/*',
@@ -117,7 +118,7 @@ grunt.initConfig({
       jsMinFile: 'app.js'
     },
     optimise: {
-      tasks: ['mpBuildSite', 'beep:twobits']
+      tasks: ['mpoptimise', 'beep:twobits']
     },
     release: {
       filesToBump: ['package.json', 'bower.json'],
@@ -293,7 +294,7 @@ grunt.initConfig({
       tasks: ['releaseDocs']
     },
     optimise: {
-      tasks: ['mpBuildLibrary', 'mpBuildDocs', 'beep:twobits']
+      tasks: ['mpBuildLibrary', 'mpOptimise', 'beep:twobits']
     },
     unitTest: {
       testLibraryFiles: [
