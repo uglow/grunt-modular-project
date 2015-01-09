@@ -80,6 +80,10 @@ module.exports = function(grunt) {
       vendorJS: {
         files: config.watch.vendorJS.files,
         tasks: ['copy:vendorJS']
+      },
+      js: {
+        files: config.watch.allJSSrc.files,
+        tasks: config.watch.allJSSrc.tasks
       }
     }
   });

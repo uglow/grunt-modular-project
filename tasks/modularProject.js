@@ -205,7 +205,9 @@ module.exports = function(grunt) {
           files: [
             '<%= modularProject.input.modulesDir %>**/*.js',
             '<%= modularProject.config.gruntFiles %>',
-            '<%= modularProject.input.modulesDir %><%= modularProject.unitTest.specs %>']
+            '<%= modularProject.input.modulesDir %><%= modularProject.unitTest.specs %>'
+          ],
+          tasks: ['mpBuildJS', 'newer:jshint:all', 'newer:jscs:all', 'karma:unit']
         },
         jsHtmlTemplates: {
           files: ['<%= modularProject.input.modulesDir %><%= modularProject.input.templateHTMLFiles %>']

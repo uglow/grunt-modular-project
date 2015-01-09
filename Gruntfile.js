@@ -93,7 +93,6 @@ module.exports = function(grunt) {
       release: {
         filesToBump: ['package.json'],
         filesToCommit: ['package.json', 'CHANGELOG.md']
-        //tasks: ['releaseDocs']
       },
 
       unitTest: {
