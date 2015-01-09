@@ -21,6 +21,8 @@ grunt.loadNpmTasks('grunt-modular-project');
 
 ## The "grunt-modular-project" task
 
+Example of a project using this plugin: [angular-form-library](https://github.com/uglow/angular-form-library)
+
 ###Key features###
 - Source code is structured into modules
 - No need for "global" folders - create a module called `global` instead

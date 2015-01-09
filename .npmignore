@@ -6,7 +6,6 @@
 /reports
 /lib
 /testsrc
-Gruntfile.js
 npm-debug.log
 *.tar.gz
 
