@@ -1,3 +1,12 @@
+<a name="0.3.3"></a>
+### 0.3.3 (2015-01-09)
+
+
+#### Bug Fixes
+
+* **readme:** Fixed incorrect module configuration name to `modularProject` ([773ef2f9](http://github.com/uglow/grunt-modular-project/commit/773ef2f90683876ff1b5c061a1a96b03594683e9))
+
+
 <a name="0.3.2"></a>
 ### 0.3.2 (2015-01-09)
 

@@ -1,7 +1,7 @@
 {
   "name": "grunt-modular-project",
   "description": "The best Grunt plugin ever.",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "homepage": "https://github.com/uglow/grunt-modular-project",
   "author": {
     "name": "Brett Uglow",
