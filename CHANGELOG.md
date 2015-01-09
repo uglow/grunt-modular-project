@@ -1,3 +1,12 @@
+<a name="0.3.0"></a>
+## 0.3.0 (2015-01-09)
+
+
+#### Features
+
+* **optimise:** Remove buildDocs & buildSite and replace with 'optimise' task which supports bot ([b190aa13](http://github.com/uglow/grunt-modular-project/commit/b190aa132adaab21769fa9e62b14b9dd00f12e69))
+
+
 <a name="0.2.0"></a>
 ## 0.2.0 (2015-01-08)
 
