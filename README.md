@@ -63,7 +63,7 @@ In your project's Gruntfile, add a section named `moduleProject` to the data obj
 
 ```js
 grunt.initConfig({
-  moduleProject: {
+  modularProject: {
   },
 });
 ```
@@ -73,7 +73,7 @@ These are the configurable default options for this task:
 
 ```js
 grunt.initConfig({
-  modular_project: {
+  modularProject: {
     input: {
       srcDir: 'src/',
       modulesDir: 'src/modules/',
