@@ -8,10 +8,6 @@
 * **templateTag:** Add {{appScripts}} tag to be replaced by module script-tags in HTML ([4b14013f](http://github.com/uglow/grunt-modular-project/commit/4b14013f7ee5c19f068153af01a43cb3ebcf0e32))
 
 
-<a name="0.3.4"></a>
-### 0.3.4 (2015-01-14)
-
-
 <a name="0.3.3"></a>
 ### 0.3.3 (2015-01-09)
 
