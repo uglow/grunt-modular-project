@@ -2,6 +2,7 @@ module.exports = function(grunt) {
   'use strict';
 
   var config = grunt.config.get('modularProject.serve');
+  var compression = require('compression');
 
   grunt.extendConfig({
     mpServe: {
@@ -16,7 +17,14 @@ module.exports = function(grunt) {
           base: config.dev.baseDir,
           port: config.dev.port,
           hostname: config.dev.hostname,
-          livereload: 35729
+          livereload: 35729,
+          middleware: function(connect, options, middlewares) {
+            if (config.useCompression) {
+              // inject a custom middleware into the array of default middlewares
+              middlewares.unshift(compression());
+            }
+            return middlewares;
+          }
         }
       },
       prod: {
@@ -24,8 +32,15 @@ module.exports = function(grunt) {
           open: false,
           base: config.prod.baseDir,
           port: config.prod.port,
-          hostname: config.dev.hostname,
-          keepalive: true
+          hostname: config.prod.hostname,
+          keepalive: true,
+          middleware: function(connect, options, middlewares) {
+            if (config.prod.useCompression) {
+              // inject a custom middleware into the array of default middlewares
+              middlewares.unshift(compression());
+            }
+            return middlewares;
+          }
         }
       }
     }

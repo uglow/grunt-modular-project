@@ -388,12 +388,14 @@ module.exports = function(grunt) {
       dev: {
         baseDir: ['<%= modularProject.build.dev.dir %>'],
         port: 8000,
-        hostname: 'localhost'
+        hostname: 'localhost',
+        useCompression: false
       },
       prod: {
         baseDir: ['<%= modularProject.build.prod.dir %>'],
         port: 8000,
-        hostname: 'localhost'
+        hostname: 'localhost',
+        useCompression: true
       }
     },
 
