@@ -312,6 +312,8 @@ module.exports = function(grunt) {
       jsMinFile: 'app.js',
       jsMinFileSpec: {cwd: '<%= modularProject.optimise.dest.dir %>', src: '<%= modularProject.output.jsSubDir %><%= modularProject.optimise.jsMinFile %>'},
       jsFilesToConcat: [
+        // Note that we *could* concat the vendor JS files here too, and the library file.
+        // But instead we use a this as the default and allow customisation/overriding with more aggressive optimisation
         '<%= modularProject.build.dev.jsDir %>**/*.js'
       ],
       filesToCopy: [],

@@ -14,7 +14,7 @@ module.exports = function(grunt) {
       pre: ['clean:optimised'],
       images: ['concurrent:optimisedImages'],
       copyAlreadyOptimisedAndHTMLInPreparationForOptimisation: ['copy:optimised'],
-      optimiseJS: ['concat:optimised'],
+      optimiseJS: ['concat:optimised', 'uglify:optimised'],
       useOptimisedHTMLFragments: ['mpOptimiseHTMLTags', 'targethtml:optimised'],
       fileRevAssets: ['filerev:optimised', 'useminOptimised'],
       postHTMLProcessing: ['htmlmin:optimised']
@@ -73,6 +73,27 @@ module.exports = function(grunt) {
 
     htmlmin: {
       optimised: config.htmlmin
+    },
+
+
+    uglify: {
+      optimised: {
+        options: {
+          report: 'min',
+          compress: {
+            /* Conditional compilation vars are conditionally removed by this step.
+             * Leave prod.json > CONDITIONAL_COMPILATION as '' and set variables here (to remove left-over code)*/
+            'global_defs': {
+              //"DEBUG": '<%= env.environment.debugMode %>'
+            },
+            'dead_code': true
+          },
+          mangle: true
+        },
+        files: [
+          {src: config.dest.jsDir + config.jsMinFile, dest: config.dest.jsDir + config.jsMinFile}
+        ]
+      }
     },
 
     useminOptimised: {
