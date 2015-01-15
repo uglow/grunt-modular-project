@@ -1,3 +1,12 @@
+<a name="0.3.6"></a>
+### 0.3.6 (2015-01-16)
+
+
+#### Features
+
+* **uglify:** Add missing uglify optimisation for /dev/js/**/*.js files (by default) ([5a26b863](http://github.com/uglow/grunt-modular-project/commit/5a26b8634907699db65c7cb22aa817bb4c325aee))
+
+
 <a name="0.3.5"></a>
 ### 0.3.5 (2015-01-16)
 
