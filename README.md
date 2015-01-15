@@ -41,6 +41,7 @@ Example of a project using this plugin: [angular-form-library](https://github.co
 - File-revving (cache-busting) and image+CSS+HTML+JS optimization for production builds
 - Vendor specific libraries such as jQuery can be downloaded via Bower and used by editing `Gruntfile.js` to make them available to web-pages via the `{{vendorScripts}}` template-tag.
 - Ability to define your own task-wiring from the provided tasks (not locked-in to the default approach)
+- Ability to use special template-tags in HTML pages to refer to `{{vendorScripts}}`, `{{externalScripts}}`, `{{cssFiles}}` and `{{appScripts}}`
 
 
 ### <a name="dev"></a> Tasks

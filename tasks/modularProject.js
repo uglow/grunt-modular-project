@@ -136,6 +136,7 @@ module.exports = function(grunt) {
       tempJSDir: '<%= modularProject.build.temp.dir %>js/',
       tempTemplateDir: '<%= modularProject.build.temp.dir %><%= modularProject.input.moduleTemplates %>/',
       vendorJSFiles: ['<%= modularProject.buildHTML.compilableVendorJSFiles %>', '<%= modularProject.buildHTML.nonCompilableVendorJSFiles %>'],
+      compiledAppJSFiles: {cwd: '<%= modularProject.build.dev.dir %>', src: ['<%= modularProject.output.jsSubDir %>**/*.js']},
 
       // Tasks
       clean: ['<%= modularProject.buildJS.tempTemplateDir %>', '<%= modularProject.buildJS.tempJSDir %>', '<%= modularProject.build.dev.vendorJSDir %>', '<%= modularProject.build.dev.jsDir %>'],
@@ -251,9 +252,9 @@ module.exports = function(grunt) {
       compiledCSSFiles: [],
       compilableVendorJSFiles: [],
       nonCompilableVendorJSFiles: [],
-      vendorJSDir: '<%= modularProject.output.vendorJSSubDir %>',
 
       // Private config
+      compiledCSSFileSpec: {cwd: '<%= modularProject.build.dev.dir %>', src: ['<%= modularProject.buildHTML.compiledCSSFiles %>']},
       html: {
         copy: {
           files: [
@@ -309,6 +310,7 @@ module.exports = function(grunt) {
         '*/config/**/*'
       ],
       jsMinFile: 'app.js',
+      jsMinFileSpec: {cwd: '<%= modularProject.optimise.dest.dir %>', src: '<%= modularProject.output.jsSubDir %><%= modularProject.optimise.jsMinFile %>'},
       jsFilesToConcat: [
         '<%= modularProject.build.dev.jsDir %>**/*.js'
       ],
@@ -343,10 +345,7 @@ module.exports = function(grunt) {
         jsDir: '<%= modularProject.optimise.dest.dir %><%= modularProject.output.jsSubDir %>'
       },
 
-      vendorJSDir: '<%= modularProject.buildHTML.vendorJSDir %>',
       vendorJSFiles: '<%= modularProject.buildHTML.compilableVendorJSFiles %>',
-      externalJSFiles: '<%= modularProject.buildHTML.nonCompilableVendorJSFiles %>',
-      compiledCSSFiles: '<%= modularProject.buildHTML.compiledCSSFiles %>',
 
       copy: {
         files: [

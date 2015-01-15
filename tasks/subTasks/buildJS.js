@@ -1,7 +1,8 @@
 module.exports = function(grunt) {
   'use strict';
 
-
+  var path = require('path');
+  var util = require(path.resolve(__dirname + '/../lib/utils.js'));
   var config = grunt.config('modularProject.buildJS');
 
 //  grunt.log.ok('BUILD_JS: ' + config);
@@ -136,7 +137,7 @@ module.exports = function(grunt) {
   });
 
 
-  grunt.registerTask('mpBuildJS', 'PRIVATE - do not use', function() {
+  grunt.registerTask('mpBuildJS', function() {
 
     grunt.task.run([
       'clean:buildJS',
@@ -148,6 +149,7 @@ module.exports = function(grunt) {
       'includereplace:js',
       'concat:moduleJS'
     ]);
+
   });
 
 };

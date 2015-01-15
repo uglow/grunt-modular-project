@@ -15,7 +15,7 @@ module.exports = function(grunt) {
       images: ['concurrent:optimisedImages'],
       copyAlreadyOptimisedAndHTMLInPreparationForOptimisation: ['copy:optimised'],
       optimiseJS: ['concat:optimised'],
-      useOptimisedHTMLFragments: ['targethtml:optimised'],
+      useOptimisedHTMLFragments: ['mpOptimiseHTMLTags', 'targethtml:optimised'],
       fileRevAssets: ['filerev:optimised', 'useminOptimised'],
       postHTMLProcessing: ['htmlmin:optimised']
     },
@@ -84,9 +84,14 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.config.set('targethtml.optimised.options.curlyTags.vendorScripts', util.generateHTMLScriptTags(config.vendorJSFiles, config.vendorJSDir));
-  grunt.config.set('targethtml.optimised.options.curlyTags.externalScripts', util.generateHTMLScriptTags(config.externalJSFiles, config.vendorJSDir));
-  grunt.config.set('targethtml.optimised.options.curlyTags.cssFiles', util.generateHTMLLinkTags(config.compiledCSSFiles));
+
+  grunt.registerTask('mpOptimiseHTMLTags', [
+    'mpSetHTMLTag:modularProject.buildHTML.compilableVendorJSFiles:optimised:vendorScripts:script:modularProject.output.vendorJSSubDir',
+    'mpSetHTMLTag:modularProject.buildHTML.nonCompilableVendorJSFiles:optimised:externalScripts:script:modularProject.output.vendorJSSubDir',
+    'mpSetHTMLTag:modularProject.buildHTML.compiledCSSFileSpec:optimised:cssFiles:link',
+    'mpSetHTMLTag:modularProject.optimise.jsMinFileSpec:optimised:appScripts:script'
+  ]);
+
 
   grunt.registerMultiTask('mpOptimise', 'Optimise the website for production', function () {
     grunt.log.writeln(this.target + ': ' + this.data);

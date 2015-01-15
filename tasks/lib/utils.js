@@ -17,11 +17,13 @@ function generateTags(files, templateFn, prefixPath) {
   return result;
 }
 
+var tagTypeFn = {
+  'script': scriptTemplateFn,
+  'link': linkTemplateFn
+};
+
 module.exports = {
-  generateHTMLScriptTags: function (files, prefixPath) {
-    return generateTags(files, scriptTemplateFn, prefixPath);
-  },
-  generateHTMLLinkTags: function (files, prefixPath) {
-    return generateTags(files, linkTemplateFn, prefixPath);
+  generateHTMLTags: function (type, files, prefixPath) {
+    return generateTags(files, tagTypeFn[type], prefixPath);
   }
 };

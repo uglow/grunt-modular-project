@@ -19,7 +19,7 @@ module.exports = function(grunt) {
     watch: {
       html: {
         files: config.html.watch,
-        tasks: ['copy:html', 'targethtml:unoptimised']
+        tasks: ['copy:html', 'mpBuildHTMLUnoptimisedTags', 'targethtml:unoptimised']
       },
       moduleAssets: {
         files: config.moduleAssets.watch,
@@ -28,15 +28,37 @@ module.exports = function(grunt) {
     }
   });
 
-  // This task takes a list of vendorJS files and turns it into a string containing <script> tags, stored in a config variable
-  grunt.config.set('targethtml.unoptimised.options.curlyTags.vendorScripts', util.generateHTMLScriptTags(config.compilableVendorJSFiles, config.vendorJSDir));
-  grunt.config.set('targethtml.unoptimised.options.curlyTags.externalScripts', util.generateHTMLScriptTags(config.nonCompilableVendorJSFiles, config.vendorJSDir));
 
-  // This task takes a list of vendorJS files and turns it into a string containing <link> tags, stored in a config variable
-  grunt.config.set('targethtml.unoptimised.options.curlyTags.cssFiles', util.generateHTMLLinkTags(config.compiledCSSFiles));
+  grunt.registerTask('mpSetHTMLTag', function (configPropertyName, tagNamePrefix, tagName, fileType, outputDirPrefix) {
+    var fileSpec = grunt.config(configPropertyName), files = [],
+        outputDirPath = (outputDirPrefix) ? grunt.config(outputDirPrefix) : '';
 
+//    grunt.log.ok('tagType = ' + tagNamePrefix);
+//    grunt.log.ok('tagName = ' + tagName);
+//    grunt.log.ok('fileType = ' + fileType); // Can be 'script' or 'link'
+//    grunt.log.ok('outputPrefix = ' + outputDirPrefix);
+//    grunt.log.ok('fileSpec = ' + JSON.stringify(fileSpec));
 
-  grunt.registerTask('mpBuildHTML', 'PRIVATE - do not use', function() {
-    grunt.task.run(['copy:html', 'copy:moduleAssets', 'targethtml:unoptimised']);
+    if (fileSpec.cwd) {
+      files = grunt.file.expand({cwd: fileSpec.cwd}, fileSpec.src);
+    } else {
+      files = grunt.file.expand(fileSpec.src || fileSpec);
+    }
+    grunt.log.ok('{{' + tagName + '}}:\n' + files.join('\n'));
+
+    grunt.config.set('targethtml.' + tagNamePrefix + '.options.curlyTags.' + tagName, util.generateHTMLTags(fileType, files, outputDirPath));
   });
+
+
+  // This tasks creates the {{ }} tags for the 'targethtml' task to replace
+  grunt.registerTask('mpBuildHTMLUnoptimisedTags', [
+    'mpSetHTMLTag:modularProject.buildHTML.compilableVendorJSFiles:unoptimised:vendorScripts:script:modularProject.output.vendorJSSubDir',
+    'mpSetHTMLTag:modularProject.buildHTML.nonCompilableVendorJSFiles:unoptimised:externalScripts:script:modularProject.output.vendorJSSubDir',
+    'mpSetHTMLTag:modularProject.buildHTML.compiledCSSFileSpec:unoptimised:cssFiles:link',
+    'mpSetHTMLTag:modularProject.buildJS.compiledAppJSFiles:unoptimised:appScripts:script'
+  ]);
+
+
+  grunt.registerTask('mpBuildHTML', ['copy:html', 'copy:moduleAssets', 'mpBuildHTMLUnoptimisedTags', 'targethtml:unoptimised']);
+
 };
