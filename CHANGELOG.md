@@ -1,3 +1,12 @@
+<a name="0.3.7"></a>
+### 0.3.7 (2015-02-08)
+
+
+#### Bug Fixes
+
+* **read:** Use correct link to example project ([99038776](http://github.com/uglow/grunt-modular-project/commit/9903877624db2f9d9344b33fe90d5d1c7f41d1ee))
+
+
 <a name="0.3.6"></a>
 ### 0.3.6 (2015-01-16)
 
