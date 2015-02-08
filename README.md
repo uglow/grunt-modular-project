@@ -21,7 +21,7 @@ grunt.loadNpmTasks('grunt-modular-project');
 
 ## The "grunt-modular-project" task
 
-Example of a project using this plugin: [angular-form-library](https://github.com/uglow/angular-form-library)
+Example of a project using this plugin: [angular-form-library](https://github.com/uglow/angular-form-lib)
 
 ###Key features###
 - Source code is structured into modules
@@ -222,9 +222,9 @@ And they produce the following **output** folder when using `grunt dev`:
 
 And they produce the following **output** folder when using `grunt build`:
 - dist
-  - *as above except all files are revved & minified & concatenate where applicable, plus:*
+  - *as above except all files are revved & minified & concatenate where applicable, except:*
   - js
-    - app.js
+    - app.js (all JS files in this folder are concentated and minified into app.js)
 
 
 ### Options
