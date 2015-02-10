@@ -1,3 +1,12 @@
+<a name="0.3.8"></a>
+### 0.3.8 (2015-02-10)
+
+
+#### Features
+
+* **banner:** Add support for adding banners to files. ([94883635](http://github.com/uglow/grunt-modular-project/commit/94883635ea89aeaa8771ad03ab29fc7f40600afb))
+
+
 <a name="0.3.7"></a>
 ### 0.3.7 (2015-02-08)
 
