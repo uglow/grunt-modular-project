@@ -317,6 +317,8 @@ module.exports = function(grunt) {
         '<%= modularProject.build.dev.jsDir %>**/*.js'
       ],
       filesToCopy: [],
+      banner: '',     // A banner to apply to the distributed source code
+      bannerFiles: [], // A files to apply the banner to
 
       // Private config
       src: {

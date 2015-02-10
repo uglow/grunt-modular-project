@@ -17,7 +17,7 @@ module.exports = function(grunt) {
       optimiseJS: ['concat:optimised', 'uglify:optimised'],
       useOptimisedHTMLFragments: ['mpOptimiseHTMLTags', 'targethtml:optimised'],
       fileRevAssets: ['filerev:optimised', 'useminOptimised'],
-      postHTMLProcessing: ['htmlmin:optimised']
+      postProcessing: ['htmlmin:optimised', 'usebanner']
     },
 
     clean: {
@@ -101,6 +101,18 @@ module.exports = function(grunt) {
       css: config.dest.cssFiles,
       options: {
         assetsDirs: [config.dest.dir, config.dest.assetDir]
+      }
+    },
+
+    usebanner: {
+      dist: {
+        options: {
+          position: 'top',
+          banner: config.banner
+        },
+        files: {
+          src: config.bannerFiles
+        }
       }
     }
   });
