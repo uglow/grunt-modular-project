@@ -449,6 +449,12 @@ module.exports = function(grunt) {
     },
 
     verify: {
+      tasks: {
+        allJS: ['jshint:all', 'jscs:all'],
+        srcJS: ['jshint:src', 'jscs:src'],
+        testJS: ['jshint:test', 'jscs:test'],
+        allJSForCI: ['jshint:ci', 'jscs:ci']
+      },
       // Public config
       reportDir: '<%= modularProject.output.reportDir %>',
       jshint: {

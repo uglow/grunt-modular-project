@@ -5,10 +5,10 @@ module.exports = function(grunt) {
 
   grunt.extendConfig({
     mpVerify: {
-      all: ['jshint:all', 'jscs:all'],
-      src: ['jshint:src', 'jscs:src'],
-      test: ['jshint:test', 'jscs:test'],
-      ci: ['jshint:ci', 'jscs:ci']
+      all: config.tasks.allJS,
+      src: config.tasks.srcJS,
+      test: config.tasks.testJS,
+      ci: config.tasks.allJSForCI
     },
     //jscs, check for code style errors
     jscs: {
