@@ -1,4 +1,4 @@
-(function (angular) {
+(function(angular) {
   'use strict';
 
   // The form policy intentionally has no hard dependencies.
@@ -10,16 +10,16 @@
   // This is a service - make it configurable and call it FormPolicyService
   // It should contain the _default_ values for form policies (and later html-templates)
 
-  mod.provider('formPolicyService', function () {
+  mod.provider('formPolicyService', function() {
     var self = this,
       noop = angular.noop,
-      nullBehaviourOnStateChange = function () {
+      nullBehaviourOnStateChange = function() {
         return {
           applyBehaviour: noop,
           resetBehaviour: noop
         };
       },
-      nullStateChanges = function () {
+      nullStateChanges = function() {
         return {};
       };
 
@@ -32,7 +32,7 @@
       stateDefinitions: null
     };
 
-    this.$get = ['$injector', function ($injector) {
+    this.$get = ['$injector', function($injector) {
 
       function getService(name) {
         try {
@@ -48,7 +48,7 @@
       self.defaults.stateDefinitions = self.defaults.stateDefinitions || getService('formPolicyStateDefinitions') || nullStateChanges;
 
       var policyService = {
-        getCurrentPolicy: function () {
+        getCurrentPolicy: function() {
           return angular.copy(self.defaults);
         }
       };
@@ -75,7 +75,7 @@
         tElement.data('formElementClasses', tAttr.class);
 
         return {
-          pre: function (scope, element, attr, controller) {
+          pre: function(scope, element, attr, controller) {
             // We want to extend the FormController by adding a form policy
             var formController = controller[0];
             formController._policy = angular.extend(formPolicyService.getCurrentPolicy(), scope.formPolicy());
@@ -92,7 +92,7 @@
             formController._applyFormBehaviourOnStateChangePolicy = formController._policy.behaviourOnStateChange(formController);
 
             // Add/remove a class onto the form based on the value of the formSubmitted variable
-            formController.setSubmitted = function (value, tellNoOne) {
+            formController.setSubmitted = function(value, tellNoOne) {
               element[value ? 'addClass' : 'removeClass'](formController._policy.formSubmitAttemptedClass);
               formController._formSubmitAttempted = value;
               formController._applyFormBehaviourOnStateChangePolicy.resetBehaviour();
@@ -132,8 +132,8 @@
 
   var inputElements = ['input', 'select'];
 
-  angular.forEach(inputElements, function (inputElem) {
-    mod.directive(inputElem, function () {
+  angular.forEach(inputElements, function(inputElem) {
+    mod.directive(inputElem, function() {
 
       function hookupElementToNameToElementMap(formController, element, fieldName, fieldController) {
         // Each element in the map is an array -> many different elements can have the same name
@@ -145,7 +145,7 @@
         map[fieldName][map[fieldName].length] = {'element': element, 'controller': fieldController};
 
 
-        element.on('$destroy', function () {
+        element.on('$destroy', function() {
           // Delete just this element from the map of controls
           var map = formController._controls[element.attr('name')];
           var elementId = element.attr('id');
@@ -162,7 +162,7 @@
         restrict: 'E',
         require: ['?^form', '?ngModel'],
         link: {
-          pre: function (scope, element, attr, controllers) {
+          pre: function(scope, element, attr, controllers) {
             var rootFormController = controllers[0]._parentController || controllers[0],
                 fieldController = controllers[1],
                 name = attr.name;

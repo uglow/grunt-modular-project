@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Date Directives spec,', function () {
+describe('Date Directives spec,', function() {
 
   var compileElement, scope, elem;
 
@@ -15,8 +15,8 @@ describe('Date Directives spec,', function () {
     });
   });
 
-  describe('ibDateFormat', function () {
-    it('should validate an ordinary input field which must be a date, no other restrictions', function () {
+  describe('ibDateFormat', function() {
+    it('should validate an ordinary input field which must be a date, no other restrictions', function() {
       var testData = [
         {input: '02',         output: '02',         expectedClasses: ['ng-invalid', 'ng-invalid-date'], desc: 'Partial date'},
         {input: '02/01/1900', output: '02/01/1900', expectedClasses: ['ng-valid'],                      desc: 'Old valid date'},

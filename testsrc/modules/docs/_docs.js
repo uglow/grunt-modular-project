@@ -1,4 +1,4 @@
-(function (angular) {
+(function(angular) {
   'use strict';
 
   var mod = angular.module('ngFormLibDocs', [
@@ -33,7 +33,7 @@
     var vm = this; // view-model
 
     // Fetch the documentation config and store it on the rootScope (for laughs :)
-    $http.get('assets/docs/config/docsConfig.json').then(function (result) {
+    $http.get('assets/docs/config/docsConfig.json').then(function(result) {
       vm.DOC_CONFIG = result.data;
       vm.REPO_HOST = result.data.repository.host;
       vm.REPO = vm.REPO_HOST + result.data.repository.branch;
@@ -128,8 +128,8 @@
     function($location, $document, scrollContainerAPI, duScrollDuration) {
       return {
         restrict: 'A',
-        link: function (scope, element, attrs) {
-          element.on('click', function () {
+        link: function(scope, element, attrs) {
+          element.on('click', function() {
             // The anchor reference should be valid
             var ahref = attrs.ahref;
             if (!ahref || ahref.indexOf('#') === -1) {

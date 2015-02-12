@@ -1,6 +1,6 @@
 /* jshint maxstatements:30 */
 // See http://pivotal.github.io/jasmine/ for list of matchers (e.g .toEqual(), toMatch())
-describe('Form Policy Service', function () {
+describe('Form Policy Service', function() {
   'use strict';
 
   /**
@@ -24,7 +24,7 @@ describe('Form Policy Service', function () {
     $compile = $c;
     scope = $r.$new();
 
-    scope.returnFalse = function () { return false; };
+    scope.returnFalse = function() { return false; };
 
     elem = angular.element(elementText);
     $compile(elem)(scope);
@@ -36,21 +36,21 @@ describe('Form Policy Service', function () {
 
   beforeEach(angular.mock.module('ngFormLib.controls'));
 
-  describe('Form Policy 5 - show errors on blur but once form submitted, show them immediately', function () {
+  describe('Form Policy 5 - show errors on blur but once form submitted, show them immediately', function() {
 
     // beforeEach(angular.mock.module('form.controls.forminput.template'));
     beforeEach(angular.mock.module('ngFormLib.policy.checkForStateChanges'));
     beforeEach(angular.mock.module('ngFormLib.policy.stateDefinitions'));
 
-    beforeEach(angular.mock.module('ngFormLib', ['$sceProvider', function ($sceProvider) {
+    beforeEach(angular.mock.module('ngFormLib', ['$sceProvider', function($sceProvider) {
       $sceProvider.enabled(false);
     }]));
 
-    beforeEach(inject(['$compile', '$rootScope', function ($c, $r) {
+    beforeEach(inject(['$compile', '$rootScope', function($c, $r) {
       compile($c, $r);
     }]));
 
-    it('should show errors when the field loses focus, but after the form is submitted, it should show the errors immediately', function () {
+    it('should show errors when the field loses focus, but after the form is submitted, it should show the errors immediately', function() {
       // Initially, there are no errors
       expect(errorDiv.find('div').length).toEqual(0);
       expect(errorDiv.find('div').find('span').text()).toEqual('');
@@ -95,7 +95,7 @@ describe('Form Policy Service', function () {
     });
 
 
-    it('should show errors when the field loses focus, and when an error is showing, other errors can show on-change', function () {
+    it('should show errors when the field loses focus, and when an error is showing, other errors can show on-change', function() {
       // Initially, there are no errors
       expect(errorDiv.find('div').length).toEqual(0);
       expect(errorDiv.find('div').find('span').text()).toEqual('');
