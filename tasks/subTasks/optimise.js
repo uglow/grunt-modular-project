@@ -2,23 +2,14 @@ module.exports = function(grunt) {
   'use strict';
 
   var path = require('path');
-  var util = require(path.resolve(__dirname + '/../lib/utils.js'));
   var config = grunt.config('modularProject.optimise');
 
   grunt.task.loadNpmTasks('grunt-usemin');
   grunt.task.renameTask('usemin', 'useminOptimised');  // Rename this task so that it isn't over-ridden by other usemin instances
 
+
   // This config must exist before the multi-task is registered :(
   grunt.extendConfig({
-    mpOptimise: {
-      pre: ['clean:optimised'],
-      images: ['concurrent:optimisedImages'],
-      copyAlreadyOptimisedAndHTMLInPreparationForOptimisation: ['copy:optimised'],
-      optimiseJS: ['concat:optimised', 'uglify:optimised'],
-      useOptimisedHTMLFragments: ['mpOptimiseHTMLTags', 'targethtml:optimised'],
-      fileRevAssets: ['filerev:optimised', 'useminOptimised'],
-      postProcessing: ['htmlmin:optimised', 'usebanner']
-    },
 
     clean: {
       optimised: config.dest.dir
@@ -51,13 +42,18 @@ module.exports = function(grunt) {
 
     imagemin: {
       optimised: {
-        files: [{expand: true, cwd: config.src.imagesDir, src: '{,*/}*.{png,jpg,jpeg,gif}', dest: config.dest.imagesDir}]
+        files: [{expand: true, cwd: config.src.imagesDir, src: config.src.imageFiles, dest: config.dest.imagesDir}]
       }
     },
 
     svgmin: {
       optimised: {
-        files: [{expand: true, cwd: config.src.imagesDir, src: '{,*/}*.svg', dest: config.dest.imagesDir}]
+        options: {
+          plugins: [
+            {cleanupIDs: false}
+          ]
+        },
+        files: [{expand: true, cwd: config.src.imagesDir, src: config.src.svgFiles, dest: config.dest.imagesDir}]
       }
     },
 
@@ -125,11 +121,4 @@ module.exports = function(grunt) {
     'mpSetHTMLTag:modularProject.optimise.jsMinFileSpec:optimised:appScripts:script'
   ]);
 
-
-  grunt.registerMultiTask('mpOptimise', 'Optimise the website for production', function () {
-    grunt.log.writeln(this.target + ': ' + this.data);
-
-    // Execute each task
-    grunt.task.run(this.data);
-  });
 };

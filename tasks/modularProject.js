@@ -301,9 +301,22 @@ module.exports = function(grunt) {
     },
 
 
+    mpOptimise: {
+      tasks: [
+        'clean:optimised',
+        'concurrent:optimisedImages',
+        'copy:optimised',
+        'concat:optimised', 'uglify:optimised',
+        'mpOptimiseHTMLTags', 'targethtml:optimised',
+        'filerev:optimised', 'useminOptimised',
+        'htmlmin:optimised', 'usebanner'
+      ]
+    },
+
     optimise: {
       // Public config
       tasks: ['mpOptimise', 'beep:twobits'],
+
       preOptimisedAssetFiles: [
         '*/font/**/*',
         '*/language/**/*',
@@ -326,7 +339,9 @@ module.exports = function(grunt) {
         cssDir: '<%= modularProject.build.dev.cssDir %>',
         cssFiles: '*.css',
         htmlFiles: ['<%= modularProject.output.viewsSubDir %>/**/*.html'],
-        imagesDir: '<%= modularProject.build.dev.assetsDir %>images/'
+        imagesDir: '<%= modularProject.build.dev.assetsDir %>',
+        imageFiles: '**/images/*.{png,jpg,jpeg,gif}',
+        svgFiles: '**/images/*.svg'
       },
 
       dest: {
@@ -335,7 +350,7 @@ module.exports = function(grunt) {
         cssFiles: ['<%= modularProject.optimise.dest.cssDir %>*.css'],
         filesToRev: [
           '<%= modularProject.optimise.dest.dir %><%= modularProject.output.assetsSubDir %>font/*',
-          '<%= modularProject.optimise.dest.dir %><%= modularProject.output.assetsSubDir %>images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
+          '<%= modularProject.optimise.dest.dir %><%= modularProject.output.assetsSubDir %>**/*.{png,jpg,jpeg,gif,webp,svg}',
           '<%= modularProject.optimise.dest.dir %><%= modularProject.output.cssSubDir %>*.css',
           '<%= modularProject.optimise.dest.dir %><%= modularProject.output.jsSubDir %>*.js',
           '<%= modularProject.optimise.dest.dir %><%= modularProject.output.vendorJSSubDir %>**/*.js'
@@ -345,7 +360,7 @@ module.exports = function(grunt) {
           '<%= modularProject.optimise.dest.dir %><%= modularProject.output.viewsSubDir %>**/*.html'
         ],
         assetDir: '<%= modularProject.optimise.dest.dir %><%= modularProject.output.assetsSubDir %>',
-        imagesDir: '<%= modularProject.optimise.dest.dir %><%= modularProject.output.assetsSubDir %>images/',
+        imagesDir: '<%= modularProject.optimise.dest.dir %><%= modularProject.output.assetsSubDir %>',
         jsDir: '<%= modularProject.optimise.dest.dir %><%= modularProject.output.jsSubDir %>'
       },
 
@@ -549,6 +564,12 @@ module.exports = function(grunt) {
     } else {
       grunt.task.run(['mpBuildOptimised']);
     }
+  });
+
+  // Optimise
+  grunt.registerTask('mpOptimise', 'Optimise the website for production', function () {
+    // Execute each task
+    grunt.task.run(grunt.config('modularProject.mpOptimise.tasks'));
   });
 
   // TEST
