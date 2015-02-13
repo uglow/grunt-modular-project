@@ -1,5 +1,8 @@
 # [grunt-modular-project](https://github.com/uglow/grunt-modular-project)
-This is a library of GruntJS tasks for building JS/HTML/CSS modules into a website.
+[![npm version](https://badge.fury.io/js/grunt-modular-project.svg)](http://badge.fury.io/js/grunt-modular-project)
+[![devDependency Status](https://david-dm.org/uglow/grunt-modular-project/dev-status.svg)](https://david-dm.org/uglow/grunt-modular-project#info=devDependencies)
+
+Grunt Modular Project is a set of customisable workflow tasks designed for building JS + HTML + CSS modules into a website.
 It has AngularJS/single-page-apps primarily in-mind.
 The project transforms a source code folder (`src` by default) into
 a web-application that can run in development or production mode.
