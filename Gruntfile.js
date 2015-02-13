@@ -113,7 +113,8 @@ module.exports = function(grunt) {
     ngtemplates: 'grunt-angular-templates',
     includereplace: 'grunt-include-replace',
     coverage: 'grunt-istanbul-coverage',
-    usebanner: 'grunt-banner'
+    usebanner: 'grunt-banner',
+    'bump-only': 'grunt-bump'
   });
 
   // Actually load this plugin's task(s).
