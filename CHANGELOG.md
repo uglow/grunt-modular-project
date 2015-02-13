@@ -1,3 +1,18 @@
+## 0.4.0 (2015-02-13)
+
+
+#### Bug Fixes
+
+* **imageOptim:** Fix incorrect path when optimising images ([ba320462](http://github.com/uglow/grunt-modular-project/commit/ba320462cccc686fe99aeae168803311c01bb70f))
+
+
+#### Features
+
+* **devDependencies:** Update to latest dependencies ([f9934ebc](http://github.com/uglow/grunt-modular-project/commit/f9934ebcbb277f7871a66fdacad6fe89c46fbffb))
+* **it:** Add 'jig-grunt' plugin to reduce load & run times ([f35ee922](http://github.com/uglow/grunt-modular-project/commit/f35ee922291d4aa7ae2e521a2042b9a889a314af))
+* **verify:** Add support for customising the Verify workflow-task ([12a3e84b](http://github.com/uglow/grunt-modular-project/commit/12a3e84bd9ce1c081daa75755ea35837a3ce07b9))
+
+
 <a name="0.3.8"></a>
 ### 0.3.8 (2015-02-10)
 
