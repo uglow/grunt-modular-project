@@ -108,7 +108,13 @@ module.exports = function(grunt) {
   });
 
 
-  require('load-grunt-tasks')(grunt);
+  // jit-grunt saves about 3 seconds per cycle now - valuable!
+  require('jit-grunt')(grunt, {
+    ngtemplates: 'grunt-angular-templates',
+    includereplace: 'grunt-include-replace',
+    coverage: 'grunt-istanbul-coverage',
+    usebanner: 'grunt-banner'
+  });
 
   // Actually load this plugin's task(s).
   grunt.loadTasks('tasks');
