@@ -19,10 +19,9 @@ module.exports = function(grunt) {
     // Test settings
     karma: {
       options: {
-        'files': config.testFiles,
-        'exclude': config.excludeFiles,
-        'preprocessors': config.preprocessors,
-        'coverageReporter': {
+        exclude: config.excludeFiles,
+        preprocessors: config.preprocessors,
+        coverageReporter: {
           reporters: [
             { type: 'html' },
             { type: 'lcov' },
@@ -31,7 +30,7 @@ module.exports = function(grunt) {
           ],
           dir: config.reportDir + 'coverage/'
         },
-        'ngHtml2JsPreprocessor': {
+        ngHtml2JsPreprocessor: {
           // Define a custom module name function (stripping 'src/modules/' from the file path)
           // which gives you something like:
           //   angular.module('form/template/FormCheckboxTemplate.html', []).run(function($templateCache) {
@@ -50,18 +49,21 @@ module.exports = function(grunt) {
         }
       },
       unit: {
+        files: [{src: config.testFiles }],
         configFile: config.baseConfig,
         singleRun: true,
         browsers: ['PhantomJS'],
         reporters: ['progress', 'coverage']
       },
       browser: {
+        files: [{src: config.testFiles }],
         configFile: config.browserConfig,
         singleRun: false,
         browsers: ['Chrome'],
         reporters: []
       },
       ci: {
+        files: [{src: config.testFiles }],
         configFile: config.CIConfig,
         singleRun: true,
         browsers: ['PhantomJS'],

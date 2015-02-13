@@ -19,7 +19,7 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser - defined in /config/grunt/unitTest.js
 
     // list of files / patterns to exclude
-    exclude: [],
+//    exclude: [],
 
     // web server port
     port: 8080,
@@ -86,7 +86,7 @@ module.exports = function(config) {
 
     // level of logging
     // possible values: LOG_DISABLE || LOG_ERROR || LOG_WARN || LOG_INFO || LOG_DEBUG
-    logLevel: config.LOG_INFO//,
+    logLevel: config.LOG_ERROR//,
 
     // Uncomment the following lines if you are using grunt's server to run the tests
     // proxies: {
