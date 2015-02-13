@@ -4,8 +4,7 @@
 
 Grunt Modular Project is a set of customisable workflow tasks designed for building JS + HTML + CSS modules into a website.
 It has AngularJS/single-page-apps primarily in-mind.
-The project transforms a source code folder (`src` by default) into
-a web-application that can run in development or production mode.
+The project transforms a source code folder (`src` by default) into a web-application that can run in development or production mode.
 
 ## Getting Started
 This plugin requires Grunt `~0.4.5`
