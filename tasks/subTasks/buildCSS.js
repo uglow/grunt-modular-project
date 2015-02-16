@@ -38,6 +38,6 @@ module.exports = function(grunt) {
     //grunt.log.writeln('BuildCSS config ' + JSON.stringify(grunt.config('modularProject.buildCSS.compile'), null, '\t'));
     //grunt.log.writeln('Stylus config ' + JSON.stringify(grunt.config('stylus'), null, '\t'));
 
-    grunt.task.run(['stylus', 'autoprefixer', 'copy:externalCSS']);
+    grunt.task.run(config.tasks);
   });
 };
