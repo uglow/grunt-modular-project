@@ -1,3 +1,11 @@
+### 0.4.1 (2015-02-17)
+
+
+#### Features
+
+* **cssCompilation:** Make it easier to change CSS compilation task ([fb7639ce](http://github.com/uglow/grunt-modular-project/commit/fb7639ce3a90d226bfdbb90b9cf6516cd72da720))
+
+
 ## 0.4.0 (2015-02-13)
 
 
