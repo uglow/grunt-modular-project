@@ -1,3 +1,11 @@
+### 0.4.2 (2015-02-17)
+
+
+#### Bug Fixes
+
+* **cssCompilation:** Link the compilation task to the watch task ([4f481516](http://github.com/uglow/grunt-modular-project/commit/4f48151666bd386fcd1e6b9595d3fb947e260cdb))
+
+
 ### 0.4.1 (2015-02-17)
 
 
