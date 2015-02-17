@@ -16,7 +16,7 @@ module.exports = function(grunt) {
     copy: {
       externalCSS: config.copy
     },
-    //stylus implementation
+    // Default CSS compiler implementation - Stylus
     stylus: {
       compile: {
         options: {
@@ -29,7 +29,7 @@ module.exports = function(grunt) {
     watch: {
       compileCss: {
         files: config.watch.files,
-        tasks: ['stylus', 'autoprefixer']
+        tasks: config.tasks
       }
     }
   });
@@ -39,5 +39,6 @@ module.exports = function(grunt) {
     //grunt.log.writeln('Stylus config ' + JSON.stringify(grunt.config('stylus'), null, '\t'));
 
     grunt.task.run(config.tasks);
+    grunt.task.run(['copy:externalCSS']);
   });
 };

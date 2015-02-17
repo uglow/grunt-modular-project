@@ -98,7 +98,7 @@ module.exports = function(grunt) {
     // Specific modules
     buildCSS: {
       // Public config
-      tasks: ['stylus', 'autoprefixer', 'copy:externalCSS'],
+      tasks: ['stylus', 'autoprefixer'],
       rootSourceFiles: [],
       externalCSSFiles: [],
       sourceDir: '**/<%= modularProject.input.moduleStyles %>',  // No trailing '/' - not following pattern!
