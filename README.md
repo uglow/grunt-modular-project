@@ -114,7 +114,15 @@ grunt.initConfig({
       nonCompilableVendorJSFiles: [],
     },
     optimise: {
-      tasks: ['mpOptimise', 'beep:twobits'],
+      tasks: [
+        'clean:optimised',
+        'concurrent:optimisedImages',
+        'copy:optimised',
+        'concat:optimised', 'uglify:optimised',
+        'mpOptimiseHTMLTags', 'targethtml:optimised',
+        'filerev:optimised', 'useminOptimised',
+        'htmlmin:optimised', 'usebanner'
+      ],
       preOptimisedAssetFiles: [
         '*/font/**/*',
         '*/language/**/*',
@@ -123,7 +131,15 @@ grunt.initConfig({
       jsMinFile: 'app.js'
     },
     optimise: {
-      tasks: ['mpoptimise', 'beep:twobits']
+      tasks: [
+        'clean:optimised',
+        'concurrent:optimisedImages',
+        'copy:optimised',
+        'concat:optimised', 'uglify:optimised',
+        'mpOptimiseHTMLTags', 'targethtml:optimised',
+        'filerev:optimised', 'useminOptimised',
+        'htmlmin:optimised', 'usebanner'
+      ],
     },
     release: {
       filesToBump: ['package.json', 'bower.json'],
@@ -299,7 +315,17 @@ grunt.initConfig({
       tasks: ['releaseDocs']
     },
     optimise: {
-      tasks: ['mpBuildLibrary', 'mpOptimise', 'beep:twobits']
+      tasks: [
+        'mpBuildLibrary',       // New task
+        'clean:optimised',
+        'concurrent:optimisedImages',
+        'copy:optimised',
+        'concat:optimised', 'uglify:optimised',
+        'mpOptimiseHTMLTags', 'targethtml:optimised',
+        'filerev:optimised', 'useminOptimised',
+        'htmlmin:optimised', 'usebanner'
+        'beep:twobits'          // Beep at the end
+      ]
     },
     unitTest: {
       testLibraryFiles: [

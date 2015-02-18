@@ -302,7 +302,8 @@ module.exports = function(grunt) {
     },
 
 
-    mpOptimise: {
+    optimise: {
+      // Public config
       tasks: [
         'clean:optimised',
         'concurrent:optimisedImages',
@@ -311,12 +312,7 @@ module.exports = function(grunt) {
         'mpOptimiseHTMLTags', 'targethtml:optimised',
         'filerev:optimised', 'useminOptimised',
         'htmlmin:optimised', 'usebanner'
-      ]
-    },
-
-    optimise: {
-      // Public config
-      tasks: ['mpOptimise', 'beep:twobits'],
+      ],
 
       preOptimisedAssetFiles: [
         '*/font/**/*',
@@ -567,11 +563,6 @@ module.exports = function(grunt) {
     }
   });
 
-  // Optimise
-  grunt.registerTask('mpOptimise', 'Optimise the website for production', function () {
-    // Execute each task
-    grunt.task.run(grunt.config('modularProject.mpOptimise.tasks'));
-  });
 
   // TEST
   grunt.registerTask('test', 'Run unit tests', function(target) {

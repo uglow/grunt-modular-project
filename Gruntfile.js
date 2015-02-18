@@ -69,7 +69,16 @@ module.exports = function(grunt) {
       },
 
       optimise: {
-        tasks: ['mpBuildLibrary', 'mpOptimise', 'beep:twobits'],
+        tasks: [
+          'mpBuildLibrary',
+          'clean:optimised',
+          'concurrent:optimisedImages',
+          'copy:optimised',
+          'concat:optimised', 'uglify:optimised',
+          'mpOptimiseHTMLTags', 'targethtml:optimised',
+          'filerev:optimised', 'useminOptimised',
+          'htmlmin:optimised', 'usebanner'
+        ],
 
         // Modify the optimise task so that it builds the docs.js files together, and copies the library JS file to the output
         // Also need to disable whitespace escaping due to the use of <pre><code> blocks (can't get htmlmin to ignroe blocks at the moment)

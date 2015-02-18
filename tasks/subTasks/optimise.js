@@ -121,4 +121,10 @@ module.exports = function(grunt) {
     'mpSetHTMLTag:modularProject.optimise.jsMinFileSpec:optimised:appScripts:script'
   ]);
 
+
+  // Optimise
+  grunt.registerTask('optimise', 'Optimise the website for production', function () {
+    // Execute each task
+    grunt.task.run(config.tasks);
+  });
 };
