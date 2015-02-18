@@ -6,7 +6,7 @@ Grunt Modular Project is a set of customisable workflow tasks designed for build
 It has AngularJS/single-page-apps primarily in-mind.
 The project transforms a source code folder (`src` by default) into a web-application that can run in development or production mode.
 
-(Change log)[CHANGELOG.md]
+[Change log](CHANGELOG.md)
 
 ## Getting Started
 This plugin requires Grunt `~0.4.5`
@@ -23,7 +23,7 @@ Once the plugin has been installed, it may be enabled inside your Gruntfile with
 grunt.loadNpmTasks('grunt-modular-project');
 ```
 
-**Currently you will also need to include the Grunt plugins that this plugin uses (package.json)[https://github.com/uglow/grunt-modular-project/blob/master/package.json] into your project's `package.json` file.**
+**Currently you will also need to include the Grunt plugins that this plugin uses [package.json](https://github.com/uglow/grunt-modular-project/blob/master/package.json) into your project's `package.json` file.**
 
 ## The "grunt-modular-project" task
 
@@ -240,5 +240,5 @@ grunt.initConfig({
 
 ## Contributing
 
-See (CONTRIBUTING.md)[CONTRIBUTING.md]
-(List of contributors - could be you!)[CONTRIBUTORS.md]
+See [CONTRIBUTING.md](CONTRIBUTING.md)
+[List of contributors - could be you!](CONTRIBUTORS.md)
