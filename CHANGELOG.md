@@ -1,3 +1,11 @@
+### 0.4.3 (2015-02-18)
+
+
+#### Features
+
+* **optimise:** Change 'optimise' to use a consistent pattern for defining tasks ([eb686d90](http://github.com/uglow/grunt-modular-project/commit/eb686d90e3cf67a6e65af6af3feca68800785494))
+
+
 ### 0.4.2 (2015-02-17)
 
 
