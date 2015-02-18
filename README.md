@@ -241,4 +241,5 @@ grunt.initConfig({
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md)
+
 [List of contributors - could be you!](CONTRIBUTORS.md)

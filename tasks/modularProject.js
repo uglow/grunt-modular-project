@@ -1,6 +1,6 @@
 /*
  * grunt-modular-project
- * https://github.com/brettuglow/modular-project
+ * https://github.com/uglow/grunt-modular-project/
  *
  * Copyright (c) 2015 Brett Uglow
  * Licensed under the MIT license.
