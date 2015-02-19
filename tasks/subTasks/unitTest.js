@@ -5,49 +5,11 @@ module.exports = function(grunt) {
 
   grunt.extendConfig({
     coverage: {
-      options: {
-        thresholds: {
-          statements: 80,
-          branches: 80,
-          lines: 70,  // This should move to 80
-          functions: 80
-        },
-        dir: 'coverage',
-        root: config.reportDir
-      }
+      options: config.coverage.options
     },
     // Test settings
     karma: {
-      options: {
-        exclude: config.excludeFiles,
-        preprocessors: config.preprocessors,
-        coverageReporter: {
-          reporters: [
-            { type: 'html' },
-            { type: 'lcov' },
-            { type: 'text' },         // Needed for grunt-istanbul-coverage task
-            { type: 'json' }          // Needed for grunt-istanbul-coverage task
-          ],
-          dir: config.reportDir + 'coverage/'
-        },
-        ngHtml2JsPreprocessor: {
-          // Define a custom module name function (stripping 'src/modules/' from the file path)
-          // which gives you something like:
-          //   angular.module('form/template/FormCheckboxTemplate.html', []).run(function($templateCache) {
-          //     $templateCache.put('form/template/FormCheckboxTemplate.html',
-          //         '<!-- form.controls.checkbox.template -->\n' +
-          //         '<div>\n' +
-          //         '  <div class="checkbox">\n' +
-          //         '    <input type="checkbox" field-error-controller>\n' +
-          //         '    <label><span ng-transclude></span></label>\n' +
-          //         '  </div>\n' +
-          //         '</div>');
-          //   });
-          cacheIdFromPath: function (filepath) {
-            return filepath.substr(config.modulesDir.length);
-          }
-        }
-      },
+      options: config.karma.options,
       unit: {
         files: [{src: config.testFiles }],
         configFile: config.baseConfig,

@@ -436,8 +436,55 @@ module.exports = function(grunt) {
       specs: '**/<%= modularProject.input.moduleUnitTest %>/*.spec.js',
       sourceFiles: ['<%= modularProject.input.modulesDir %>**/_*.js', '<%= modularProject.input.modulesDir %>**/*.js'], // The sequence is important
 
+      coverage: {
+        options: {
+          thresholds: {
+            statements: 80,
+            branches: 80,
+            lines: 70,  // This should move to 80
+            functions: 80
+          },
+          dir: 'coverage',
+          root: '<%= modularProject.unitTest.reportDir %>'
+        }
+      },
+
+      karma: {
+        options: {
+          exclude: '<%= modularProject.unitTest.excludeFiles %>',
+          preprocessors: '<%= modularProject.unitTest.preprocessors %>',
+          coverageReporter: {
+            reporters: [
+              { type: 'html' },
+              { type: 'lcov' },
+              { type: 'text' },         // Needed for grunt-istanbul-coverage task
+              { type: 'json' }          // Needed for grunt-istanbul-coverage task
+            ],
+            dir: '<%= modularProject.unitTest.reportDir %>coverage/'
+          },
+          ngHtml2JsPreprocessor: {
+            // Define a custom module name function (stripping 'src/modules/' from the file path)
+            // which gives you something like:
+            //   angular.module('form/template/FormCheckboxTemplate.html', []).run(function($templateCache) {
+            //     $templateCache.put('form/template/FormCheckboxTemplate.html',
+            //         '<!-- form.controls.checkbox.template -->\n' +
+            //         '<div>\n' +
+            //         '  <div class="checkbox">\n' +
+            //         '    <input type="checkbox" field-error-controller>\n' +
+            //         '    <label><span ng-transclude></span></label>\n' +
+            //         '  </div>\n' +
+            //         '</div>');
+            //   });
+            cacheIdFromPath: function (filepath) {
+              var modulesDir = grunt.config('modularProject.input.modulesDir');
+              return filepath.substr(modulesDir.length);
+            }
+          }
+        }
+      },
+
+
       // Private config
-      modulesDir: '<%= modularProject.input.modulesDir %>',
       testFiles: [
         '<%= modularProject.unitTest.testLibraryFiles %>',
 
