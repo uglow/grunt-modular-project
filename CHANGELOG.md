@@ -1,3 +1,11 @@
+### 0.4.4 (2015-02-19)
+
+
+#### Features
+
+* **build:** Make running tests part of `build` and remove test-task indirection ([d64fa7b8](http://github.com/uglow/grunt-modular-project/commit/d64fa7b83601cc2d3643731871ce119644bf87f7))
+
+
 ### 0.4.3 (2015-02-18)
 
 
