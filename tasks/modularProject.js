@@ -50,7 +50,9 @@ module.exports = function(grunt) {
     install: {
       git: {
         commitHookFileRelativePath: '',
-        commitTemplate: ''
+        commitTemplate: '',
+        commitHooksDir: '',
+        hookName: ''
       },
       node: {
         localNodeJSEXEPath: '',

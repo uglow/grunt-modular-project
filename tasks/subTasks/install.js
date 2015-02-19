@@ -7,18 +7,12 @@ module.exports = function(grunt) {
 
   var config = grunt.config('modularProject.install');
 
-  var DEST_COMMIT_HOOK_FILE = '.git/hooks/commit-msg',
-      SRC_COMMIT_HOOK_FILE = '../../config/git/validate-commit-msg.js'
+  var SRC_COMMIT_HOOK_FILE = '../../config/git/validate-commit-msg.js'
 
   grunt.extendConfig({
     exec: {
       gittemplate: {
         stdout: true
-      }
-    },
-    copy: {
-      install: {
-        files: [{src: path.resolve(__dirname + '/' + SRC_COMMIT_HOOK_FILE) , dest: DEST_COMMIT_HOOK_FILE}]
       }
     }
   });
@@ -36,7 +30,8 @@ module.exports = function(grunt) {
         grunt.log.error('For symlinks to work on Windows you have ' +
           'to run the cmd as administrator, ' +
           'or setup read permissions correctly. Copying file instead.');
-        return grunt.task.run(['copy:install']);
+
+        return 'copy';
       }
       grunt.fail.warn(e);
     }
@@ -45,17 +40,30 @@ module.exports = function(grunt) {
 
   function installCommitHook() {
     grunt.log.ok('Install commit hook: ' + SRC_COMMIT_HOOK_FILE);
-    mkdirp('.git/hooks');
 
-    var fileName = config.git.commitHookFileRelativePath || path.relative('.git/hooks', __dirname + '../' + SRC_COMMIT_HOOK_FILE);
+    var commitHooksDir = config.git.commitHooksDir || '.git/hooks/';
+    var hookName = config.git.hookName || 'commit-msg';
+
+    mkdirp(commitHooksDir);
+
+    var fileName = config.git.commitHookFileRelativePath || path.relative(commitHooksDir, __dirname + '../' + SRC_COMMIT_HOOK_FILE);
     grunt.log.debug('Relative commit hook path: ' + fileName);
 
     try {
-      fs.unlinkSync('.git/hooks/commit-msg');
+      fs.unlinkSync(commitHooksDir + hookName);
     } catch (e) {
       // Ignore, it just means the symlink does not exist
     }
-    symLink(fileName, DEST_COMMIT_HOOK_FILE, 'file')
+    var result = symLink(fileName, commitHooksDir + hookName, 'file');
+
+
+    // Do a file copy instead of a symlink
+    if (result === 'copy') {
+      grunt.config.set('copy.install', {
+        files: [{src: fileName, dest: commitHooksDir + hookName}]
+      });
+      return grunt.task.run(['copy:install']);
+    }
   }
 
 
