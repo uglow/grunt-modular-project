@@ -5,7 +5,9 @@ module.exports = function(grunt) {
 
   grunt.extendConfig({
     coverage: {
-      options: config.coverage.options
+      check: {
+        options: config.coverage.options
+      }
     },
     // Test settings
     karma: {

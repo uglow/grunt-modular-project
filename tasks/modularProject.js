@@ -439,10 +439,10 @@ module.exports = function(grunt) {
       coverage: {
         options: {
           thresholds: {
-            statements: 80,
-            branches: 80,
-            lines: 70,  // This should move to 80
-            functions: 80
+            statements: 90,
+            branches: 90,
+            lines: 90,
+            functions: 90
           },
           dir: 'coverage',
           root: '<%= modularProject.unitTest.reportDir %>'
@@ -460,7 +460,7 @@ module.exports = function(grunt) {
               { type: 'text' },         // Needed for grunt-istanbul-coverage task
               { type: 'json' }          // Needed for grunt-istanbul-coverage task
             ],
-            dir: '<%= modularProject.unitTest.reportDir %>coverage/'
+            dir: '<%= modularProject.unitTest.reportDir %>coverage'
           },
           ngHtml2JsPreprocessor: {
             // Define a custom module name function (stripping 'src/modules/' from the file path)

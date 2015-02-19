@@ -111,10 +111,22 @@ module.exports = function(grunt) {
         testLibraryFiles: [
           '<%= modularProject.buildHTML.compilableVendorJSFiles %>',
           '<%= modularProject.bowerDir %>angular-mocks/angular-mocks.js'
-        ]
+        ],
+
+        coverage: {
+          options: {
+            thresholds: {
+              statements: 80,
+              branches: 75,
+              lines: 80,
+              functions: 80
+            }
+          }
+        }
       }
     }
   });
+
 
 
   // jit-grunt saves about 3 seconds per cycle now - valuable!
@@ -129,8 +141,5 @@ module.exports = function(grunt) {
   // Actually load this plugin's task(s).
   grunt.loadTasks('tasks');
 
-  // By default, lint and run all tests.
-  //grunt.registerTask('default', ['jshint', 'test']);
   grunt.registerTask('default', ['dev']);
-
 };
