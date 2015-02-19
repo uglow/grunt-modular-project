@@ -1,3 +1,11 @@
+### 0.4.5 (2015-02-19)
+
+
+#### Features
+
+* **install:** Attempt to make `install` more flexible, still not working Win7 (degrades nicely ([5dce59c3](http://github.com/uglow/grunt-modular-project/commit/5dce59c34b2db0f8381e08d085d91231ff943e2d))
+
+
 ### 0.4.4 (2015-02-19)
 
 

@@ -1,7 +1,7 @@
 {
   "name": "grunt-modular-project",
   "description": "Builds a module/package/feature-based input source-tree into a website",
-  "version": "0.4.4",
+  "version": "0.4.5",
   "homepage": "https://github.com/uglow/grunt-modular-project",
   "author": {
     "name": "Brett Uglow",
