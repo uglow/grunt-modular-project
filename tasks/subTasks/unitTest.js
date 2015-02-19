@@ -74,9 +74,4 @@ module.exports = function(grunt) {
       }
     }
   });
-
-
-  grunt.registerTask('mpUnitTest', 'Run unit tests', function() {
-    grunt.task.run(config.tasks);
-  });
 };

@@ -140,7 +140,9 @@ module.exports = function(grunt) {
       compiledAppJSFiles: {cwd: '<%= modularProject.build.dev.dir %>', src: ['<%= modularProject.output.jsSubDir %>**/*.js']},
 
       // Tasks
-      clean: ['<%= modularProject.buildJS.tempTemplateDir %>', '<%= modularProject.buildJS.tempJSDir %>', '<%= modularProject.build.dev.vendorJSDir %>', '<%= modularProject.build.dev.jsDir %>'],
+      clean: ['<%= modularProject.buildJS.tempTemplateDir %>', '<%= modularProject.buildJS.tempJSDir %>'],
+          // Don't clean files from the build.dev folder, as the server is probably running and will have a file-lock (on windows)
+          //, '<%= modularProject.build.dev.vendorJSDir %>', '<%= modularProject.build.dev.jsDir %>'],
 
       copy: {
         htmlTemplatesToTemp: {
@@ -417,14 +419,13 @@ module.exports = function(grunt) {
 
     test: {
       tasks: {
-        unitTest: ['mpUnitTest'],
+        unitTest: ['karma:ci', 'coverage'],
         unitTestBrowser: ['karma:browser']
       }
     },
 
     unitTest: {
       // Public config
-      tasks: ['mpVerify:all', 'karma:ci', 'coverage'],
       reportDir: '<%= modularProject.output.reportDir %>',
       baseConfig: '<%= modularProject.config.dir %>karma/karma.conf.js',
       browserConfig: '<%= modularProject.config.dir %>karma/karma.conf.js',
@@ -541,7 +542,7 @@ module.exports = function(grunt) {
   grunt.registerTask('mpBuildUnoptimised', 'PRIVATE - do not use. Create an UN-optimised build', ['mpBuild']);
 
   grunt.registerTask('mpBuildOptimised', 'PRIVATE - do not use. Create an optimised build', function() {
-    var tasks = ['mpBuild'].concat(grunt.config('modularProject.optimise.tasks'));
+    var tasks = ['mpBuild', 'test:unit'].concat(grunt.config('modularProject.optimise.tasks'));
     grunt.log.writeln('mpBuildOptimised: ' + tasks);
     grunt.task.run(tasks);
   });
@@ -549,7 +550,7 @@ module.exports = function(grunt) {
   grunt.registerTask('mpBuildWatch', 'PRIVATE - do not use. Create an UN-optimised build & watch it.', ['mpBuildUnoptimised', 'mpServe:dev', 'watch']);
 
 
-  // TOTP-LEVEL TASKS
+  // TOP-LEVEL TASKS
   // There are only 2 kinds of builds - development and production (optimized).
   // Unit tests run against development source code (unminified, but concatenated)
 

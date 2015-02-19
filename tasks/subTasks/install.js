@@ -1,20 +1,29 @@
 module.exports = function(grunt) {
   'use strict';
 
+  var mkdirp = require('mkdirp');
+  var path = require('path');
+  var fs = require('fs');
+
   var config = grunt.config('modularProject.install');
+
+  var DEST_COMMIT_HOOK_FILE = '.git/hooks/commit-msg',
+      SRC_COMMIT_HOOK_FILE = '../../config/git/validate-commit-msg.js'
 
   grunt.extendConfig({
     exec: {
       gittemplate: {
         stdout: true
       }
+    },
+    copy: {
+      install: {
+        files: [{src: path.resolve(__dirname + '/' + SRC_COMMIT_HOOK_FILE) , dest: DEST_COMMIT_HOOK_FILE}]
+      }
     }
   });
 
 
-  var mkdirp = require('mkdirp');
-  var path = require('path');
-  var fs = require('fs');
 
   function symLink(src, dest, type) {
     try {
@@ -24,9 +33,10 @@ module.exports = function(grunt) {
         return grunt.log.error(dest + ' already exists, skipping');
       }
       else if (e.code === 'EPERM' && /^win/.test(process.platform)){
-        return grunt.fail.warn('For symlinks to work on Windows you have ' +
+        grunt.log.error('For symlinks to work on Windows you have ' +
           'to run the cmd as administrator, ' +
-          'or setup read permissions correctly.');
+          'or setup read permissions correctly. Copying file instead.');
+        return grunt.task.run(['copy:install']);
       }
       grunt.fail.warn(e);
     }
@@ -34,9 +44,10 @@ module.exports = function(grunt) {
 
 
   function installCommitHook() {
+    grunt.log.ok('Install commit hook: ' + SRC_COMMIT_HOOK_FILE);
     mkdirp('.git/hooks');
 
-    var fileName = config.git.commitHookFileRelativePath || path.relative('.git/hooks', __dirname + '../../../config/git/validate-commit-msg.js');
+    var fileName = config.git.commitHookFileRelativePath || path.relative('.git/hooks', __dirname + '../' + SRC_COMMIT_HOOK_FILE);
     grunt.log.debug('Relative commit hook path: ' + fileName);
 
     try {
@@ -44,7 +55,7 @@ module.exports = function(grunt) {
     } catch (e) {
       // Ignore, it just means the symlink does not exist
     }
-    symLink(fileName, '.git/hooks/commit-msg', 'file')
+    symLink(fileName, DEST_COMMIT_HOOK_FILE, 'file')
   }
 
 
@@ -59,6 +70,7 @@ module.exports = function(grunt) {
 
   function putNodeOnPathForSourceTree() {
     // Link node to the /usr/bin folder, so that Sourcetree can see error messages when the commit-hook rejects a commit
+    // See https://answers.atlassian.com/questions/140339/sourcetree-hook-failing-because-paths-don-t-seem-to-be-set-correctly
     var src = config.node.localNodeJSEXEPath || '/usr/local/bin/node';
     var dest = config.node.globalNodeJSXEPath || '/usr/bin/node';
     symLink(src, dest, 'file');
