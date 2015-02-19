@@ -1,3 +1,11 @@
+### 0.4.7 (2015-02-19)
+
+
+#### Bug Fixes
+
+* **coverage:** Add a task to the `coverage` config to make it run correctly ([d1a092b1](http://github.com/uglow/grunt-modular-project/commit/d1a092b1af4c0d21d9c87982b62d461e1a539cf1))
+
+
 ### 0.4.6 (2015-02-19)
 
 
