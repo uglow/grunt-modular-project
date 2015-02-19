@@ -1,3 +1,11 @@
+### 0.4.6 (2015-02-19)
+
+
+#### Features
+
+* **unitTest:** Make `test` task easier to configure ([382b75c7](http://github.com/uglow/grunt-modular-project/commit/382b75c71aa8a0a70192a8edc69e24291e68cca6))
+
+
 ### 0.4.5 (2015-02-19)
 
 
