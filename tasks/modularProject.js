@@ -450,7 +450,11 @@ module.exports = function(grunt) {
       CIConfig: '<%= modularProject.config.dir %>karma/karma.conf.js',
       testLibraryFiles: [],
       specs: '**/<%= modularProject.input.moduleUnitTest %>/*.spec.js',   // This path MUST be relative to <%= modularProject.input.modulesDir %>
-      sourceFiles: ['<%= modularProject.input.modulesDir %>**/_*.js', '<%= modularProject.input.modulesDir %>**/*.js'], // The sequence is important
+      sourceFiles: [
+        '<%= modularProject.input.modulesDir %>**/_*.js', // Load the 'main' JS files first
+        '<%= modularProject.input.modulesDir %>**/*.js',  // Then load every other JS file in the modules folder
+        '!<%= modularProject.input.modulesDir %><%= modularProject.e2eTest.specs %>'], // ...except for the e2e tests
+      excludeFiles: [],
 
       coverage: {
         options: {
@@ -512,10 +516,6 @@ module.exports = function(grunt) {
 
         // Test specs
         '<%= modularProject.input.modulesDir %><%= modularProject.unitTest.specs %>'
-      ],
-      excludeFiles: [
-        '<%= modularProject.input.modulesDir %>docs/**/*.js',   // No need to test the docs module
-        '<%= modularProject.input.modulesDir %>**/docs/*.js'    // No need to test the docs examples
       ],
       preprocessors: {
         // Source files, that you want to generate coverage for.

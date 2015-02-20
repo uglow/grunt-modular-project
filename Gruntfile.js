@@ -112,6 +112,10 @@ module.exports = function(grunt) {
           '<%= modularProject.buildHTML.compilableVendorJSFiles %>',
           '<%= modularProject.bowerDir %>angular-mocks/angular-mocks.js'
         ],
+        excludeFiles: [
+          '<%= modularProject.input.modulesDir %>docs/**/*.js',   // No need to test the docs module
+          '<%= modularProject.input.modulesDir %>**/docs/*.js'    // No need to test the docs examples
+        ],
 
         coverage: {
           options: {
