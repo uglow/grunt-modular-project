@@ -8,7 +8,8 @@ module.exports = function(grunt) {
       all: config.tasks.allJS,
       src: config.tasks.srcJS,
       test: config.tasks.testJS,
-      ci: config.tasks.allJSForCI
+      ci: config.tasks.allJSForCI,
+      allNewer: config.tasks.allNewerJS
     },
     //jscs, check for code style errors
     jscs: {

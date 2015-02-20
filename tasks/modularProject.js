@@ -214,7 +214,9 @@ module.exports = function(grunt) {
             '<%= modularProject.config.gruntFiles %>',
             '<%= modularProject.input.modulesDir %><%= modularProject.unitTest.specs %>'
           ],
-          tasks: ['mpBuildJS', 'newer:jshint:all', 'newer:jscs:all', 'karma:unit']
+          // This watch task needs to be flattened manually as Grunt doesn't do a good job of it.
+          tasks: ['mpBuildJS', 'verify:allNewer', 'test:unit']
+        },
         e2e: {
           files: [
             '<%= modularProject.input.modulesDir %><%= modularProject.e2eTest.specs %>'
@@ -529,7 +531,8 @@ module.exports = function(grunt) {
         allJS: ['jshint:all', 'jscs:all'],
         srcJS: ['jshint:src', 'jscs:src'],
         testJS: ['jshint:test', 'jscs:test'],
-        allJSForCI: ['jshint:ci', 'jscs:ci']
+        allJSForCI: ['jshint:ci', 'jscs:ci'],
+        allNewerJS: ['newer:jshint:all', 'newer:jscs:all']
       },
       // Public config
       reportDir: '<%= modularProject.output.reportDir %>',
