@@ -3,7 +3,7 @@
 
 #### Bug Fixes
 
-* **verify:** Refer to `verify:xxx` task instead of it's implementation in the `watch:allJSSrc ([69603c70](http://github.com/uglow/grunt-modular-project/commit/69603c70fc5f95dbbad8d10df4370e20cfb28b9c))
+* **verify:** Refer to `verify:xxx` task instead of it's implementation in `watch:allJSSrc` ([69603c70](http://github.com/uglow/grunt-modular-project/commit/69603c70fc5f95dbbad8d10df4370e20cfb28b9c))
 
 
 #### Features
