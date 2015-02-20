@@ -29,6 +29,7 @@ module.exports = function(grunt) {
       moduleStyles: 'styles',
       moduleTemplates: 'template',
       moduleUnitTest: 'unitTest',
+      moduleE2ETest: 'e2eTest',
 
       assetFiles: ['**/<%= modularProject.input.moduleAssets %>/**/*'],
       htmlFiles: ['**/*.html'], //templates directory needs to be ignored
@@ -154,7 +155,7 @@ module.exports = function(grunt) {
         },
         jsToTemp: {
           files: [
-            {expand: true, flatten: false, cwd: '<%= modularProject.input.modulesDir %>', src: ['<%= modularProject.input.jsFiles %>', '!<%= modularProject.unitTest.specs %>'], dest: '<%= modularProject.buildJS.tempJSDir %>'}
+            {expand: true, flatten: false, cwd: '<%= modularProject.input.modulesDir %>', src: ['<%= modularProject.input.jsFiles %>', '!<%= modularProject.unitTest.specs %>', '!<%= modularProject.e2eTest.specs %>'], dest: '<%= modularProject.buildJS.tempJSDir %>'}
           ]
         },
         vendorJS: {
@@ -171,7 +172,7 @@ module.exports = function(grunt) {
             {
               expand: true,
               cwd: '<%= modularProject.buildJS.tempJSDir %>',
-              src: ['<%= modularProject.input.jsFiles %>', '!<%= modularProject.unitTest.specs %>'], // Concat files starting with '_' first, ignore test specs
+              src: ['<%= modularProject.input.jsFiles %>', '!<%= modularProject.unitTest.specs %>', '!<%= modularProject.e2eTest.specs %>'], // Concat files starting with '_' first, ignore test specs
               dest: '<%= modularProject.build.dev.jsDir %>',
               rename: function (dest, src) {
                 // Use the source directory(s) to create the destination file name
@@ -214,6 +215,11 @@ module.exports = function(grunt) {
             '<%= modularProject.input.modulesDir %><%= modularProject.unitTest.specs %>'
           ],
           tasks: ['mpBuildJS', 'newer:jshint:all', 'newer:jscs:all', 'karma:unit']
+        e2e: {
+          files: [
+            '<%= modularProject.input.modulesDir %><%= modularProject.e2eTest.specs %>'
+          ],
+          tasks: ['verify:test']
         },
         jsHtmlTemplates: {
           files: ['<%= modularProject.input.modulesDir %><%= modularProject.input.templateHTMLFiles %>']
@@ -422,9 +428,17 @@ module.exports = function(grunt) {
     test: {
       tasks: {
         unitTest: ['karma:ci', 'coverage'],
-        unitTestBrowser: ['karma:browser']
+        unitTestBrowser: ['karma:browser'],
+        e2e: []   // Could be anything you like, such as Protractor
       }
     },
+
+    e2eTest: {
+      // Define the e2eTest spec files, and this WON'T be included when building the JS apps
+      // This path MUST be relative to <%= modularProject.input.modulesDir %>
+      specs: '**/<%= modularProject.input.moduleE2ETest %>/*.js'
+    },
+
 
     unitTest: {
       // Public config
@@ -433,7 +447,7 @@ module.exports = function(grunt) {
       browserConfig: '<%= modularProject.config.dir %>karma/karma.conf.js',
       CIConfig: '<%= modularProject.config.dir %>karma/karma.conf.js',
       testLibraryFiles: [],
-      specs: '**/<%= modularProject.input.moduleUnitTest %>/*.spec.js',
+      specs: '**/<%= modularProject.input.moduleUnitTest %>/*.spec.js',   // This path MUST be relative to <%= modularProject.input.modulesDir %>
       sourceFiles: ['<%= modularProject.input.modulesDir %>**/_*.js', '<%= modularProject.input.modulesDir %>**/*.js'], // The sequence is important
 
       coverage: {
@@ -534,18 +548,18 @@ module.exports = function(grunt) {
       allFiles: {
         files: [
           {src: ['<%= modularProject.config.gruntFiles %>']},
-          {expand: true, cwd: '<%= modularProject.input.modulesDir %>', src: ['<%= modularProject.input.jsFiles %>', '<%= modularProject.unitTest.specs %>']}
+          {expand: true, cwd: '<%= modularProject.input.modulesDir %>', src: ['<%= modularProject.input.jsFiles %>', '<%= modularProject.unitTest.specs %>', '<%= modularProject.e2eTest.specs %>']}
         ]
       },
       srcFiles: {
         files: [
           {src: ['<%= modularProject.config.gruntFiles %>']},
-          {expand: true, cwd: '<%= modularProject.input.modulesDir %>', src: ['<%= modularProject.input.jsFiles %>', '!<%= modularProject.unitTest.specs %>']}
+          {expand: true, cwd: '<%= modularProject.input.modulesDir %>', src: ['<%= modularProject.input.jsFiles %>', '!<%= modularProject.unitTest.specs %>', '!<%= modularProject.e2eTest.specs %>']}
         ]
       },
       testFiles: {
         files: [
-          {expand: true, cwd: '<%= modularProject.input.modulesDir %>', src: ['<%= modularProject.unitTest.specs %>']}
+          {expand: true, cwd: '<%= modularProject.input.modulesDir %>', src: ['<%= modularProject.unitTest.specs %>', '<%= modularProject.e2eTest.specs %>']}
         ]
       }
     }
@@ -618,6 +632,8 @@ module.exports = function(grunt) {
   grunt.registerTask('test', 'Run unit tests', function(target) {
     if (target === 'browser') {
       grunt.task.run(grunt.config('modularProject.test.tasks.unitTestBrowser'));
+    } else if (target === 'e2e') {
+      grunt.task.run(grunt.config('modularProject.test.tasks.e2e'));
     } else {
       grunt.task.run(grunt.config('modularProject.test.tasks.unitTest'));
     }
