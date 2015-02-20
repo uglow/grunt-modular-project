@@ -25,7 +25,7 @@ module.exports = function(grunt) {
         modulePartials: 'partials',
         moduleStyles: 'styles',
         moduleTemplates: 'template',
-        moduleTest: 'unitTest'
+        moduleUnitTest: 'unitTest'
       },
       output: {
         devDir: 'dev/',
