@@ -1,3 +1,11 @@
+### 0.4.9 (2015-02-20)
+
+
+#### Bug Fixes
+
+* **e2e:** Exclude e2e tests when running unit tests, by default. ([26927e68](http://github.com/uglow/grunt-modular-project/commit/26927e685353a4db030cbcb3ed67770fa3db11b0))
+
+
 ### 0.4.8 (2015-02-20)
 
 
