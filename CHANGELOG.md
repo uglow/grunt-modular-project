@@ -1,3 +1,16 @@
+### 0.4.8 (2015-02-20)
+
+
+#### Bug Fixes
+
+* **verify:** Refer to `verify:xxx` task instead of it's implementation in the `watch:allJSSrc ([69603c70](http://github.com/uglow/grunt-modular-project/commit/69603c70fc5f95dbbad8d10df4370e20cfb28b9c))
+
+
+#### Features
+
+* **e2e:** Support e2e test specs by excluding them from the JS build. ([199cc149](http://github.com/uglow/grunt-modular-project/commit/199cc14966f3f65609edb45173ed2c3a4cc0f75e))
+
+
 ### 0.4.7 (2015-02-19)
 
 
