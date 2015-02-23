@@ -1,3 +1,11 @@
+### 0.4.10 (2015-02-23)
+
+
+#### Features
+
+* **unitTest:** Make it easier to override the jUnitReporter config ([a01cf5d9](http://github.com/uglow/grunt-modular-project/commit/a01cf5d90987f060bf35ab55dd3994a751f33c6c))
+
+
 ### 0.4.9 (2015-02-20)
 
 
