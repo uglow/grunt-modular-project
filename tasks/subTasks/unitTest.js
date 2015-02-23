@@ -31,10 +31,7 @@ module.exports = function(grunt) {
         configFile: config.CIConfig,
         singleRun: true,
         browsers: ['PhantomJS'],
-        reporters: ['progress', 'junit', 'coverage'],
-        junitReporter: {
-          outputFile: config.reportDir + 'unit-tests.xml'
-        }
+        reporters: ['progress', 'junit', 'coverage']
       }
     }
   });

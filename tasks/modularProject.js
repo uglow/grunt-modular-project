@@ -482,6 +482,9 @@ module.exports = function(grunt) {
             ],
             dir: '<%= modularProject.unitTest.reportDir %>coverage'
           },
+          junitReporter: {
+            outputFile: '<%= modularProject.unitTest.reportDir %>unit-tests.xml'
+          },
           ngHtml2JsPreprocessor: {
             // Define a custom module name function (stripping 'src/modules/' from the file path)
             // which gives you something like:
