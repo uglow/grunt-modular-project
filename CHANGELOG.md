@@ -1,3 +1,21 @@
+## 0.5.0 (2015-02-25)
+
+
+#### Features
+
+* **modularity:** Make it easier to replace default tasks ([4278af1a](http://github.com/uglow/grunt-modular-project/commit/4278af1a94f9de32b7444a322a161babd83cdc86))
+
+
+#### Breaking Changes
+
+* Your Gruntfile.js will need to manually load the default tasks now.
+The reason for this change is that there will come a time when you out-grow the default settings.
+So you can replace `grunt.loadTasks('node_modules/grunt-modular-project/tasks/serve')` with
+`grunt.loadTasks('myConfig/grunt')` (to load your own serve.js task).
+
+ ([4278af1a](http://github.com/uglow/grunt-modular-project/commit/4278af1a94f9de32b7444a322a161babd83cdc86))
+
+
 ### 0.4.10 (2015-02-23)
 
 
