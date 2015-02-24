@@ -19,7 +19,7 @@ module.exports = function(grunt) {
           hostname: config.dev.hostname,
           livereload: 35729,
           middleware: function(connect, options, middlewares) {
-            if (config.useCompression) {
+            if (config.dev.useCompression) {
               // inject a custom middleware into the array of default middlewares
               middlewares.unshift(compression());
             }

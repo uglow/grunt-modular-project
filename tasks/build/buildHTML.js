@@ -2,7 +2,7 @@ module.exports = function(grunt) {
   'use strict';
 
   var path = require('path');
-  var util = require(path.resolve(__dirname + '/../lib/utils.js'));
+  var util = require(path.resolve(__dirname + '/utils.js'));
   var config = grunt.config.get('modularProject.buildHTML');
 
   grunt.extendConfig({

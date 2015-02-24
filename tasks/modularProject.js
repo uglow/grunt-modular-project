@@ -214,7 +214,7 @@ module.exports = function(grunt) {
             '<%= modularProject.config.gruntFiles %>',
             '<%= modularProject.input.modulesDir %><%= modularProject.unitTest.specs %>'
           ],
-          // This watch task needs to be flattened manually as Grunt doesn't do a good job of it.
+          // These tasks will be run using Grunt-concurrent, by default. This reduces time from 5.7s to 3.9s
           tasks: ['mpBuildJS', 'verify:allNewer', 'test:unit']
         },
         e2e: {
@@ -573,31 +573,16 @@ module.exports = function(grunt) {
 
   // Initialise the configuration
   (function init() {
-    var path = require('path');
-
-//    grunt.log.writeln('0 Tasks-build: ' + JSON.stringify(grunt.config('modularProject.build.tasks', null, '\t')));
-
     // Get the existing module config, replace it with the above, then merge the original back
     var origConfig = grunt.config.getRaw('modularProject');
     grunt.config.set('modularProject', cfg);
-//    grunt.log.writeln('0.5 Tasks-build: ' + JSON.stringify(grunt.config('modularProject.build.tasks', null, '\t')));
+    //    grunt.log.writeln('0.5 Tasks-build: ' + JSON.stringify(grunt.config('modularProject.build.tasks', null, '\t')));
     grunt.config.merge({ modularProject: origConfig });
 
-//    grunt.log.writeln('1 GruntFiles: ' + grunt.config('modularProject.config.gruntFiles'));
-//    grunt.log.writeln('1 Assets: ' + grunt.config('modularProject.input.moduleAssets'));
-//    grunt.log.writeln('1 Tasks-build: ' + JSON.stringify(grunt.config('modularProject.buildDocs', null, '\t')));
-    //grunt.log.writeln('1 Options: ' + JSON.stringify(options, null, '\t'));
-
-
-    // Update the unitTest config with a dynamic key
+    // Update the unitTest config with a dynamic key. This is necessary to tell the Coverage plugin not to include test-specs
     var preProcessorCoverageKey = '' + grunt.config('modularProject.input.modulesDir') + '**/!(*.spec).js';
     //grunt.log.writeln('Preprocessor key: ' + preProcessorCoverageKey);
-
     grunt.config.set('modularProject.unitTest.preprocessors.' + grunt.config.escape(preProcessorCoverageKey), ['coverage']);
-
-    //grunt.log.writeln('Preprocessor: ' + JSON.stringify(grunt.config('modularProject.unitTest.preprocessors', null, '\t')));
-
-    grunt.loadTasks(path.resolve(__dirname + '/subTasks'));
   })();
 
 

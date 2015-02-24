@@ -142,8 +142,19 @@ module.exports = function(grunt) {
     'bump-only': 'grunt-bump'
   });
 
-  // Actually load this plugin's task(s).
+  // Actually load this plugin's task(s). Normally you would write: grunt.loadNPMTask('grunt-modular-plugin');
   grunt.loadTasks('tasks');
+
+  // Load the subtasks - we want all of the DEFAULT subtasks.
+  // In a "real" project, you would write: grunt.loadTasks('node_modules/grunt-modular-project/tasks/<subTaskDir>')
+  grunt.loadTasks('tasks/build');
+  grunt.loadTasks('tasks/buildLibrary');
+  grunt.loadTasks('tasks/install');
+  grunt.loadTasks('tasks/optimise');
+  grunt.loadTasks('tasks/release');
+  grunt.loadTasks('tasks/serve');
+  grunt.loadTasks('tasks/unitTest');
+  grunt.loadTasks('tasks/verify');
 
   grunt.registerTask('default', ['dev']);
 };

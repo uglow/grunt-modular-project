@@ -1,8 +1,6 @@
 module.exports = function(grunt) {
   'use strict';
 
-  var path = require('path');
-  var util = require(path.resolve(__dirname + '/../lib/utils.js'));
   var config = grunt.config('modularProject.buildJS');
 
 //  grunt.log.ok('BUILD_JS: ' + config);
@@ -72,6 +70,10 @@ module.exports = function(grunt) {
       //      }
     },
 
+    concurrent: {
+      rebuildAndTest: config.watch.allJSSrc.tasks
+    },
+
     watch: {
       // JS task is in watch.js, as it needs to be run other tasks besides concat:moduleJS
       jsHtmlTemplates: {
@@ -84,7 +86,7 @@ module.exports = function(grunt) {
       },
       js: {
         files: config.watch.allJSSrc.files,
-        tasks: config.watch.allJSSrc.tasks
+        tasks: ['concurrent:rebuildAndTest']
       }
     }
   });
