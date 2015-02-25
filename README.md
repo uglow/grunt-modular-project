@@ -14,44 +14,44 @@ This plugin requires Grunt `~0.4.5`. The default Karma plugin requires NodeJS `0
 If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
 
 1. Install the plugin
-```shell
-npm install grunt-modular-project --save-dev
-```
+  ```shell
+  npm install grunt-modular-project --save-dev
+  ```
 
 1. Load the plugin inside your `GruntFile.js`, and decide which workflow tasks you want.
-```js
-grunt.loadNpmTasks('grunt-modular-project');
-// Use all of the default tasks
-grunt.loadTasks('node_modules/grunt-modular-project/tasks/build');
-//grunt.loadTasks('node_modules/grunt-modular-project/tasks/buildLibrary'); // This task is only useful if your project is a component/library project.
-grunt.loadTasks('node_modules/grunt-modular-project/tasks/install');
-grunt.loadTasks('node_modules/grunt-modular-project/tasks/optimise');
-grunt.loadTasks('node_modules/grunt-modular-project/tasks/release');
-grunt.loadTasks('node_modules/grunt-modular-project/tasks/serve');
-grunt.loadTasks('node_modules/grunt-modular-project/tasks/unitTest');
-grunt.loadTasks('node_modules/grunt-modular-project/tasks/verify');
-```
+  ```js
+  grunt.loadNpmTasks('grunt-modular-project');
+  // Use all of the default tasks
+  grunt.loadTasks('node_modules/grunt-modular-project/tasks/build');
+  //grunt.loadTasks('node_modules/grunt-modular-project/tasks/buildLibrary'); // This task is only useful if your project is a component/library project.
+  grunt.loadTasks('node_modules/grunt-modular-project/tasks/install');
+  grunt.loadTasks('node_modules/grunt-modular-project/tasks/optimise');
+  grunt.loadTasks('node_modules/grunt-modular-project/tasks/release');
+  grunt.loadTasks('node_modules/grunt-modular-project/tasks/serve');
+  grunt.loadTasks('node_modules/grunt-modular-project/tasks/unitTest');
+  grunt.loadTasks('node_modules/grunt-modular-project/tasks/verify');
+  ```
 
 1. In your `Gruntfile.js`, add a section named `moduleProject` to the data object passed into `grunt.initConfig()`, and specify any overrides to the default values.
-```js
-grunt.initConfig({
-  modularProject: {
-  },
-});
-```
+  ```js
+  grunt.initConfig({
+    modularProject: {
+    },
+  });
+  ```
 
 1. Modify your `package.json` file to include the NPM plugin's that your workflow tasks require (refer to [`node_modules/grunt-modular-project/package.json`](https://github.com/uglow/grunt-modular-project/blob/master/package.json)).
-```js
-// package.json
-...
-"devDependencies": {
-    "colors": "^1.0.3",
-    "compression": "^1.4.1",
-    "conventional-changelog": "0.0.11",
-    "grunt": "^0.4.5",
-    ...
-}
-```
+  ```js
+  // package.json
+  ...
+  "devDependencies": {
+      "colors": "^1.0.3",
+      "compression": "^1.4.1",
+      "conventional-changelog": "0.0.11",
+      "grunt": "^0.4.5",
+      ...
+  }
+  ```
 
 ## Example project that uses this plugin
 
